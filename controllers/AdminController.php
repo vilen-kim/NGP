@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\data\ActiveDataProvider;
 use app\models\Auth;
 use app\models\Pages;
 use app\models\Menu;
@@ -19,7 +18,7 @@ class AdminController extends \yii\web\Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'users'],
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -57,24 +56,12 @@ class AdminController extends \yii\web\Controller {
         $eventsCount = Pages::find()->where(['category_id' => 4])->count();
         $menuCount = Menu::find()->count();
         return $this->render('index', [
-            'usersCount' => $usersCount,
-            'pagesCount' => $pagesCount,
-            'newsCount' => $newsCount,
-            'articlesCount' => $articlesCount,
-            'eventsCount' => $eventsCount,
-            'menuCount' => $menuCount,
-        ]);
-    }
-
-
-
-    public function actionUsers() {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Auth::find(),
-        ]);
-
-        return $this->render('users', [
-                'dataProvider' => $dataProvider,
+                'usersCount' => $usersCount,
+                'pagesCount' => $pagesCount,
+                'newsCount' => $newsCount,
+                'articlesCount' => $articlesCount,
+                'eventsCount' => $eventsCount,
+                'menuCount' => $menuCount,
         ]);
     }
 }

@@ -10,6 +10,7 @@ class RegisterForm extends Model {
     public $username;
     public $password;
     public $passwordRepeat;
+    public $role_id;
     public $reCaptcha;
 
 
@@ -33,6 +34,7 @@ class RegisterForm extends Model {
             'password' => 'Пароль',
             'passwordRepeat' => 'Повторите пароль',
             'username' => 'Имя пользователя',
+            'role_id' => 'Роль',
         ];
     }
 
@@ -45,6 +47,7 @@ class RegisterForm extends Model {
             $auth->status = Auth::STATUS_INACTIVE;
             $auth->setPassword($this->password);
             $auth->generateAuthKey();
+            $auth->role_id = $this->role_id;
             if ($auth->save()){                
                 return $auth;
             } else {

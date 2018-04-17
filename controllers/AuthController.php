@@ -14,6 +14,7 @@ use app\models\forms\ForgotPassForm;
 use app\models\forms\NewPasswordForm;
 use app\models\forms\ActivateForm;
 use yii\web\Response;
+use yii\data\ActiveDataProvider;
 
 class AuthController extends Controller {
 
@@ -25,7 +26,14 @@ class AuthController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
+                        'actions' => ['index', 'logout', 'register'],
                         'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['login', 'register'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -53,8 +61,21 @@ class AuthController extends Controller {
 
 
 
+    public function actionIndex() {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Auth::find(),
+        ]);
+
+        return $this->render('index', [
+                'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+
     public function actionRegister() {
         $model = new RegisterForm;
+        $role = (Yii::$app->user->isGuest) ? '' : Auth::findIdentity(Yii::$app->user->id)->role->caption;
         if ($model->load(Yii::$app->request->post())) {
             $auth = $model->register();
             if ($auth) {
@@ -66,7 +87,8 @@ class AuthController extends Controller {
             }
         } else {
             return $this->render('register', [
-                    'model' => $model
+                    'model' => $model,
+                    'role' => $role,
             ]);
         }
     }

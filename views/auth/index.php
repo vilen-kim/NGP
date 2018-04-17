@@ -29,6 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 },
             ],
+            'role.caption',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}{link}',
+            ],
         ],
     ]);
     ?>
