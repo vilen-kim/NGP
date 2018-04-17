@@ -1,0 +1,46 @@
+header {
+    height: 80px;
+}
+
+header > div:nth-child(2), header > div:nth-child(3) {
+    height: 100%;
+    padding-top: 20px;
+}
+
+header > div:nth-child(4), header > div:nth-child(5) {
+    padding: 13px 10px;
+    text-align: right;
+}
+
+#logo {
+    height: 80px;
+}
+
+#searchText {
+    float: left;
+}
+
+#searchImg {
+    height: 30px;
+    margin-left: 10px;
+}
+
+#phone {
+    color: black;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+#questionImg {
+    margin-left: 10px;
+    margin-bottom: 2px;
+    height: 30px;
+}
+
+#menuImg {
+    height: 50px;
+}
+
+#logoutImg {
+    height: 50px;
+}

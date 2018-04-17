@@ -1,0 +1,25 @@
+div.site-index div.pull-left > div {
+    color: black;
+    font-size: small;
+    margin: 1px;
+    width: 140px;
+    padding: 4px 0px;
+}
+
+div.site-index div.pull-right {
+    width: 40px;
+}
+
+div.site-index div.pull-right img {
+    margin: 2px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+div.site-index div.pull-right img:hover {
+    -webkit-transform: translateX(-4px);
+    -ms-transform: translateX(-4px);
+    transform: translateX(-4px);
+}

@@ -1,0 +1,1 @@
+//CKEDITOR.plugins.addExternal('filebrowser', '/plugins/filebrowser/plugin.js', '');
