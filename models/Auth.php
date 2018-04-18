@@ -22,7 +22,7 @@ class Auth extends ActiveRecord implements IdentityInterface {
     public function rules() {
         return [
             [['auth_key', 'password_hash', 'username'], 'required', 'message' => 'Это обязательное поле'],
-            [['status', 'role_id'], 'integer'],
+            [['status'], 'integer'],
             [['auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'username'], 'string', 'max' => 255],
             [['username'], 'unique']
@@ -39,7 +39,6 @@ class Auth extends ActiveRecord implements IdentityInterface {
             'password_reset_token' => 'Token для сброса пароля',
             'username' => 'Имя пользователя',
             'status' => 'Статус активации',
-            'role_id' => 'Роль',
         ];
     }
 
@@ -117,7 +116,13 @@ class Auth extends ActiveRecord implements IdentityInterface {
 
 
 
-    public function getRole() {
-        return $this->hasOne(Roles::className(), ['id' => 'role_id']);
+    public function getAuthItem() {
+        return $this->hasOne(AuthItem::className(), ['name' => 'item_name'])->viaTable('auth_assignment', ['user_id' => 'id']);
+    }
+
+
+
+    public function getDescription() {
+        return $this->authItem->description;
     }
 }

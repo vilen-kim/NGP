@@ -7,6 +7,7 @@ use yii\filters\VerbFilter;
 use app\models\Auth;
 use app\models\Pages;
 use app\models\Menu;
+use yii\web\ForbiddenHttpException;
 
 class AdminController extends \yii\web\Controller {
 
@@ -20,7 +21,7 @@ class AdminController extends \yii\web\Controller {
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin_index'],
                     ],
                 ],
             ],

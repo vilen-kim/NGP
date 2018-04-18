@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     echo Html::a('Создать пользователя', Url::to(['auth/register']), ['class' => 'btn btn-success scale', 'style' => 'margin-bottom: 20px;']);
     echo GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'username',
@@ -29,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 },
             ],
-            'role.caption',
+            'description',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}{link}',

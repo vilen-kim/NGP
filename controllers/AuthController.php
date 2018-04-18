@@ -13,8 +13,8 @@ use app\models\forms\LoginForm;
 use app\models\forms\ForgotPassForm;
 use app\models\forms\NewPasswordForm;
 use app\models\forms\ActivateForm;
+use app\models\AuthSearch;
 use yii\web\Response;
-use yii\data\ActiveDataProvider;
 
 class AuthController extends Controller {
 
@@ -26,20 +26,26 @@ class AuthController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'logout', 'register'],
+                        'actions' => ['index', 'create', 'view', 'update', 'delete'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['auth'],
                     ],
                     [
                         'actions' => ['login', 'register'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
+                    'delete' => ['POST'],
                 ],
             ],
         ];
@@ -62,11 +68,11 @@ class AuthController extends Controller {
 
 
     public function actionIndex() {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Auth::find(),
-        ]);
+        $searchModel = new AuthSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+                'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
         ]);
     }
@@ -75,22 +81,21 @@ class AuthController extends Controller {
 
     public function actionRegister() {
         $model = new RegisterForm;
-        $role = (Yii::$app->user->isGuest) ? '' : Auth::findIdentity(Yii::$app->user->id)->role->caption;
-        if ($model->load(Yii::$app->request->post())) {
-            $auth = $model->register();
-            if ($auth) {
-                Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована.<br>Дождитесь ее активации администратором сайта.');
-                $this->redirect('login');
+        $role = (Yii::$app->user->isGuest) ? '' : Auth::findIdentity(Yii::$app->user->id)->roleCaption;
+
+        if ($model->load(Yii::$app->request->post()) && ($auth = $model->register())) {
+            if ($auth->status == Auth::STATUS_ACTIVE) {
+                Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована. Теперь вы можете войти.');
             } else {
-                Yii::$app->session->setFlash('danger', 'Произошла ошибка. Повторите попытку регистрации позже.');
-                $this->redirect('register');
+                Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована.<br>Дождитесь ее активации администратором сайта.');
             }
-        } else {
-            return $this->render('register', [
-                    'model' => $model,
-                    'role' => $role,
-            ]);
+            $this->redirect('login');
         }
+
+        return $this->render('register', [
+                'model' => $model,
+                'role' => $role,
+        ]);
     }
 
 
@@ -151,6 +156,20 @@ class AuthController extends Controller {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return $this->renderAjax('forgotpass', ['model' => $model]);
         }
+    }
+
+
+
+    public function actionDelete($id) {
+        $model = $this->findModel($id);
+        $category_id = 1;
+        if ($model) {
+            $category_id = $model->category_id;
+            if ($model->delete()) {
+                Yii::$app->session->setFlash('success', 'Страница была успешно удалена.');
+            }
+        }
+        return $this->redirect(['pages/index', 'category_id' => $category_id]);
     }
 
 

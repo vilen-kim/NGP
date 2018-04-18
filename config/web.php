@@ -22,7 +22,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\Auth',
             'enableAutoLogin' => true,
-            'loginUrl' => ['auth/login'],  
+            'loginUrl' => ['auth/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -50,6 +50,9 @@ $config = [
                 'admin' => 'auth/login',
                 '<action>' => 'site/<action>',
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
     ],
     'params' => $params,
