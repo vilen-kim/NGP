@@ -86,7 +86,7 @@ class AuthController extends Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->create()) {
             Yii::$app->session->setFlash('success', 'Учетная запись была успешно создана.');
-            $this->redirect(['auth/index']);
+            return $this->redirect('index');
         }
 
         $roles = AuthItem::findAll(['type' => 1]);
@@ -100,20 +100,14 @@ class AuthController extends Controller {
 
     public function actionRegister() {
         $model = new RegisterForm;
-        $role = (Yii::$app->user->isGuest) ? '' : Auth::findIdentity(Yii::$app->user->id)->roleCaption;
 
         if ($model->load(Yii::$app->request->post()) && ($auth = $model->register())) {
-            if ($auth->status == Auth::STATUS_ACTIVE) {
-                Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована. Теперь вы можете войти.');
-            } else {
-                Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована.<br>Дождитесь ее активации администратором сайта.');
-            }
-            $this->redirect('login');
+            Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована.<br>Дождитесь ее активации администратором сайта.');
+            return $this->redirect('login');
         }
 
         return $this->render('register', [
                 'model' => $model,
-                'role' => $role,
         ]);
     }
 
@@ -180,9 +174,11 @@ class AuthController extends Controller {
 
 
     public function actionDelete($id) {
-        $model = $this->findModel($id);
-        if ($model->delete()) {
-            Yii::$app->session->setFlash('success', 'Пользователь был успешно удален.');
+        if ($model = $this->findModel($id)){
+            $username = $model->username;
+            if ($model->delete()) {
+                Yii::$app->session->setFlash('success', "Пользователь '$username' был успешно удален.");
+            }
         }
         return $this->redirect(['auth/index']);
     }
