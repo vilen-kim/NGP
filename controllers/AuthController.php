@@ -14,7 +14,9 @@ use app\models\forms\ForgotPassForm;
 use app\models\forms\NewPasswordForm;
 use app\models\forms\ActivateForm;
 use app\models\AuthSearch;
+use app\models\AuthItem;
 use yii\web\Response;
+use yii\helpers\ArrayHelper;
 
 class AuthController extends Controller {
 
@@ -74,6 +76,23 @@ class AuthController extends Controller {
         return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+
+    public function actionCreate() {
+        $model = new RegisterForm;
+
+        if ($model->load(Yii::$app->request->post()) && $model->create()) {
+            Yii::$app->session->setFlash('success', 'Учетная запись была успешно создана.');
+            $this->redirect(['auth/index']);
+        }
+
+        $roles = AuthItem::findAll(['type' => 1]);
+        return $this->render('create', [
+                'model' => $model,
+                'roles' => ArrayHelper::map($roles, 'name', 'description'),
         ]);
     }
 
@@ -162,14 +181,10 @@ class AuthController extends Controller {
 
     public function actionDelete($id) {
         $model = $this->findModel($id);
-        $category_id = 1;
-        if ($model) {
-            $category_id = $model->category_id;
-            if ($model->delete()) {
-                Yii::$app->session->setFlash('success', 'Страница была успешно удалена.');
-            }
+        if ($model->delete()) {
+            Yii::$app->session->setFlash('success', 'Пользователь был успешно удален.');
         }
-        return $this->redirect(['pages/index', 'category_id' => $category_id]);
+        return $this->redirect(['auth/index']);
     }
 
 
@@ -196,5 +211,15 @@ class AuthController extends Controller {
             }
             $this->redirect(Url::previous());
         }
+    }
+
+
+
+    protected function findModel($id) {
+        if (($model = Auth::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Страница не найдена.');
     }
 }

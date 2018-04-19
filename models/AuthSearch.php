@@ -28,11 +28,16 @@ class AuthSearch extends Auth {
 
 
     public function search($params) {
-        $query = Auth::find()->joinWith(['authItem']);
+        $query = Auth::find()->joinWith(['item']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['description'] = [
+            'asc' => ['auth_item.description' => SORT_ASC],
+            'desc' => ['auth_item.description' => SORT_DESC],
+        ];
 
 
         $this->load($params);
@@ -49,7 +54,8 @@ class AuthSearch extends Auth {
         $query->andFilterWhere(['like', 'username', $this->username])
         ->andFilterWhere(['like', 'auth_key', $this->auth_key])
         ->andFilterWhere(['like', 'password_hash', $this->password_hash])
-        ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token]);
+        ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
+        ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

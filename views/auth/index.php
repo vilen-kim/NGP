@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="admin-users">
     <?php
-    echo Html::a('Создать пользователя', Url::to(['auth/register']), ['class' => 'btn btn-success scale', 'style' => 'margin-bottom: 20px;']);
+    echo Html::a('Создать пользователя', Url::to(['auth/create']), ['class' => 'btn btn-success scale', 'style' => 'margin-bottom: 20px;']);
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 },
             ],
-            'description',
+            'description:text:Роль',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}{link}',

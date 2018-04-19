@@ -116,13 +116,19 @@ class Auth extends ActiveRecord implements IdentityInterface {
 
 
 
-    public function getAuthItem() {
-        return $this->hasOne(AuthItem::className(), ['name' => 'item_name'])->viaTable('auth_assignment', ['user_id' => 'id']);
+    public function getAssignment() {
+        return $this->hasOne(AuthAssignment::className(), ['user_id' => 'id']);
+    }
+
+
+
+    public function getItem() {
+        return $this->hasOne(AuthItem::className(), ['name' => 'item_name'])->via('assignment');
     }
 
 
 
     public function getDescription() {
-        return $this->authItem->description;
+        return $this->item['description'];
     }
 }

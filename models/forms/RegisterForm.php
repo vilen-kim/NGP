@@ -2,6 +2,7 @@
 
 namespace app\models\forms;
 
+use Yii;
 use yii\base\Model;
 use app\models\Auth;
 
@@ -10,8 +11,7 @@ class RegisterForm extends Model {
     public $username;
     public $password;
     public $passwordRepeat;
-    public $role_id;
-    public $reCaptcha;
+    public $role;
 
 
 
@@ -24,6 +24,7 @@ class RegisterForm extends Model {
             [['password', 'passwordRepeat'], 'required', 'message' => 'Это обязательное поле'],
             [['password', 'passwordRepeat'], 'string', 'min' => 6],
             ['passwordRepeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают.'],
+            ['role', 'string'],
         ];
     }
 
@@ -34,7 +35,7 @@ class RegisterForm extends Model {
             'password' => 'Пароль',
             'passwordRepeat' => 'Повторите пароль',
             'username' => 'Имя пользователя',
-            'role_id' => 'Роль',
+            'role' => 'Роль',
         ];
     }
 
@@ -47,8 +48,27 @@ class RegisterForm extends Model {
             $auth->status = Auth::STATUS_INACTIVE;
             $auth->setPassword($this->password);
             $auth->generateAuthKey();
-            $auth->role_id = $this->role_id;
             if ($auth->save()){                
+                return $auth;
+            } else {
+                return false;
+            }
+        }
+    }
+    
+    
+    
+    public function create() {
+        if ($this->validate()) {
+            $auth = new Auth();
+            $auth->username = $this->username;
+            $auth->status = Auth::STATUS_ACTIVE;
+            $auth->setPassword($this->password);
+            $auth->generateAuthKey();
+            if ($auth->save()){      
+                $authManager = Yii::$app->authManager;
+                $role = $authManager->getRole($this->role);
+                $authManager->assign($role, $auth->id);
                 return $auth;
             } else {
                 return false;
