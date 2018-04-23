@@ -23,7 +23,7 @@ class MenuWidget extends Widget
             $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
             foreach ($subMenu as $sub) {
                 $array[] = [
-                    'link' => Html::a($sub->caption, ['site/show', 'id' => $par->page_id, '#' => $sub->anchor]),
+                    'link' => Html::a($sub->caption, ['site/show', 'id' => $sub->page_id, '#' => $sub->anchor]),
                     'type' => 'submenu',
                 ];
             }

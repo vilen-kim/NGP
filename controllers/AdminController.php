@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\Auth;
@@ -50,19 +51,14 @@ class AdminController extends \yii\web\Controller {
 
 
     public function actionIndex() {
-        $usersCount = Auth::find()->count();
-        $pagesCount = Pages::find()->where(['category_id' => 1])->count();
-        $newsCount = Pages::find()->where(['category_id' => 2])->count();
-        $articlesCount = Pages::find()->where(['category_id' => 3])->count();
-        $eventsCount = Pages::find()->where(['category_id' => 4])->count();
-        $menuCount = Menu::find()->count();
-        return $this->render('index', [
-                'usersCount' => $usersCount,
-                'pagesCount' => $pagesCount,
-                'newsCount' => $newsCount,
-                'articlesCount' => $articlesCount,
-                'eventsCount' => $eventsCount,
-                'menuCount' => $menuCount,
-        ]);
+        $count = null;
+        $count['auth'] = Yii::$app->user->can('auth') ? Auth::find()->count() : null;
+        $count['menu'] = Yii::$app->user->can('menu') ? Menu::find()->count() : null;
+        $count['pages'] = Yii::$app->user->can('page') ? Pages::find()->where(['category_id' => 1])->count() : null;
+        $count['news'] = Yii::$app->user->can('news') ? Pages::find()->where(['category_id' => 2])->count() : null;
+        $count['articles'] = Yii::$app->user->can('news') ? Pages::find()->where(['category_id' => 3])->count() : null;
+        $count['events'] = Yii::$app->user->can('news') ? Pages::find()->where(['category_id' => 4])->count() : null;
+        
+        return $this->render('index', ['count' => $count]);
     }
 }

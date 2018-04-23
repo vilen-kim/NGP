@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'username',
+            'description:text:Роль',
             [
                 'attribute' => 'status',
                 'content' => function ($model, $key, $index, $column) {
@@ -30,10 +31,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 },
             ],
-            'description:text:Роль',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}{link}',
+                'template' => '{activate} {update} {delete}',
+                'buttons' => [
+                    'activate' => function ($url, $model, $key) {
+                        if ($model->status == $model::STATUS_INACTIVE){
+                            return Html::a('<span class="glyphicon glyphicon-check"></span>', ['auth/activate', 'id' => $model->id], [
+                                'title' => 'Активировать',
+                            ]);
+                        } else {
+                            return Html::a('<span class="glyphicon glyphicon-unchecked"></span>', ['auth/deactivate', 'id' => $model->id], [
+                                'title' => 'Деактивировать',
+                            ]);
+                        }
+                    },
+                ]
             ],
         ],
     ]);

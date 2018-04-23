@@ -10,12 +10,8 @@ use yii\helpers\Url;
 use app\models\Auth;
 use app\models\forms\RegisterForm;
 use app\models\forms\LoginForm;
-use app\models\forms\ForgotPassForm;
-use app\models\forms\NewPasswordForm;
-use app\models\forms\ActivateForm;
 use app\models\AuthSearch;
 use app\models\AuthItem;
-use yii\web\Response;
 use yii\helpers\ArrayHelper;
 
 class AuthController extends Controller {
@@ -28,7 +24,6 @@ class AuthController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'view', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['auth'],
                     ],
@@ -83,6 +78,8 @@ class AuthController extends Controller {
 
     public function actionCreate() {
         $model = new RegisterForm;
+        $model->scenario = RegisterForm::SCENARIO_CREATE;
+
 
         if ($model->load(Yii::$app->request->post()) && $model->create()) {
             Yii::$app->session->setFlash('success', 'Учетная запись была успешно создана.');
@@ -100,6 +97,7 @@ class AuthController extends Controller {
 
     public function actionRegister() {
         $model = new RegisterForm;
+        $model->scenario = RegisterForm::SCENARIO_REGISTER;
 
         if ($model->load(Yii::$app->request->post()) && ($auth = $model->register())) {
             Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована.<br>Дождитесь ее активации администратором сайта.');
@@ -113,28 +111,22 @@ class AuthController extends Controller {
 
 
 
-    public function actionActivate($token = null) {
-        if ($token) {
-            $auth = Auth::findByPasswordResetToken($token);
-            if ($auth) {
-                $auth->status = Auth::STATUS_ACTIVE;
-                $auth->removePasswordResetToken();
-                if ($auth->save()) {
-                    Yii::$app->user->login($auth);
-                    Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно активирована. Добро пожаловать.');
-                }
-            }
-            $this->redirect(Url::previous());
-        } else {
-            $model = new ActivateForm;
-            $model->email = Yii::$app->request->post('email');
-            if ($model->validate() && $model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Для активации пройдите по ссылке, отправленной Вам на электронную почту.');
-            } else {
-                Yii::$app->session->setFlash('danger', 'Ошибка отправки электронного письма. Повторите попытку активации позже.');
-            }
-            return true;
+    public function actionActivate($id) {
+        if ($model = $this->findModel($id)) {
+            $model->status = Auth::STATUS_ACTIVE;
+            $model->save();
         }
+        return $this->redirect(['auth/index']);
+    }
+
+
+
+    public function actionDeactivate($id) {
+        if ($model = $this->findModel($id)) {
+            $model->status = Auth::STATUS_INACTIVE;
+            $model->save();
+        }
+        return $this->redirect(['auth/index']);
     }
 
 
@@ -158,23 +150,8 @@ class AuthController extends Controller {
 
 
 
-    public function actionForgotPass() {
-        $model = new ForgotPassForm;
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'На Вашу электронную почту отправлено письмо с инструкцией по сбросу пароля.');
-                return "OK";
-            }
-        } else {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return $this->renderAjax('forgotpass', ['model' => $model]);
-        }
-    }
-
-
-
     public function actionDelete($id) {
-        if ($model = $this->findModel($id)){
+        if ($model = $this->findModel($id)) {
             $username = $model->username;
             if ($model->delete()) {
                 Yii::$app->session->setFlash('success', "Пользователь '$username' был успешно удален.");
@@ -185,27 +162,23 @@ class AuthController extends Controller {
 
 
 
-    public function actionNewPassword($token = null) {
-        if ($token) {
-            $auth = Auth::findByPasswordResetToken($token);
-            if ($auth) {
-                $model = new NewPasswordForm;
-                if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                    $auth->setPassword($model->password);
-                    $auth->removePasswordResetToken();
-                    if ($auth->save()) {
-                        Yii::$app->session->setFlash('success', 'Пароль был успешно изменен.');
-                    } else {
-                        Yii::$app->session->setFlash('danger', 'Произошла ошибка во время сохранения пароля в базе данных. Попробуйте позже.');
-                    }
-                } else {
-                    return $this->render('newPassword', [
-                            'model' => $model,
-                            'email' => $auth->email,
-                    ]);
-                }
+    public function actionUpdate($id) {
+        if ($auth = $this->findModel($id)) {
+            $model = new RegisterForm;
+            $model->scenario = RegisterForm::SCENARIO_UPDATE;
+            $model->username = $auth->username;
+            $model->role = $auth->item['name'];
+
+            if ($model->load(Yii::$app->request->post()) && ($auth = $model->update($auth))) {
+                Yii::$app->session->setFlash('success', "Учетная запись '$auth->username' была успешно изменена.");
+                return $this->redirect('index');
             }
-            $this->redirect(Url::previous());
+
+            $roles = AuthItem::findAll(['type' => 1]);
+            return $this->render('update', [
+                    'model' => $model,
+                    'roles' => ArrayHelper::map($roles, 'name', 'description'),
+            ]);
         }
     }
 

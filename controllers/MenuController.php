@@ -23,9 +23,8 @@ class MenuController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'change', 'delete', 'view', 'update'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['menu'],
                     ],
                 ],
             ],
