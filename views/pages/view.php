@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->caption;
 $this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = ['label' => $type, 'url' => ['pages/index', 'category_id' => $model->category_id]];
+$this->params['breadcrumbs'][] = ['label' => $tt['type'], 'url' => ['pages/index', 'category_id' => $model->category_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

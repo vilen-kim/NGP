@@ -5,9 +5,9 @@ use yii\helpers\Html;
 use app\components\Editor;
 app\assets\CKEditorAsset::register($this);
 
-$this->title = $title;
+$this->title = $tt['title'];
 $this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = ['label' => $type, 'url' => ['pages/index', 'category_id' => $model->category_id]];
+$this->params['breadcrumbs'][] = ['label' => $tt['type'], 'url' => ['pages/index', 'category_id' => $model->category_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

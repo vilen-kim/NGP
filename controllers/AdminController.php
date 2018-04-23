@@ -2,12 +2,13 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\data\ActiveDataProvider;
 use app\models\Auth;
 use app\models\Pages;
 use app\models\Menu;
+use yii\web\ForbiddenHttpException;
 
 class AdminController extends \yii\web\Controller {
 
@@ -19,9 +20,9 @@ class AdminController extends \yii\web\Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'users'],
+                        'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin_index'],
                     ],
                 ],
             ],
@@ -50,31 +51,14 @@ class AdminController extends \yii\web\Controller {
 
 
     public function actionIndex() {
-        $usersCount = Auth::find()->count();
-        $pagesCount = Pages::find()->where(['category_id' => 1])->count();
-        $newsCount = Pages::find()->where(['category_id' => 2])->count();
-        $articlesCount = Pages::find()->where(['category_id' => 3])->count();
-        $eventsCount = Pages::find()->where(['category_id' => 4])->count();
-        $menuCount = Menu::find()->count();
-        return $this->render('index', [
-            'usersCount' => $usersCount,
-            'pagesCount' => $pagesCount,
-            'newsCount' => $newsCount,
-            'articlesCount' => $articlesCount,
-            'eventsCount' => $eventsCount,
-            'menuCount' => $menuCount,
-        ]);
-    }
-
-
-
-    public function actionUsers() {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Auth::find(),
-        ]);
-
-        return $this->render('users', [
-                'dataProvider' => $dataProvider,
-        ]);
+        $count = null;
+        $count['auth'] = Yii::$app->user->can('auth') ? Auth::find()->count() : null;
+        $count['menu'] = Yii::$app->user->can('menu') ? Menu::find()->count() : null;
+        $count['pages'] = Yii::$app->user->can('page') ? Pages::find()->where(['category_id' => 1])->count() : null;
+        $count['news'] = Yii::$app->user->can('news') ? Pages::find()->where(['category_id' => 2])->count() : null;
+        $count['articles'] = Yii::$app->user->can('news') ? Pages::find()->where(['category_id' => 3])->count() : null;
+        $count['events'] = Yii::$app->user->can('news') ? Pages::find()->where(['category_id' => 4])->count() : null;
+        
+        return $this->render('index', ['count' => $count]);
     }
 }

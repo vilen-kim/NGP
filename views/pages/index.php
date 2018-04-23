@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
 
-$this->title = $title;
+$this->title = $tt['title'];
 $this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

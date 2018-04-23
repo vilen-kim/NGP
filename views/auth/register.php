@@ -5,9 +5,6 @@ use yii\widgets\ActiveForm;
 
 app\assets\AuthAsset::register($this);
 $this->title = 'Регистрация';
-$this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['admin/users']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h3 class="page-header text-center"><?= $this->title ?></h3>
