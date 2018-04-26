@@ -28,3 +28,11 @@ footer > div:last-child > div {
 footer > div:last-child > div:first-child {
     margin-bottom: 10px;
 }
+
+footer > div:nth-child(3) {
+    padding-top: 15px;
+}
+
+footer > div:nth-child(3) > a > img {
+    width: 40px;
+}

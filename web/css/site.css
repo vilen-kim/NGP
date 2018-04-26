@@ -1,25 +1,9 @@
-div.site-index div.pull-left > div {
+.site-index > #funcButtons > div.col-md-4 > div {
+    padding: 24px 0px;
+    font-size: large;
     color: black;
-    font-size: small;
-    margin: 1px;
-    width: 140px;
-    padding: 4px 0px;
-}
-
-div.site-index div.pull-right {
-    width: 40px;
-}
-
-div.site-index div.pull-right img {
-    margin: 2px;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-}
-
-div.site-index div.pull-right img:hover {
-    -webkit-transform: translateX(-4px);
-    -ms-transform: translateX(-4px);
-    transform: translateX(-4px);
+    margin: 10px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px dotted lightgray;
 }

@@ -34,17 +34,34 @@ body {
     font-style: italic;
 }
 
-.scale {
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
+.scale, .changeBack, .moveUp, .moveDown {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .scale:hover {
     -webkit-transform: scale(1.2);
     -ms-transform: scale(1.2);
     transform: scale(1.2);
+}
+
+.changeBack:hover {
+    background-color: #ffda44;
+    cursor: pointer;
+}
+
+.moveUp:hover {
+    -webkit-transform: translateY(-6px);
+    -ms-transform: translateY(-6px);
+    transform: translateY(-6px);
+}
+
+.moveDown:hover {
+    -webkit-transform: translateY(6px);
+    -ms-transform: translateY(6px);
+    transform: translateY(6px);
 }
 
 /* add sorting icons to gridview sort links */

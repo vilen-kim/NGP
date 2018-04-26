@@ -77,6 +77,10 @@ app\assets\AppAsset::register($this);
             <div class="col-md-3">
             </div>
             <div class="col-md-3">
+                <?= Html::a(Html::img('@web/images/vk.svg', ['class' => 'moveUp']), 'https://vk.com/id433055831', ['title' => 'ВКонтакте']) ?>
+                <?= Html::a(Html::img('@web/images/odnoklassniki.svg', ['class' => 'moveUp']), 'https://ok.ru/profile/571730537307', ['title' => 'Одноклассники']) ?>
+                <?= Html::a(Html::img('@web/images/facebook.svg', ['class' => 'moveUp']), 'https://www.facebook.com/БУ-Няганская-городская-поликлиника-2189851657908954', ['title' => 'Facebook']) ?>
+                <?= Html::a(Html::img('@web/images/twitter.svg', ['class' => 'moveUp']), 'https://twitter.com/profilngp1', ['title' => 'Twitter']) ?>
             </div>
             <div class="col-md-3">
                 <div style="font-size: small">
