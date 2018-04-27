@@ -22,8 +22,8 @@
     <div id="news" class="row">
         <div class="col-md-8 col-md-offset-2">
             <?php
-                for ($i = 0; $i < 3; $i++){
-                    $res = NewsWidget::widget(['num' => $i, 'len' => 600]);
+                for ($i = 0; $i < $newsCount; $i++){
+                    $res = NewsWidget::widget(['num' => $i, 'len' => 1000]);
                     if ($res){
                         echo $res;
                     }

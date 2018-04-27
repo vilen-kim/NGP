@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/2amigos/yii2-ckeditor-widget.git",
-                "reference": "2ba96ec670d0745b5616d2aa94d720cc7288bc08"
+                "reference": "248e671faf7ec1e6affbcc6554d991095139d379"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/2amigos/yii2-ckeditor-widget/zipball/2ba96ec670d0745b5616d2aa94d720cc7288bc08",
-                "reference": "2ba96ec670d0745b5616d2aa94d720cc7288bc08",
+                "url": "https://api.github.com/repos/2amigos/yii2-ckeditor-widget/zipball/248e671faf7ec1e6affbcc6554d991095139d379",
+                "reference": "248e671faf7ec1e6affbcc6554d991095139d379",
                 "shasum": ""
             },
             "require": {
-                "ckeditor/ckeditor": "~4.7.0+full",
+                "ckeditor/ckeditor": "dev-full/4.7.x",
                 "yiisoft/yii2": "^2.0"
             },
             "require-dev": {
@@ -61,7 +61,7 @@
                 "yii 2",
                 "yii2"
             ],
-            "time": "2017-06-12T18:51:26+00:00"
+            "time": "2017-07-22T15:38:16+00:00"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -226,16 +226,16 @@
         },
         {
             "name": "ckeditor/ckeditor",
-            "version": "4.7.3",
+            "version": "dev-full/4.7.x",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ckeditor/ckeditor-releases.git",
-                "reference": "97b8f412f6b36985c734daf0717e81009a885dba"
+                "reference": "5f1564a3d64cd06d8a4f3f21150f57e892a40939"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/97b8f412f6b36985c734daf0717e81009a885dba",
-                "reference": "97b8f412f6b36985c734daf0717e81009a885dba",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/5f1564a3d64cd06d8a4f3f21150f57e892a40939",
+                "reference": "5f1564a3d64cd06d8a4f3f21150f57e892a40939",
                 "shasum": ""
             },
             "type": "library",
@@ -263,7 +263,7 @@
                 "text",
                 "wysiwyg"
             ],
-            "time": "2017-09-13T13:09:47+00:00"
+            "time": "2017-09-13T13:08:14+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -895,16 +895,16 @@
         },
         {
             "name": "codeception/phpunit-wrapper",
-            "version": "7.1.0",
+            "version": "7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/phpunit-wrapper.git",
-                "reference": "cde840638d021804ce93e8f98bcb7edbf6935423"
+                "reference": "33e8ccf2f7abf5c031eeae9802b821d30ec0f7fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/cde840638d021804ce93e8f98bcb7edbf6935423",
-                "reference": "cde840638d021804ce93e8f98bcb7edbf6935423",
+                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/33e8ccf2f7abf5c031eeae9802b821d30ec0f7fc",
+                "reference": "33e8ccf2f7abf5c031eeae9802b821d30ec0f7fc",
                 "shasum": ""
             },
             "require": {
@@ -934,7 +934,7 @@
                 }
             ],
             "description": "PHPUnit classes used by Codeception",
-            "time": "2018-04-10T09:05:14+00:00"
+            "time": "2018-04-20T10:17:13+00:00"
         },
         {
             "name": "codeception/specify",
@@ -1553,23 +1553,23 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.7.5",
+            "version": "1.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401"
+                "reference": "33a7e3c4fda54e912ff6338c48823bd5c0f0b712"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/dfd6be44111a7c41c2e884a336cc4f461b3b2401",
-                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/33a7e3c4fda54e912ff6338c48823bd5c0f0b712",
+                "reference": "33a7e3c4fda54e912ff6338c48823bd5c0f0b712",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
                 "php": "^5.3|^7.0",
                 "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0",
-                "sebastian/comparator": "^1.1|^2.0",
+                "sebastian/comparator": "^1.1|^2.0|^3.0",
                 "sebastian/recursion-context": "^1.0|^2.0|^3.0"
             },
             "require-dev": {
@@ -1612,7 +1612,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2018-02-19T10:16:54+00:00"
+            "time": "2018-04-18T13:57:24+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1865,16 +1865,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.1.2",
+            "version": "7.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6a17c170fb92845896e1b3b00fcb462cd4b3c017"
+                "reference": "6d51299e307dc510149e0b7cd1931dd11770e1cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6a17c170fb92845896e1b3b00fcb462cd4b3c017",
-                "reference": "6a17c170fb92845896e1b3b00fcb462cd4b3c017",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6d51299e307dc510149e0b7cd1931dd11770e1cb",
+                "reference": "6d51299e307dc510149e0b7cd1931dd11770e1cb",
                 "shasum": ""
             },
             "require": {
@@ -1892,8 +1892,8 @@
                 "phpunit/php-file-iterator": "^1.4.3",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-timer": "^2.0",
-                "phpunit/phpunit-mock-objects": "^6.1",
-                "sebastian/comparator": "^2.1",
+                "phpunit/phpunit-mock-objects": "^6.1.1",
+                "sebastian/comparator": "^2.1 || ^3.0",
                 "sebastian/diff": "^3.0",
                 "sebastian/environment": "^3.1",
                 "sebastian/exporter": "^3.1",
@@ -1941,7 +1941,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-04-10T11:40:22+00:00"
+            "time": "2018-04-18T13:41:53+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

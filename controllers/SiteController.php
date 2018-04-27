@@ -19,7 +19,10 @@ class SiteController extends \yii\web\Controller {
 
 
     public function actionIndex() {
-        return $this->render('index');
+        $newsCount = Pages::find()->where(['in', 'category_id', [2,3,4]])->count();
+        return $this->render('index', [
+            'newsCount' => $newsCount,
+        ]);
     }
 
 
