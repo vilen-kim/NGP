@@ -7,3 +7,8 @@
     border-radius: 10px;
     border: 1px dotted lightgray;
 }
+
+.site-index > #news > div > div {
+    margin-top: 30px;
+    margin-bottom: 90px;
+}

@@ -5,6 +5,8 @@
     $this->title = $model->caption;
 ?>
 
+<h3 class="page-header text-center"><?= $this->title ?></h3>
+
 <div class="site-show container">
     <?php
     
