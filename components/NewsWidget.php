@@ -10,12 +10,13 @@ use app\models\Category;
 class NewsWidget extends Widget
 {
     public $num;
-    public $len = 300;
+    private $len = 1000;
     private $category;
     private $caption;
     private $text;
     private $date;
     private $id;
+    private $animate;
 
     public function init()
     {
@@ -35,18 +36,21 @@ class NewsWidget extends Widget
         $this->text = $text;
         $this->date = Yii::$app->formatter->asDate($model->updated_at);
         $this->id = $model->id;
+        
+        $animated = ['fadeInDownShort', 'fadeInUpShort', 'fadeInLeftShort', 'fadeInRightShort', 'fadeIn'];
+        $this->animate = $animated[array_rand($animated)];
     }
 
     public function run()
     {
     ?>
-        <div class="newsWidget">
+        <div class="newsWidget animated <?= $this->animate ?>">
             <div class="row">
                 <div class='col-md-6 text-left' style='font-size: smaller'><?= $this->category ?></div>
                 <div class='col-md-6 text-right' style='font-size: smaller'><?= $this->date ?></div>
             </div>
-            <p class='bg-success text-center' style='padding: 10px;'><b><?= $this->caption ?></b></p>
-            <div style='padding: 0px 20px;'>
+            <div class='bg-primary text-center' style='padding: 10px;'><b><?= $this->caption ?></b></div>
+            <div style='padding: 10px 20px; border: 1px solid whitesmoke;'>
                 <?= $this->text ?>
                 <?= Html::a('Открыть', ['site/show', 'id' => $this->id]) ?>
             </div>

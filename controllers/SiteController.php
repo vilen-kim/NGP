@@ -2,38 +2,46 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Pages;
+use app\components\NewsWidget;
 
 class SiteController extends \yii\web\Controller {
 
-
-
     public function actions() {
         return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
+        'error' => [
+        'class' => 'yii\web\ErrorAction',
+        ],
         ];
     }
 
-
-
     public function actionIndex() {
-        $newsCount = Pages::find()->where(['in', 'category_id', [2,3,4]])->count();
+        $all = Pages::find()->where(['in', 'category_id', [2, 3, 4]])->count();
+        $count = min($all, 3);
+        $remain = $all - $count;
         return $this->render('index', [
-            'newsCount' => $newsCount,
+            'count' => $count,
+            'remain' => $remain,
         ]);
     }
-
-
 
     public function actionShow($id) {
         return $this->render('show', [
-                'model' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 
-
+    public function actionLoadNews() {
+        $loaded = Yii::$app->request->post('loaded');
+        $all = Pages::find()->where(['in', 'category_id', [2, 3, 4]])->count();
+        $count = min($all - $loaded, 3);
+        $result = null;
+        for ($i = $loaded; $i < $loaded + $count; $i++){
+            $result .= NewsWidget::widget(['num' => $i]);
+        }
+        return $result;
+    }
 
     protected function findModel($id) {
         if (($model = Pages::findOne($id)) !== null) {
@@ -42,4 +50,5 @@ class SiteController extends \yii\web\Controller {
 
         throw new NotFoundHttpException('Страница не найдена.');
     }
+
 }
