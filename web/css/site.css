@@ -8,7 +8,13 @@
     border: 1px dotted lightgray;
 }
 
-.site-index > #news > div > div {
+
+.site-index > #news .newsWidget {
+    display: block;
     margin-top: 30px;
     margin-bottom: 90px;
+}
+
+.site-index > #news .newsWidget:nth-last-child(1) {
+    margin-bottom: 30px;
 }
