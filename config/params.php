@@ -2,10 +2,11 @@
 
 return [
     'adminEmail' => 'admin@example.com',
+    'noreplyEmail' => 'noreply@aus86.ru',
+    
     'ckeditorClientOptions' => [
         'allowedContent' => true,
         'language' => 'ru',
-        'extraPlugins' => 'widget,widgetselection,lineutils,justify,locationmap',
-        //'locationMapPath' => '@app/view/pages/googlemap.html',
+        'extraPlugins' => 'justify',
     ]
 ];

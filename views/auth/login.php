@@ -5,13 +5,13 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 app\assets\AuthAsset::register($this);
-$this->title = 'Вход в панель управления';
+$this->title = 'Вход в личный кабинет';
 ?>
 
 <h3 class="page-header text-center"><?= $this->title ?></h3>
 
-<div class="auth-login">
-    <div class="col-md-6">
+<div class="row auth-login">
+    <div class="col-md-offset-3 col-md-6">
 
         <?php
         $form = ActiveForm::begin(['id' => 'login-form']);

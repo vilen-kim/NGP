@@ -1,5 +1,4 @@
 div.auth-login > div, div.auth-register > div {
-    margin: 10px;
     border: 1px solid lightgray;
     border-radius: 4px;
     padding: 20px;

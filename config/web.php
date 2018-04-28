@@ -28,8 +28,21 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true,
+            'class' => yii\swiftmailer\Mailer::class,
+            'transport' => [
+                'class' => Swift_SmtpTransport::class,
+                'host' => 'cpanel17.d.fozzy.com',
+                'username' => 'noreply@aus86.ru',
+                'password' => "U'csng7QK;R5p{ke",
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
+        ],
+        'reCaptcha' => [
+            'name' => 'reCaptcha',
+            'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
+            'siteKey' => '6LdBzTkUAAAAAMUncb8Hf9kT-0XFK_NSTaBs-K5f',
+            'secret' => '6LdBzTkUAAAAAOgWZ4eLzEbwhGa7xO6cAmEgS_AM',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -47,7 +60,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 '' => 'site/index',
-                'admin' => 'auth/login',
+                'login' => 'auth/login',
                 '<action>' => 'site/<action>',
             ],
         ],
