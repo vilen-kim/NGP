@@ -6,41 +6,33 @@ use Yii;
 use yii\base\Model;
 use app\models\Auth;
 
-/**
- * Это форма для сброса пароля
- * Запрашивается только email
- * @property string $email
- */
 class PasswordForm extends Model {
 
     public $email;
 
-    /**
-     * Правила валидации
-     * @return type
-     */
+
+
     public function rules() {
-        return [
-            ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
+        $rules = [
             ['email', 'exist',
                 'targetClass' => '\app\models\Auth',
                 'filter' => ['status' => Auth::STATUS_ACTIVE],
                 'message' => 'Нет учетной записи с таким электронным адресом или она не активирована.'
             ],
         ];
+        $email = require __DIR__ . '/EmailRules.php';
+        return array_merge($rules, $email);
     }
 
-    /**
-     * Наименования полей
-     * @return type
-     */
+
+
     public function attributeLabels() {
         return [
             'email' => 'Электронный адрес',
         ];
     }
+
+
 
     public function sendEmail() {
         $model = Auth::findOne(['status' => Auth::STATUS_ACTIVE, 'email' => $this->email]);
@@ -57,5 +49,4 @@ class PasswordForm extends Model {
         }
         return false;
     }
-
 }

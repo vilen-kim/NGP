@@ -12,6 +12,7 @@ class AuthAsset extends AssetBundle {
         'css/auth.css',
     ];
     public $js = [
+        'js/password.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -10,12 +10,12 @@ $this->title = 'Вход в личный кабинет';
 
 <h3 class="page-header text-center"><?= $this->title ?></h3>
 
-<div class="row auth-login">
-    <div class="col-md-offset-3 col-md-6">
+<div class="row">
+    <div class="col-md-offset-3 col-md-6 border">
 
         <?php
         $form = ActiveForm::begin(['id' => 'login-form']);
-        echo $form->field($model, 'username', ['errorOptions' => ['encode' => false, 'class' => 'help-block']]);
+        echo $form->field($model, 'email', ['errorOptions' => ['encode' => false, 'class' => 'help-block']]);
         echo $form->field($model, 'password', ['errorOptions' => ['encode' => false, 'class' => 'help-block']])->passwordInput();
         echo $form->field($model, 'rememberMe')->checkbox();
         ?>

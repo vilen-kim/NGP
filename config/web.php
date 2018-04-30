@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$url = require __DIR__ . '/url.php';
 
 $config = [
     'id' => 'basic',
@@ -23,6 +24,9 @@ $config = [
             'identityClass' => 'app\models\Auth',
             'enableAutoLogin' => true,
             'loginUrl' => ['auth/login'],
+            'on afterLogin' => function($event){
+                Yii::$app->user->identity->updateAttributes(['login_at' => time()]);
+            },
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -55,15 +59,7 @@ $config = [
         ],
         'db' => $db,
         'baseUrl' => '',
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                '' => 'site/index',
-                'login' => 'auth/login',
-                '<action>' => 'site/<action>',
-            ],
-        ],
+        'urlManager' => $url,
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],

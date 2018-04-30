@@ -3,34 +3,33 @@
 namespace app\models\forms;
 
 use Yii;
+use yii\helpers\Html;
 use app\models\Auth;
 use yii\base\Model;
-use yii\helpers\Html;
 
 class LoginForm extends Model {
 
-    public $username;
+    public $email;
     public $password;
     public $rememberMe = true;
 
 
 
     public function rules() {
-        return [
-            ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required', 'message' => 'Это обязательное поле'],
-            ['username', 'string', 'max' => 255],
+        $rules = [
             ['rememberMe', 'boolean'],
             ['password', 'required', 'message' => 'Это обязательное поле'],
             ['password', 'string', 'min' => 6],
         ];
+        $email = require __DIR__ . '/EmailRules.php';
+        return array_merge($rules, $email);
     }
 
 
 
     public function attributeLabels() {
         return [
-            'username' => 'Имя пользователя',
+            'email' => 'Электронная почта',
             'password' => 'Пароль',
             'rememberMe' => 'Запомнить',
         ];
@@ -39,19 +38,20 @@ class LoginForm extends Model {
 
 
     public function login() {
-        $auth = Auth::findByUsername($this->username);
+        $auth = Auth::findByEmail($this->email);
 
         // Учетная запись не найдена
         if (!$auth) {
-            $error = 'Учетная запись не найдена';
-            echo $this->addError('username', $error);
+            $error = 'Такой адрес электронной почты не найден';
+            echo $this->addError('email', $error);
             return false;
         }
 
         // Неактивная запись
         if ($auth->status == Auth::STATUS_INACTIVE) {
             $error = 'Учетная запись не активирована. ';
-            echo $this->addError('username', $error);
+            $error .= Html::a("Выслать письмо для повторной активации.", ['auth/activate', 'email' => $auth->email]);
+            echo $this->addError('email', $error);
             return false;
         }
 

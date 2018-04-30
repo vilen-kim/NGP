@@ -9,7 +9,10 @@ use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use app\models\Auth;
 use app\models\forms\RegisterForm;
+use app\models\forms\ActivateForm;
 use app\models\forms\LoginForm;
+use app\models\forms\ForgotPassForm;
+use app\models\forms\NewPasswordForm;
 use app\models\AuthSearch;
 use app\models\AuthItem;
 use yii\helpers\ArrayHelper;
@@ -24,18 +27,19 @@ class AuthController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
+                        'actions' => ['create', 'delete', 'update', 'index'],
                         'allow' => true,
-                        'roles' => ['auth'],
+                        'roles' => ['admin'],   // администратор
                     ],
                     [
-                        'actions' => ['login', 'register'],
+                        'actions' => ['login', 'register', 'activate', 'forgot-pass', 'new-password'],
                         'allow' => true,
-                        'roles' => ['?'],
+                        'roles' => ['?'],       // гость
                     ],
                     [
                         'actions' => ['logout'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@'],       // авторизованный пользователь
                     ],
                 ],
             ],
@@ -54,10 +58,6 @@ class AuthController extends Controller {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
     }
@@ -99,9 +99,13 @@ class AuthController extends Controller {
         $model = new RegisterForm;
         $model->scenario = RegisterForm::SCENARIO_REGISTER;
 
-        if ($model->load(Yii::$app->request->post()) && ($auth = $model->register())) {
-            Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована.<br>Дождитесь ее активации администратором сайта.');
-            return $this->redirect('login');
+        if ($model->load(Yii::$app->request->post())) {
+            if ($auth = $model->register()) {
+                Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована.<br>Инструкция по ее активации отправлена Вам на электронную почту.');
+                return $this->redirect('login');
+            } else {
+                Yii::$app->session->setFlash('danger', 'При активации учетной записи произошла ошибка. Попробуйте позже.');
+            }
         }
 
         return $this->render('register', [
@@ -111,22 +115,29 @@ class AuthController extends Controller {
 
 
 
-    public function actionActivate($id) {
-        if ($model = $this->findModel($id)) {
-            $model->status = Auth::STATUS_ACTIVE;
-            $model->save();
+    public function actionActivate($token = null, $email = null) {
+        if ($token) {
+            $auth = Auth::findByPasswordResetToken($token);
+            if ($auth) {
+                $auth->status = Auth::STATUS_ACTIVE;
+                $auth->removePasswordResetToken();
+                if ($auth->save()) {
+                    Yii::$app->user->login($auth);
+                    Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно активирована. Добро пожаловать.');
+                    return $this->redirect(['admin/index']);
+                }
+            }
         }
-        return $this->redirect(['auth/index']);
-    }
-
-
-
-    public function actionDeactivate($id) {
-        if ($model = $this->findModel($id)) {
-            $model->status = Auth::STATUS_INACTIVE;
-            $model->save();
+        if ($email) {
+            $model = new ActivateForm;
+            $model->email = $email;
+            if ($model->validate() && $model->sendEmail()) {
+                Yii::$app->session->setFlash('success', 'Для активации пройдите по ссылке, отправленной Вам на электронную почту.');
+            } else {
+                Yii::$app->session->setFlash('danger', 'Ошибка отправки электронного письма. Повторите попытку активации позже.');
+            }
         }
-        return $this->redirect(['auth/index']);
+        return $this->redirect('login');
     }
 
 
@@ -180,6 +191,53 @@ class AuthController extends Controller {
                     'roles' => ArrayHelper::map($roles, 'name', 'description'),
             ]);
         }
+    }
+
+
+
+    public function actionForgotPass() {
+        $model = new ForgotPassForm;
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->session->setFlash('success', 'На Вашу электронную почту отправлено письмо с инструкцией по сбросу пароля.');
+            } else {
+                Yii::$app->session->setFlash('danger', 'Ошибка отправки электронного письма. Повторите попытку активации позже.');
+            }
+            return $this->redirect(['login']);
+        }
+
+        return $this->render('forgotpass', [
+                'model' => $model,
+        ]);
+    }
+
+
+
+    public function actionNewPassword($token = null) {
+        if ($token) {
+            $auth = Auth::findByPasswordResetToken($token);
+            if ($auth) {
+                $model = new NewPasswordForm;
+
+                if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                    $auth->setPassword($model->password);
+                    $auth->removePasswordResetToken();
+                    if ($auth->save()) {
+                        Yii::$app->session->setFlash('success', 'Пароль был успешно изменен.');
+                    } else {
+                        Yii::$app->session->setFlash('danger', 'Произошла ошибка во время изменения пароля. Попробуйте позже.');
+                    }
+                    return $this->redirect('login');
+                }
+
+                return $this->render('newPassword', [
+                        'model' => $model,
+                        'email' => $auth->email,
+                ]);
+            }
+        }
+        return $this->redirect('login');
     }
 
 
