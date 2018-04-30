@@ -17,12 +17,15 @@ $this->title = 'Регистрация';
         <?= $form->field($model, 'email') ?>
         <?= $form->field($model, 'password')->passwordInput(['id' => 'password']) ?>
         <?= $form->field($model, 'passwordRepeat')->passwordInput() ?>
+        <?= $form->field($model, 'lastname') ?>
+        <?= $form->field($model, 'firstname') ?>
+        <?= $form->field($model, 'middlename') ?>
         <div class="pull-left">
             <?= $form->field($model, 'reCaptcha')->widget(
                 ReCaptcha::className())->label(false) ?>
         </div>
         <div class="pull-right">
-            <?= Html::submitButton('Регистрация', ['class' => 'btn scale', 'style' => 'background: #ffda44; color: black']) ?>
+            <?= Html::submitButton('Регистрация', ['class' => 'btn btn-default changeBack']) ?>
         </div>
         <?php ActiveForm::end(); ?>
 

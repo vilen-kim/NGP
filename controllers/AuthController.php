@@ -27,19 +27,19 @@ class AuthController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'delete', 'update', 'index'],
+                        'actions' => ['create', 'delete', 'update', 'index', 'view'],
                         'allow' => true,
-                        'roles' => ['admin'],   // администратор
+                        'roles' => ['admin'], // администратор
                     ],
                     [
                         'actions' => ['login', 'register', 'activate', 'forgot-pass', 'new-password'],
                         'allow' => true,
-                        'roles' => ['?'],       // гость
+                        'roles' => ['?'], // гость
                     ],
                     [
                         'actions' => ['logout'],
                         'allow' => true,
-                        'roles' => ['@'],       // авторизованный пользователь
+                        'roles' => ['@'], // авторизованный пользователь
                     ],
                 ],
             ],
@@ -69,8 +69,8 @@ class AuthController extends Controller {
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -80,16 +80,16 @@ class AuthController extends Controller {
         $model = new RegisterForm;
         $model->scenario = RegisterForm::SCENARIO_CREATE;
 
-
-        if ($model->load(Yii::$app->request->post()) && $model->create()) {
+        if ($model->load(Yii::$app->request->post()) && $model->register()) {
             Yii::$app->session->setFlash('success', 'Учетная запись была успешно создана.');
             return $this->redirect('index');
         }
 
         $roles = AuthItem::findAll(['type' => 1]);
+        $model->role = 'user';
         return $this->render('create', [
-                'model' => $model,
-                'roles' => ArrayHelper::map($roles, 'name', 'description'),
+            'model' => $model,
+            'roles' => ArrayHelper::map($roles, 'name', 'description'),
         ]);
     }
 
@@ -109,7 +109,7 @@ class AuthController extends Controller {
         }
 
         return $this->render('register', [
-                'model' => $model,
+            'model' => $model,
         ]);
     }
 
@@ -124,7 +124,7 @@ class AuthController extends Controller {
                 if ($auth->save()) {
                     Yii::$app->user->login($auth);
                     Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно активирована. Добро пожаловать.');
-                    return $this->redirect(['admin/index']);
+                    return $this->redirect(['kabinet/index']);
                 }
             }
         }
@@ -144,9 +144,11 @@ class AuthController extends Controller {
 
     public function actionLogin() {
         $model = new LoginForm;
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->login()) {
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            if (Yii::$app->user->can('editor')) {
                 return $this->redirect(["admin/index"]);
+            } else {
+                return $this->redirect(["kabinet/index"]);
             }
         }
         return $this->render('login', ['model' => $model]);
@@ -163,12 +165,22 @@ class AuthController extends Controller {
 
     public function actionDelete($id) {
         if ($model = $this->findModel($id)) {
-            $username = $model->username;
+            $fio = $model->fio;
             if ($model->delete()) {
-                Yii::$app->session->setFlash('success', "Пользователь '$username' был успешно удален.");
+                Yii::$app->session->setFlash('success', "Пользователь '$fio' был успешно удален.");
             }
         }
         return $this->redirect(['auth/index']);
+    }
+
+
+
+    public function actionView($id) {
+        if ($auth = $this->findModel($id)) {
+            return $this->render('view', [
+                'model' => $auth,
+            ]);
+        }
     }
 
 
@@ -177,18 +189,21 @@ class AuthController extends Controller {
         if ($auth = $this->findModel($id)) {
             $model = new RegisterForm;
             $model->scenario = RegisterForm::SCENARIO_UPDATE;
-            $model->username = $auth->username;
+            $model->email = $auth->email;
+            $model->firstname = $auth->profile->firstname;
+            $model->lastname = $auth->profile->lastname;
+            $model->middlename = $auth->profile->middlename;
             $model->role = $auth->item['name'];
 
             if ($model->load(Yii::$app->request->post()) && ($auth = $model->update($auth))) {
-                Yii::$app->session->setFlash('success', "Учетная запись '$auth->username' была успешно изменена.");
+                Yii::$app->session->setFlash('success', "Учетная запись '$auth->fio' была успешно изменена.");
                 return $this->redirect('index');
             }
 
             $roles = AuthItem::findAll(['type' => 1]);
             return $this->render('update', [
-                    'model' => $model,
-                    'roles' => ArrayHelper::map($roles, 'name', 'description'),
+                'model' => $model,
+                'roles' => ArrayHelper::map($roles, 'name', 'description'),
             ]);
         }
     }
@@ -208,7 +223,7 @@ class AuthController extends Controller {
         }
 
         return $this->render('forgotpass', [
-                'model' => $model,
+            'model' => $model,
         ]);
     }
 
@@ -232,8 +247,8 @@ class AuthController extends Controller {
                 }
 
                 return $this->render('newPassword', [
-                        'model' => $model,
-                        'email' => $auth->email,
+                    'model' => $model,
+                    'email' => $auth->email,
                 ]);
             }
         }

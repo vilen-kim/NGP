@@ -30,7 +30,9 @@
         ?>
         
         <div class="container-fluid">
-            <?= $content ?>
+            <div style="margin-bottom: 20px">
+                <?= $content ?>
+            </div>
         </div>
         
         <?php

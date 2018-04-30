@@ -150,4 +150,34 @@ class Auth extends ActiveRecord implements IdentityInterface {
     public function getDescription() {
         return $this->item['description'];
     }
+
+
+
+    public function getProfile() {
+        return $this->hasOne(UserProfile::className(), ['auth_id' => 'id']);
+    }
+
+
+
+    public function getFirstname() {
+        return $this->profile->firstname;
+    }
+
+
+
+    public function getLastname() {
+        return $this->profile->lastname;
+    }
+
+
+
+    public function getMiddlename() {
+        return $this->profile->middlename;
+    }
+
+
+
+    public function getFio() {
+        return $this->lastname . ' ' . $this->firstname . ' ' . $this->middlename;
+    }
 }
