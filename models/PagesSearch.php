@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use DateTime;
@@ -11,13 +10,15 @@ use app\models\Pages;
 
 class PagesSearch extends Pages {
 
-    public $username;
+    public $fio;
+    public $categoryCaption;
+    
 
     public function rules() {
         return [
             [['id', 'category_id', 'auth_id'], 'integer'],
             [['caption', 'text', 'created_at', 'updated_at'], 'safe'],
-            [['username'], 'safe'],
+            [['fio', 'categoryCaption'], 'safe'],
         ];
     }
 
@@ -30,19 +31,27 @@ class PagesSearch extends Pages {
 
 
     public function search($params, $category_id = null) {
-        if ($category_id){
-            $query = Pages::find()->joinWith(['auth'])->where(['category_id' => $category_id]);
-        } else {
-            $query = Pages::find()->joinWith(['auth']);
-        }
+        $query = Pages::find()->joinWith(['auth', 'category']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
         
-        $dataProvider->sort->attributes['username'] = [
-            'asc' => ['auth.username' => SORT_ASC],
-            'desc' => ['auth.username' => SORT_DESC],
+        $dataProvider->sort->attributes['categoryCaption'] = [
+            'asc' => ['category.caption' => SORT_ASC],
+            'desc' => ['category.caption' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['fio'] = [
+            'asc' => [
+                'user_profile.lastname' => SORT_ASC,
+                'user_profile.firstname' => SORT_ASC,
+                'user_profile.middlename' => SORT_ASC,
+            ],
+            'desc' => [
+                'user_profile.lastname' => SORT_DESC,
+                'user_profile.firstname' => SORT_DESC,
+                'user_profile.middlename' => SORT_DESC,
+            ],
         ];
 
         $this->load($params);
@@ -52,9 +61,10 @@ class PagesSearch extends Pages {
         }
 
         $query->andFilterWhere(['id' => $this->id])
-        ->andFilterWhere(['like', 'auth.username', $this->username])
-        ->andFilterWhere(['like', 'caption', $this->caption])
-        ->andFilterWhere(['like', 'text', $this->text]);
+        ->andFilterWhere(['like', 'pages.caption', $this->caption])
+        ->andFilterWhere(['like', 'text', $this->text])
+        ->andFilterWhere(['like', 'concat(user_profile.lastname, " ", user_profile.firstname, " ", user_profile.middlename)', $this->fio])
+        ->andFilterWhere(['like', 'category.caption', $this->categoryCaption]);
         
         if ($this->created_at){
             $date = DateTime::createFromFormat('d.m.Y', $this->created_at);

@@ -165,12 +165,16 @@ class AuthController extends Controller {
 
     public function actionDelete($id) {
         if ($model = $this->findModel($id)) {
+            if ($model->id == Yii::$app->user->id){
+                Yii::$app->session->setFlash('danger', "Нельзя удалять самого себя.");
+                return $this->redirect('index');
+            }
             $fio = $model->fio;
             if ($model->delete()) {
                 Yii::$app->session->setFlash('success', "Пользователь '$fio' был успешно удален.");
             }
         }
-        return $this->redirect(['auth/index']);
+        return $this->redirect('index');
     }
 
 
