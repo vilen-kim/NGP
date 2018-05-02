@@ -63,7 +63,7 @@ class NewsWidget extends Widget
                 <div class="col-md-4"><?= Html::img($this->image, ['width' => '100%', 'height' => '100%']) ?></div>
                 <div class='col-md-8 text-left' style='padding: 10px;'>
                     <p><b><?= $this->caption ?></b></p>
-                    <div style="overflow: hidden"><?= $this->text ?></div>
+                    <div class="text-justify" style="overflow: hidden"><?= $this->text ?></div>
                     <?= Html::a('Читать далее...', ['site/show', 'id' => $this->id]) ?>
                 </div>
             </div>
