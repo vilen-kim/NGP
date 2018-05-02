@@ -1,7 +1,6 @@
 <?php
     use yii\helpers\Html;
     use yii\helpers\Url;
-    use yii\helpers\HtmlPurifier;
     $this->title = $model->caption;
 ?>
 
@@ -10,9 +9,7 @@
 <div class="site-show container">
     <?php
     
-        echo HtmlPurifier::process($model->text, [
-            'Attr.EnableID' => true,
-        ]);
+        echo $model->purified_text;
         
         if (!Yii::$app->user->isGuest){
             echo Html::a('Редактировать', Url::to(['pages/update', 'id' => $model->id]), ['class' => 'btn btn-warning scale', 'style' => 'margin: 10px;']);

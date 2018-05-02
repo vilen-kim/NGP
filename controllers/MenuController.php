@@ -201,8 +201,7 @@ class MenuController extends Controller {
     public function actionGetAnchors() {
         $id = Yii::$app->request->post('id');
         if ($page = Pages::findOne(['id' => $id])) {
-            $text = $page->text;
-            $document = phpQuery::newDocumentHTML($text);
+            $document = phpQuery::newDocumentHTML($page->text);
             $anchors = null;
             foreach ($document->find('a[name]') as $element) {
                 $anchors[] = $element->getAttribute('name');

@@ -10,10 +10,11 @@ use app\models\Category;
 class NewsWidget extends Widget
 {
     public $num;
-    private $len = 1000;
+    private $len = 600;
     private $category;
     private $caption;
     private $text;
+    private $image;
     private $date;
     private $id;
     private $animate;
@@ -27,16 +28,27 @@ class NewsWidget extends Widget
         }
         $this->category = Category::findOne(['id' => $model->category_id])->caption;
         $this->caption = $model->caption;
-        $text = strip_tags($model->text);
+        
+        // Находим первую картинку
+        $document = \phpQuery::newDocumentHTML($model->text);
+        foreach ($document->find('img[src]') as $element) {
+            if ($image = $element->getAttribute('src')){
+                $this->image = $image;
+                break;
+            }
+        }
+        
+        // Очищаем текст от тэгов HTML
+        $text = strip_tags($model->purified_text);
         if (mb_strlen($text) > $this->len){
-            $temp = mb_substr($text, 1, $this->len);
+            $temp = mb_substr($text, 0, $this->len);
             $pos = mb_strrpos($temp, '.');
             $text = mb_substr($temp, 0, $pos + 1);
         }
         $this->text = $text;
+        
         $this->date = Yii::$app->formatter->asDate($model->updated_at);
         $this->id = $model->id;
-        
         $animated = ['fadeInDownShort', 'fadeInUpShort', 'fadeInLeftShort', 'fadeInRightShort', 'fadeIn'];
         $this->animate = $animated[array_rand($animated)];
     }
@@ -48,11 +60,12 @@ class NewsWidget extends Widget
             <div class="row">
                 <div class='col-md-6 text-left' style='font-size: smaller'><?= $this->category ?></div>
                 <div class='col-md-6 text-right' style='font-size: smaller'><?= $this->date ?></div>
-            </div>
-            <div class='bg-primary text-center' style='padding: 10px;'><b><?= $this->caption ?></b></div>
-            <div style='padding: 10px 20px; border: 1px solid whitesmoke;'>
-                <?= $this->text ?>
-                <?= Html::a('Открыть', ['site/show', 'id' => $this->id]) ?>
+                <div class="col-md-4"><?= Html::img($this->image, ['width' => '100%', 'height' => '100%']) ?></div>
+                <div class='col-md-8 text-left' style='padding: 10px;'>
+                    <p><b><?= $this->caption ?></b></p>
+                    <div style="overflow: hidden"><?= $this->text ?></div>
+                    <?= Html::a('Читать далее...', ['site/show', 'id' => $this->id]) ?>
+                </div>
             </div>
         </div>
     <?php

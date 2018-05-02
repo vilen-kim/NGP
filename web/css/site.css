@@ -5,12 +5,11 @@
     margin: 10px;
     text-align: center;
     border-radius: 2px;
-    border: 1px dotted lightgray;
+    border: 1px solid lightgray;
 }
 
 
 .site-index > #news .newsWidget {
-    display: block;
     margin-top: 30px;
     margin-bottom: 90px;
 }

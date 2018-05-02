@@ -62,7 +62,6 @@ class PagesSearch extends Pages {
 
         $query->andFilterWhere(['id' => $this->id])
         ->andFilterWhere(['like', 'pages.caption', $this->caption])
-        ->andFilterWhere(['like', 'text', $this->text])
         ->andFilterWhere(['like', 'concat(user_profile.lastname, " ", user_profile.firstname, " ", user_profile.middlename)', $this->fio])
         ->andFilterWhere(['like', 'category.caption', $this->categoryCaption]);
         

@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="border">
-    <?= \yii\helpers\HtmlPurifier::process($model->text) ?>
+    <?= $model->purified_text ?>
 </div>
 
 </div>

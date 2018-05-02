@@ -25,8 +25,8 @@ class SiteController extends \yii\web\Controller {
         $count = min($all, 3);
         $remain = $all - $count;
         return $this->render('index', [
-                'count' => $count,
-                'remain' => $remain,
+            'count' => $count,
+            'remain' => $remain,
         ]);
     }
 
@@ -37,8 +37,8 @@ class SiteController extends \yii\web\Controller {
         $count = min($all, 3);
         $remain = $all - $count;
         return $this->render('index', [
-                'count' => $count,
-                'remain' => $remain,
+            'count' => $count,
+            'remain' => $remain,
         ]);
     }
 
@@ -46,7 +46,7 @@ class SiteController extends \yii\web\Controller {
 
     public function actionShow($id) {
         return $this->render('show', [
-                'model' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 
