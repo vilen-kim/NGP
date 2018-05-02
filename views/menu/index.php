@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\jui\Sortable;
-use yii\web\JsExpression;
+
 
 app\assets\MenuAsset::register($this);
 
@@ -20,46 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
 
-        <?php
-        $cnt = 0;
-        $menuItems = [];
-        foreach ($array as $arr) {
-            if (!is_array($arr)) {
-                $cnt++;
-                $menuItems[$cnt] = $arr;
-            } else {
-                $menuSubitems = [];
-                foreach ($arr as $sub) {
-                    $menuSubitems[] = $sub;
-                }
-                $menuItems[$cnt] .= Sortable::widget([
-                    'items' => $menuSubitems,
-                    'options' => [
-                        'class' => 'subMenu',
-                    ],
-                    'itemOptions' => [
-                        'tag' => 'div',
-                        'style' => [
-                            'padding' => '5px',
-                            'font-weight' => 'normal',
-                            'font-size' => 'medium',
-                            'margin-top' => '5px',
-                        ],
-                    ],
-                    'clientOptions' => [
-                        'cursor' => 'move',
-                        'placeholder' => 'ui-state-highlight',
-                        'connectWith' => '.subMenu',
-                    ],
-                ]);
-            }
-        }
-        echo Sortable::widget([
-            'items' => $menuItems,
+        <?= Sortable::widget([
+            'items' => $array,
             'itemOptions' => [
                 'tag' => 'h4',
                 'style' => [
                     'border' => '1px solid lightgray',
+                    'font-weight' => 'bold',
                     'padding' => '10px',
                 ],
             ],
@@ -67,8 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'cursor' => 'move',
                 'placeholder' => 'ui-state-highlight',
             ],
-        ]);
-        ?>
+        ]) ?>
 
     </div>
 </div>

@@ -42,17 +42,41 @@ class MenuController extends Controller {
 
     public function actionIndex() {
         $array = null;
+        $cnt = 0;
         $parents = Menu::find()->where(['parent_id' => 0])->orderBy('position')->all();
         foreach ($parents as $par) {
-            $array[] = "<span data-id='$par->id'>$par->caption</span>";
+            $array[$cnt] = "<span data-id='$par->id'>$par->caption</span>";
             $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
+            $elements = [];
             if (count($subMenu)) {
-                $elements = null;
                 foreach ($subMenu as $sub) {
                     $elements[] = "<span data-id='$sub->id'>$sub->caption</span>";
                 }
-                $array[] = $elements;
             }
+            $array[$cnt] .= Sortable::widget([
+                'items' => $elements,
+                'options' => [
+                    'class' => 'subMenu',
+                    'style' => [
+                        'padding-top' => '5px',
+                    ],
+                ],
+                'itemOptions' => [
+                    'tag' => 'div',
+                    'style' => [
+                        'padding' => '5px',
+                        'font-weight' => 'normal',
+                        'font-size' => 'medium',
+                        'margin-top' => '5px',
+                    ],
+                ],
+                'clientOptions' => [
+                    'cursor' => 'move',
+                    'placeholder' => 'ui-state-highlight',
+                    'connectWith' => '.subMenu',
+                ],
+            ]);
+            $cnt++;
         }
 
         return $this->render('index', [
@@ -64,7 +88,7 @@ class MenuController extends Controller {
 
     public function actionSave() {
         $arr = Yii::$app->request->post('arr');
-        foreach ($arr as $element){
+        foreach ($arr as $element) {
             $array = explode(';', $element);
             $model = Menu::findOne(['id' => $array[0]]);
             $model->parent_id = $array[1];
