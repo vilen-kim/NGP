@@ -6,45 +6,46 @@ use yii\widgets\DetailView;
 
 $this->title = $model->caption;
 $this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = ['label' => $tt['type'], 'url' => ['pages/index', 'category_id' => $model->category_id]];
+$this->params['breadcrumbs'][] = ['label' => 'Страницы', 'url' => ['pages/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h3 class="page-header text-center"><?= $this->title ?></h3>
+<?= Html::a('Показать', Url::to(['site/show', 'id' => $model->id]), [
+    'class' => 'btn btn-default changeBack',
+    'style' => 'margin-bottom: 20px;'
+]) ?>
 
-<div class="pages-view">
-    <?php
-    echo Html::a('Показать', Url::to(['site/show', 'id' => $model->id]), [
-        'class' => 'btn btn-success scale',
-        'style' => 'margin-bottom: 20px;'
-    ]);
-    
-    echo Html::a('Изменить', Url::to(['pages/update', 'id' => $model->id]), [
-        'class' => 'btn btn-primary scale',
-        'style' => 'margin: 0px 0px 20px 20px;'
-    ]);
+<?= Html::a('Изменить', Url::to(['pages/update', 'id' => $model->id]), [
+    'class' => 'btn btn-default changeBack',
+    'style' => 'margin: 0px 0px 20px 20px;'
+]) ?>
 
-    echo Html::a('Удалить', Url::to(['pages/delete', 'id' => $model->id]), [
-        'class' => 'btn btn-danger',
-        'style' => 'margin: 0px 0px 20px 20px;',
-        'data' => [
-            'confirm' => 'Вы уверены?',
-            'method' => 'post',
-        ],
-    ]);
+<?= Html::a('Удалить', Url::to(['pages/delete', 'id' => $model->id]), [
+    'class' => 'btn btn-default changeback',
+    'style' => 'margin: 0px 0px 20px 20px;',
+    'data' => [
+        'confirm' => 'Вы уверены?',
+        'method' => 'post',
+    ],
+]) ?>
 
-    echo DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'caption',
-            'category.caption',
-            'created_at:date',
-            'updated_at:date',
-            'auth.username',
-        ],
-    ]);
-        
-    echo \yii\helpers\HtmlPurifier::process($model->text);
- 
-    ?>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <?= DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'caption',
+                'categoryCaption',
+                'created_at:date',
+                'updated_at:date',
+                'fio',
+            ],
+        ]) ?>
+    </div>
+</div>
+
+<div class="border">
+    <?= \yii\helpers\HtmlPurifier::process($model->text) ?>
+</div>
+
 </div>

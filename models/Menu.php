@@ -30,8 +30,8 @@ class Menu extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'caption' => 'Наименование',
-            'parent_id' => 'ID родителя',
-            'page_id' => 'ID страницы',
+            'parent_id' => 'Меню-родитель',
+            'page_id' => 'Страница',
             'page.caption' => 'Страница',
             'anchor' => 'Якорь',
             'position' => 'Порядок',

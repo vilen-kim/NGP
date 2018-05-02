@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use Yii;
 use yii\web\IdentityInterface;
@@ -19,13 +20,28 @@ class Auth extends ActiveRecord implements IdentityInterface {
 
 
 
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ]
+            ]
+        ];
+    }
+
+
+
     public function rules() {
         return [
-            [['auth_key', 'password_hash', 'username'], 'required', 'message' => 'Это обязательное поле'],
+            [['auth_key', 'password_hash', 'email'], 'required', 'message' => 'Это обязательное поле'],
             [['status'], 'integer'],
             [['auth_key'], 'string', 'max' => 32],
-            [['password_hash', 'password_reset_token', 'username'], 'string', 'max' => 255],
-            [['username'], 'unique']
+            [['password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['email'], 'unique'],
+            [['email'], 'email'],
         ];
     }
 
@@ -35,9 +51,12 @@ class Auth extends ActiveRecord implements IdentityInterface {
         return [
             'id' => 'ID',
             'auth_key' => 'Ключ авторизации',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата обновления',
+            'login_at' => 'Дата последнего входа',
             'password_hash' => 'Хэш пароля',
             'password_reset_token' => 'Token для сброса пароля',
-            'username' => 'Имя пользователя',
+            'email' => 'Электронная почта',
             'status' => 'Статус активации',
         ];
     }
@@ -50,8 +69,8 @@ class Auth extends ActiveRecord implements IdentityInterface {
 
 
 
-    public static function findByUsername($username) {
-        return static::findOne(['username' => $username]);
+    public static function findByEmail($email) {
+        return static::findOne(['email' => $email]);
     }
 
 
@@ -130,5 +149,35 @@ class Auth extends ActiveRecord implements IdentityInterface {
 
     public function getDescription() {
         return $this->item['description'];
+    }
+
+
+
+    public function getProfile() {
+        return $this->hasOne(UserProfile::className(), ['auth_id' => 'id']);
+    }
+
+
+
+    public function getFirstname() {
+        return $this->profile->firstname;
+    }
+
+
+
+    public function getLastname() {
+        return $this->profile->lastname;
+    }
+
+
+
+    public function getMiddlename() {
+        return $this->profile->middlename;
+    }
+
+
+
+    public function getFio() {
+        return $this->lastname . ' ' . $this->firstname . ' ' . $this->middlename;
     }
 }

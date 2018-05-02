@@ -11,16 +11,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <h3 class="page-header text-center"><?= $this->title ?></h3>
 
-<div class="admin-users">
+<div>
     <?php
-    echo Html::a('Создать пользователя', Url::to(['auth/create']), ['class' => 'btn btn-success scale', 'style' => 'margin-bottom: 20px;']);
+    echo Html::a('Создать пользователя', Url::to(['auth/create']), ['class' => 'btn btn-default changeBack', 'style' => 'margin-bottom: 20px;']);
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'username',
+            'fio:text:ФИО',
+            'email:email',
             'description:text:Роль',
+            'created_at:date',
             [
                 'attribute' => 'status',
                 'content' => function ($model, $key, $index, $column) {
@@ -31,23 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 },
             ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{activate} {update} {delete}',
-                'buttons' => [
-                    'activate' => function ($url, $model, $key) {
-                        if ($model->status == $model::STATUS_INACTIVE){
-                            return Html::a('<span class="glyphicon glyphicon-check"></span>', ['auth/activate', 'id' => $model->id], [
-                                'title' => 'Активировать',
-                            ]);
-                        } else {
-                            return Html::a('<span class="glyphicon glyphicon-unchecked"></span>', ['auth/deactivate', 'id' => $model->id], [
-                                'title' => 'Деактивировать',
-                            ]);
-                        }
-                    },
-                ]
-            ],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);
     ?>

@@ -50,8 +50,8 @@ class Pages extends \yii\db\ActiveRecord {
             'category_id' => 'Категория',
             'created_at' => 'Создание',
             'updated_at' => 'Изменение',
-            'username' => 'Автор',
-            'category.caption' => 'Категория',
+            'fio' => 'Последний редактор',
+            'categoryCaption' => 'Категория',
         ];
     }
 
@@ -63,13 +63,19 @@ class Pages extends \yii\db\ActiveRecord {
 
 
 
+    public function getCategoryCaption() {
+        return $this->category->caption;
+    }
+
+
+
     public function getAuth() {
         return $this->hasOne(Auth::className(), ['id' => 'auth_id']);
     }
 
 
 
-    public function getUsername() {
-        return $this->auth->username;
+    public function getFio() {
+        return $this->auth->fio;
     }
 }

@@ -4,15 +4,15 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-class AuthAsset extends AssetBundle {
+class MenuAsset extends AssetBundle {
 
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/auth.css',
+        'css/menu.css',
     ];
     public $js = [
-        'js/password.js',
+        'js/menu.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
