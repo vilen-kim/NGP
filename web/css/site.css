@@ -14,6 +14,10 @@
     margin-bottom: 90px;
 }
 
+.site-index > #news .newsWidget img {
+    margin-top: 12px;
+}
+
 .site-index > #news .newsWidget:nth-last-child(1) {
     margin-bottom: 30px;
 }
