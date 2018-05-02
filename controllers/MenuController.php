@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Html;
 use app\models\Menu;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -41,42 +42,59 @@ class MenuController extends Controller {
 
 
     public function actionIndex() {
-        $array = null;
+        $array = [];
         $cnt = 0;
         $parents = Menu::find()->where(['parent_id' => 0])->orderBy('position')->all();
-        foreach ($parents as $par) {
-            $array[$cnt] = "<span data-id='$par->id'>$par->caption</span>";
-            $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
-            $elements = [];
-            if (count($subMenu)) {
-                foreach ($subMenu as $sub) {
-                    $elements[] = "<span data-id='$sub->id'>$sub->caption</span>";
+        if (count($parents)){
+            foreach ($parents as $par) {
+                $array[$cnt] =  "<span data-id='$par->id'>$par->caption</span>" .
+                                Html::a("<span class='glyphicon glyphicon-trash pull-right'></span>", ['menu/delete', 'id' => $par->id], [
+                                    'data'=> [
+                                        'method' => 'post',
+                                        'confirm' => 'Вы уверены что хотите удалить это меню? Все подменю также будут удалены.',
+                                    ]
+                                ]) .
+                                Html::a("<span class='glyphicon glyphicon-pencil pull-right' style='margin-right: 5px;'></span>", ['menu/update', 'id' => $par->id]);
+
+                $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
+                $elements = [];
+                if (count($subMenu)) {
+                    foreach ($subMenu as $sub) {
+                        $elements[] =   "<span data-id='$sub->id'>$sub->caption</span>" .
+                                        Html::a("<span class='glyphicon glyphicon-trash pull-right'></span>", ['menu/delete', 'id' => $sub->id], [
+                                            'data'=> [
+                                                'method' => 'post',
+                                                'confirm' => 'Вы уверены что хотите удалить это подменю?',
+                                            ]
+                                        ]) .
+                                        Html::a("<span class='glyphicon glyphicon-pencil pull-right' style='margin-right: 5px;'></span>", ['menu/update', 'id' => $sub->id]);
+                    }
                 }
+                $array[$cnt] .= Sortable::widget([
+                    'items' => $elements,
+                    'options' => [
+                        'class' => 'subMenu',
+                        'style' => [
+                            'padding-top' => '5px',
+                        ],
+                    ],
+                    'itemOptions' => [
+                        'tag' => 'div',
+                        'style' => [
+                            'padding' => '5px',
+                            'font-weight' => 'normal',
+                            'font-size' => 'medium',
+                            'margin-top' => '5px',
+                        ],
+                    ],
+                    'clientOptions' => [
+                        'cursor' => 'move',
+                        'placeholder' => 'ui-state-highlight',
+                        'connectWith' => '.subMenu',
+                    ],
+                ]);
+                $cnt++;
             }
-            $array[$cnt] .= Sortable::widget([
-                'items' => $elements,
-                'options' => [
-                    'class' => 'subMenu',
-                    'style' => [
-                        'padding-top' => '5px',
-                    ],
-                ],
-                'itemOptions' => [
-                    'tag' => 'div',
-                    'style' => [
-                        'padding' => '5px',
-                        'font-weight' => 'normal',
-                        'font-size' => 'medium',
-                        'margin-top' => '5px',
-                    ],
-                ],
-                'clientOptions' => [
-                    'cursor' => 'move',
-                    'placeholder' => 'ui-state-highlight',
-                    'connectWith' => '.subMenu',
-                ],
-            ]);
-            $cnt++;
         }
 
         return $this->render('index', [
@@ -139,28 +157,42 @@ class MenuController extends Controller {
 
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-        $parents = ['0' => 'Укажите родителя в случае создания подменю'] +
+        $parents = ['0' => 'Укажите меню-родителя в случае создания подменю'] +
         ArrayHelper::map(Menu::findAll(['parent_id' => 0]), 'id', 'caption');
-        $pages = ArrayHelper::map(Pages::find()->select(['id', 'caption'])->all(), 'id', 'caption');
+        $pages = Pages::find()->select(['id as value', 'caption as label', 'caption as name'])->asArray()->all();
+        $anchors = ['0' => 'Укажите якорь при необходимости'];
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Элемент меню успешно создан.');
-            return $this->redirect('index');
-        } else {
-            Yii::$app->session->setFlash('danger', 'При создании элемента меню произошла ошибка.');
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Элемент меню успешно обновлен.');
+                return $this->redirect('index');
+            } else {
+                Yii::$app->session->setFlash('danger', 'При обновлении элемента меню произошла ошибка.');
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
             'parents' => $parents,
             'pages' => $pages,
+            'anchors' => $anchors,
         ]);
     }
 
 
 
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        if ($model = $this->findModel($id)){
+            $subMenu = Menu::find()->where(['parent_id' => $model->id])->all();
+            foreach($subMenu as $menu){
+                $menu->delete();
+            }
+            if ($model->delete()) {
+                Yii::$app->session->setFlash('success', 'Элемент меню успешно удален.');
+            } else {
+                Yii::$app->session->setFlash('danger', 'Во время удаления меню произошла ошибка.');
+            }
+        }
         return $this->redirect(['menu/index']);
     }
 

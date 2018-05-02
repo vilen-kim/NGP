@@ -31,6 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         $('#page_id').val(id);
                         getAnchors(id);
                     }"),
+                    'change' => new JsExpression("function(event, ui) {
+                        $(this).val(ui.item.label);
+                    }"),
                 ],
                 'options' => [
                     'class' => 'form-control',

@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\jui\Sortable;
 
-
 app\assets\MenuAsset::register($this);
 
 $this->title = 'Меню';
@@ -15,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <h3 class="page-header text-center"><?= $this->title ?></h3>
 
 <?= Html::a('Создать элемент меню', Url::to(['menu/create']), ['class' => 'btn btn-default changeBack', 'style' => 'margin-bottom: 20px;']) . '<br>' ?>
-<?= Html::a('Сохранить меню', '', ['id' => 'menuSave' , 'class' => 'btn btn-default changeBack', 'style' => 'margin-bottom: 20px;']) . '<br>' ?>
+<?= Html::a('Сохранить меню', '', ['id' => 'menuSave', 'class' => 'btn btn-default changeBack', 'style' => 'margin-bottom: 20px;']) . '<br>' ?>
 
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
