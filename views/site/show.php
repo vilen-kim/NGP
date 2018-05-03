@@ -12,7 +12,7 @@
         echo $model->purified_text;
         
         if (!Yii::$app->user->isGuest){
-            echo Html::a('Редактировать', Url::to(['pages/update', 'id' => $model->id]), ['class' => 'btn btn-warning scale', 'style' => 'margin: 10px;']);
+            echo Html::a('Редактировать', Url::to(['pages/update', 'id' => $model->id]), ['class' => 'btn btn-default changeBack', 'style' => 'margin: 10px;']);
         }
     ?>
 </div>

@@ -42,7 +42,7 @@ class NewsWidget extends Widget
         $text = strip_tags($model->purified_text);
         if (mb_strlen($text) > $this->len){
             $temp = mb_substr($text, 0, $this->len);
-            $pos = mb_strrpos($temp, '.');
+            $pos = mb_strrpos($temp, '. ');
             $text = mb_substr($temp, 0, $pos + 1);
         }
         $this->text = $text;

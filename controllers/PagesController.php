@@ -86,6 +86,7 @@ class PagesController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
             $model->auth_id = Yii::$app->user->id;
+            $model->purified_text = null;
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Страница успешно сохранена.');
             } else {
@@ -107,6 +108,8 @@ class PagesController extends Controller {
         $model = $this->findModel($id);
         $caption = $model->caption;
         if ($model->delete()) {
+            $dir = "files/$id";
+            system("rm -rf $dir");
             Yii::$app->session->setFlash('success', "Страница '$caption' была успешно удалена.");
         }
         return $this->redirect('index');
@@ -120,5 +123,10 @@ class PagesController extends Controller {
         }
 
         throw new NotFoundHttpException('Страница не найдена.');
+    }
+    
+    
+    private function removeDir($path) {
+        return is_file($path) ? @unlink($path) : array_map('removeDir', glob('/*')) == @rmdir($path);
     }
 }

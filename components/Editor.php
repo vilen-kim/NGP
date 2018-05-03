@@ -12,6 +12,7 @@ use yii\helpers\Json;
 class Editor extends CKEditor {
 
     public $enableKCFinder = true;
+    public $path = '/files';
 
 
 
@@ -37,7 +38,7 @@ class Editor extends CKEditor {
     protected function registerKCFinder() {
         $_SESSION['KCFINDER'] = [
             'disabled' => false,
-            'uploadURL' => '/files',
+            'uploadURL' => $this->path,
             'uploadDir' => Yii::getAlias('@web'),
         ];
         

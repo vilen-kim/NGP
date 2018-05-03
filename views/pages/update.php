@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     echo $form->field($model, 'caption')->textInput(['maxlength' => true]);
     echo $form->field($model, 'category_id')->dropDownList($categories);
     echo $form->field($model, 'text')->widget(Editor::className(), [
+        'path' => "/files/$model->id",
         'options' => ['rows' => 6],
         'preset' => 'full',
         'clientOptions' => Yii::$app->params['ckeditorClientOptions'],

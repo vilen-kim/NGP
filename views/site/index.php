@@ -37,7 +37,7 @@ $this->title = 'Няганская городская поликлиника';
 
     <div class="text-center">
         <?php
-            $icon = '<span class="glyphicon glyphicon glyphicon-circle-arrow-down text-primary" style="font-size: 3em;"></span>';
+            $icon = '<span class="glyphicon glyphicon glyphicon-circle-arrow-down text-primary moveDown" style="font-size: 3em;"></span>';
             echo Html::a($icon, '', ['id' => 'loadNews']);
         ?>
     </div>

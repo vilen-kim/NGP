@@ -12,8 +12,12 @@
 
     <!-- Поиск -->
     <div class="col-md-4">
-        <?= Html::textInput('text', '', ['class' => 'form-control', 'id' => 'searchText']) ?>
-        <?= Html::a(Html::img('@web/images/search.svg', ['id' => 'searchImg', 'class' => 'scale']), '') ?>
+        <div class="col-md-10">
+            <?= Html::textInput('text', '', ['class' => 'form-control', 'id' => 'searchText']) ?>
+        </div>
+        <div class="col-md-2">
+            <?= Html::a(Html::img('@web/images/search.svg', ['id' => 'searchImg', 'class' => 'scale']), '') ?>
+        </div>
     </div>
 
     <!-- Телефон -->

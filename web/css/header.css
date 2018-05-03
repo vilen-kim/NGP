@@ -18,11 +18,11 @@ header > div:nth-child(4), header > div:nth-child(5) {
 
 #searchText {
     float: left;
+    width: 100%;
 }
 
 #searchImg {
-    height: 30px;
-    margin-left: 10px;
+    width: 30px;
 }
 
 #phone {
