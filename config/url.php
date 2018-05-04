@@ -5,6 +5,7 @@ return [
     'showScriptName' => false,
     'rules' => [
         '' => 'site/index',
+        'show' => 'site/show',
         'login' => 'auth/login',
         'logout' => 'auth/logout',
         'register' => 'auth/register',

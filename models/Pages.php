@@ -21,16 +21,18 @@ class Pages extends \yii\db\ActiveRecord {
         ];
     }
 
+    
+    
 
 
-    public function beforeSave($insert) {
-        if (parent::beforeSave($insert)) {
+    public function afterFind() {
+        if (!$this->purified_text && $this->text) {
             $this->purified_text = HTMLPurifier::process($this->text, [
                 'Attr.EnableID' => true,
             ]);
-            return true;
+            $this->update();
         }
-        return false;
+        parent::afterFind();
     }
 
 
