@@ -23,14 +23,14 @@ class Pages extends \yii\db\ActiveRecord {
 
 
 
-    public function afterFind() {
-        if (!$this->purified_text && $this->text) {
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
             $this->purified_text = HTMLPurifier::process($this->text, [
                 'Attr.EnableID' => true,
             ]);
-            $this->update();
+            return true;
         }
-        parent::afterFind();
+        return false;
     }
 
 

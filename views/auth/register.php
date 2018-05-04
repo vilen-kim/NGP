@@ -20,14 +20,22 @@ $this->title = 'Регистрация';
         <?= $form->field($model, 'lastname') ?>
         <?= $form->field($model, 'firstname') ?>
         <?= $form->field($model, 'middlename') ?>
-        <div class="pull-left">
-            <?= $form->field($model, 'reCaptcha')->widget(
-                ReCaptcha::className())->label(false) ?>
+        <div class="col-md-12">
+            <div class="pull-left">
+                <?= $form->field($model, 'reCaptcha')->widget(
+                    ReCaptcha::className())->label(false) ?>
+            </div>
+            <div class="pull-right">
+                <?= Html::submitButton('Регистрация', ['class' => 'btn btn-default changeBack']) ?>
+            </div>
         </div>
-        <div class="pull-right">
-            <?= Html::submitButton('Регистрация', ['class' => 'btn btn-default changeBack']) ?>
+        <div class="col-md-12 text-justify small">
+            В соответствии с Федеральным законом № 152-ФЗ «О персональных данных» от 27.07.2006,
+            отправляя данную форму, Вы подтверждаете свое <?= Html::a('согласие на обработку персональных данных', '') ?>.
+            Обработка персональных данных осуществляется в соответствии с <?= Html::a('"Политикой конфиденциальности персональных данных"', '') ?>.
         </div>
         <?php ActiveForm::end(); ?>
+        
 
     </div>
     <div class="col-md-3">
