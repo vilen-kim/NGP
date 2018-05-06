@@ -32,6 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'caption' => 'Страницы',
             'options' => Yii::$app->user->can('editor') ? ['class' => 'btn btn-default changeBack'] : ['class' => 'btn btn-default', 'disabled' => '', 'onClick' => 'return false;'],
         ],
+        'whom' => [
+            'count' => '<span class="badge">' . $count['whom'] . '</span>',
+            'url' => Yii::$app->user->can('admin') ? Url::to(['request/whom']) : '',
+            'caption' => 'Адресаты обращений',
+            'options' => Yii::$app->user->can('admin') ? ['class' => 'btn btn-default changeBack'] : ['class' => 'btn btn-default', 'disabled' => '', 'onClick' => 'return false;'],
+        ],
     ];
 
     foreach ($array as $arr) {

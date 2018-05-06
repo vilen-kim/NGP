@@ -100,10 +100,8 @@ class RegisterForm extends Model {
                     $activate = new ActivateForm();
                     $activate->email = $auth->email;
                     if ($activate->sendEmail()) {
-                        Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована.<br>Для ее активации пройдите по ссылке, отправленной Вам на электронную почту.');
                         return $auth;
                     } else {
-                        Yii::$app->session->setFlash('warning', 'Ваша учетная запись была успешно зарегистрирована, но при отправке электронного письма произошла ошибка. Активировать учетную запись Вы можете самостоятельно при попытке входа.');
                         return $auth;
                     }
                 }

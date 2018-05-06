@@ -10,14 +10,23 @@ $this->title = 'Няганская городская поликлиника';
 
     <!-- 1. Функциональные кнопки -->
     <div id="funcButtons" class="row">
-        <div class="col-md-4">
-            <div id="appointment" class="changeBack">Запись на прием</div>
+        <div class="col-md-3">
+            <?php
+                $element = '<div class="changeBack">Электронная регистратура</div>';
+                echo Html::a($element, 'https://er.dzhmao.ru/?setlocality=8600000500000');
+            ?>
         </div>
-        <div class="col-md-4">
-            <div id="call" class="changeBack">Вызов врача на дом</div>
+        <div class="col-md-4 col-md-offset-1">
+            <?php
+                $element = '<div class="changeBack">Вызов врача на дом</div>';
+                echo Html::a($element, '', ['id' => 'call']);
+            ?>
         </div>
-        <div class="col-md-4">
-            <div id="feedback" class="changeBack">Написать письмо</div>
+        <div class="col-md-3 col-md-offset-1">
+            <?php
+                $element = '<div class="changeBack">Обращения</div>';
+                echo Html::a($element, ['request/info']);
+            ?>
         </div>
     </div>
 

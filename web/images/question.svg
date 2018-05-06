@@ -1,49 +1,87 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve" width="512px" height="512px">
-<g>
-	<g>
-		<rect x="192" y="298.667" width="42.667" height="42.667" fill="#FFDA44"/>
-	</g>
-</g>
-<g>
-	<g>
-		<path d="M213.333,0C95.513,0,0,95.513,0,213.333s95.513,213.333,213.333,213.333s213.333-95.513,213.333-213.333    S331.154,0,213.333,0z M213.333,388.053c-96.495,0-174.72-78.225-174.72-174.72s78.225-174.72,174.72-174.72    c96.446,0.117,174.602,78.273,174.72,174.72C388.053,309.829,309.829,388.053,213.333,388.053z" fill="#FFDA44"/>
-	</g>
-</g>
-<g>
-	<g>
-		<path d="M296.32,150.4c-10.974-45.833-57.025-74.091-102.858-63.117c-38.533,9.226-65.646,43.762-65.462,83.384h42.667    c2.003-23.564,22.729-41.043,46.293-39.04s41.043,22.729,39.04,46.293c-4.358,21.204-23.38,36.169-45.013,35.413    c-10.486,0-18.987,8.501-18.987,18.987v0v45.013h42.667v-24.32C279.787,241.378,307.232,195.701,296.32,150.4z" fill="#FFDA44"/>
-	</g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg>
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 426.667 426.667"
+   style="enable-background:new 0 0 426.667 426.667;"
+   xml:space="preserve"
+   width="512px"
+   height="512px"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="question.svg"><metadata
+     id="metadata55"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+     id="defs53" /><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview51"
+     showgrid="false"
+     inkscape:zoom="0.4609375"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Layer_1" /><g
+     id="g3"
+     style="fill:#ffff00"><g
+       id="g5"
+       style="fill:#ffff00"><rect
+         x="192"
+         y="298.667"
+         width="42.667"
+         height="42.667"
+         fill="#FFDA44"
+         id="rect7"
+         style="fill:#ffff00" /></g></g><g
+     id="g9"
+     style="fill:#ffff00"><g
+       id="g11"
+       style="fill:#ffff00"><path
+         d="M213.333,0C95.513,0,0,95.513,0,213.333s95.513,213.333,213.333,213.333s213.333-95.513,213.333-213.333    S331.154,0,213.333,0z M213.333,388.053c-96.495,0-174.72-78.225-174.72-174.72s78.225-174.72,174.72-174.72    c96.446,0.117,174.602,78.273,174.72,174.72C388.053,309.829,309.829,388.053,213.333,388.053z"
+         fill="#FFDA44"
+         id="path13"
+         style="fill:#ffff00" /></g></g><g
+     id="g15"
+     style="fill:#ffff00"><g
+       id="g17"
+       style="fill:#ffff00"><path
+         d="M296.32,150.4c-10.974-45.833-57.025-74.091-102.858-63.117c-38.533,9.226-65.646,43.762-65.462,83.384h42.667    c2.003-23.564,22.729-41.043,46.293-39.04s41.043,22.729,39.04,46.293c-4.358,21.204-23.38,36.169-45.013,35.413    c-10.486,0-18.987,8.501-18.987,18.987v0v45.013h42.667v-24.32C279.787,241.378,307.232,195.701,296.32,150.4z"
+         fill="#FFDA44"
+         id="path19"
+         style="fill:#ffff00" /></g></g><g
+     id="g21" /><g
+     id="g23" /><g
+     id="g25" /><g
+     id="g27" /><g
+     id="g29" /><g
+     id="g31" /><g
+     id="g33" /><g
+     id="g35" /><g
+     id="g37" /><g
+     id="g39" /><g
+     id="g41" /><g
+     id="g43" /><g
+     id="g45" /><g
+     id="g47" /><g
+     id="g49" /></svg>
