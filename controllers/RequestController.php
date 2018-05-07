@@ -28,7 +28,7 @@ class RequestController extends \yii\web\Controller {
                         'roles' => ['admin'], // администратор
                     ],
                     [
-                        'actions' => ['info', 'write'],
+                        'actions' => ['info', 'write', 'get-next-author', 'get-whom'],
                         'allow' => true, // все
                         'roles' => ['?', '@'],
                     ]
