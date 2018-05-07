@@ -30,7 +30,7 @@ class RequestController extends \yii\web\Controller {
                     [
                         'actions' => ['info', 'write'],
                         'allow' => true, // все
-                        'roles' => '?',
+                        'roles' => ['?', '@'],
                     ]
                 ],
             ],
