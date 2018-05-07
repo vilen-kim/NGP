@@ -36,8 +36,11 @@ $this->title = 'Написать письмо';
                 <?= Html::label('* Текст обращения', 'text', ['class' => 'control-label']) ?>
                 <?= Html::textarea('text', '', ['id' => 'text', 'class' => 'form-control', 'rows' => 6]) ?>
             </div>
+        </div>
+        
+        <div class="col-md-12 text-center" style="margin-top: 20px;"><h4>Автор/соавторы обращения</h4></div>
             
-            <!-- Блок текущего автора -->
+        <div class="col-md-8 col-md-offset-2 border">
             <div id="curAuthor">
             <?php
                 $form = ActiveForm::begin([
@@ -51,7 +54,7 @@ $this->title = 'Написать письмо';
                 echo $form->field($model, 'email');
                 echo $form->field($model, 'phone');
                 echo '<i>Перед добавлением соавтора обращения, убедитесь, что все данные текущего автора (соавтора)'
-                . ' введены правильно, поскольку они будут запрещены для изменения.</i><br>';
+                . ' введены правильно, поскольку они будут недоступны для изменения.</i><br>';
                 echo Html::submitButton('Добавить соавтора(ов) обращения', ['id' => 'addAuthor', 'class' => 'btn btn-default changeBack']);
                 ActiveForm::end();
             ?>
@@ -59,8 +62,18 @@ $this->title = 'Написать письмо';
             
             <!-- Блок предыдущих соавторов -->
             <div id="titlePrevAuthors" class="hidden">Другие соавторы:</div>
-            <div id="prevAuthors"></div>
+            <ol id="prevAuthors"></ol>
             
+        </div>
+        <div class="col-md-8 col-md-offset-2 text-justify" style="margin-top: 20px;">
+            <p><i>
+                Данное обращение будет сохранено в "Личном кабинете" у каждого автора/соавтора обращения. В случае отсутствия
+                "Личного кабинета" он будет автоматически создан и автору/соавтору будет отправлено письмо на его
+                адрес электронной почты с инструкцией по активации доступа в "Личный кабинет" и подтверждением отправки обращения.
+            </i></p>
+            <div class="text-center">
+                <?= Html::submitButton('Отправить письмо', ['sendRequest', 'class' => 'btn btn-default changeBack']) ?>
+            </div>
         </div>
     </div>
 

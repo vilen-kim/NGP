@@ -30,6 +30,7 @@ $('body').on('submit', 'form#author-form', function(event) {
             $("#titlePrevAuthors").removeClass('hidden');
             $("#prevAuthors").append(data);
             form[0].reset();
+            form.yiiActiveForm('validate', true);
         }
     });
     return false;

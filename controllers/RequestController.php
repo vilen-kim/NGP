@@ -176,18 +176,7 @@ class RequestController extends \yii\web\Controller {
             $authors = Yii::$app->session->get('authors');
             $authors[] = $model;
             Yii::$app->session->set('authors', $authors);
-            return '<div style="margin-bottom: 40px;">' .
-                    DetailView::widget([
-                        'model' => $model,
-                        'attributes' => [
-                            'fio',
-                            'email:email',
-                            'organization',
-                            'phone',
-                        ],
-                        'template' => '<tr><td{captionOptions}>{label}</td><td{contentOptions}>{value}</td></tr>',
-                    ]) .
-                    '</div>';
+            return '<li>' . $model->fio . '</li>';
         }
     }
 
