@@ -27,3 +27,11 @@
 #news .newsWidget:nth-last-child(1) {
     margin-bottom: 30px;
 }
+
+.site-phone th {
+    text-align: center;
+}
+
+.site-phone td:nth-child(1) {
+    text-align: center;
+}
