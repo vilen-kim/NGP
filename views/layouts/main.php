@@ -27,6 +27,7 @@
                 echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
             }
             echo MenuWidget::widget(['modal' => true]);
+            echo $this->render('/modals/phone.php');
         ?>
         
         <div class="container-fluid">

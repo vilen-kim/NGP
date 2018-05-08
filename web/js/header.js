@@ -8,3 +8,8 @@ $("#menuLink").on("click", function () {
     $("#modalMenu").modal();
     return false;
 });
+
+$("#phoneLink").on("click", function () {
+    $("#modalPhone").modal();
+    return false;
+});

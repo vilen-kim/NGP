@@ -24,7 +24,7 @@
     <div class="col-md-4 col-md-offset-1">
         <snap id="header_phone">
             Единый телефон 5-45-30
-            <?= Html::a(Html::img('@web/images/question.svg', ['id' => 'header_questionImg', 'class' => 'scale']), '') ?>
+            <?= Html::a(Html::img('@web/images/question.svg', ['id' => 'header_questionImg', 'class' => 'scale']), '', ['id' => 'phoneLink']) ?>
         </snap>
     </div>
 
