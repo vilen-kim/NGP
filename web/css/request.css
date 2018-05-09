@@ -1,0 +1,46 @@
+#funcButtons > div > a > div {
+    padding: 16px 0px;
+    color: black;
+    margin: 10px;
+    text-align: center;
+    border-radius: 2px;
+    border: 1px dotted lightgray;
+}
+
+#funcButtons > div > a > div:hover {
+    border: 1px solid lightgray;
+}
+
+#funcButtons > div > a:hover {
+    text-decoration: none;
+}
+
+.request-info ol {
+    list-style: none; 
+    counter-reset: li;
+    margin-left: -18px;
+}
+
+.request-info ol > li {
+    margin-top: 10px;
+    padding-left: 18px;
+    text-indent: -18px;
+}
+
+.request-info ol li p {
+    text-indent: 0px;
+}
+
+.request-info ol > li:before {
+    counter-increment: li; 
+    content: counters(li,".") ". ";
+}
+
+.request-info ul > li {
+    text-indent: 0px;
+}
+
+.request-write #titlePrevAuthors {
+    margin: 20px 0px;
+    font-weight: bold;
+}

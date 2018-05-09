@@ -1,23 +1,37 @@
-.site-index > #funcButtons > div.col-md-4 > div {
-    padding: 24px 0px;
-    font-size: large;
+#funcButtons > div > a > div {
+    padding: 16px 0px;
     color: black;
     margin: 10px;
     text-align: center;
     border-radius: 2px;
+    border: 1px dotted lightgray;
+}
+
+#funcButtons > div > a > div:hover {
     border: 1px solid lightgray;
 }
 
+#funcButtons > div > a:hover {
+    text-decoration: none;
+}
 
-.site-index > #news .newsWidget {
+#news .newsWidget {
     margin-top: 30px;
     margin-bottom: 90px;
 }
 
-.site-index > #news .newsWidget img {
+#news .newsWidget img {
     margin-top: 12px;
 }
 
-.site-index > #news .newsWidget:nth-last-child(1) {
+#news .newsWidget:nth-last-child(1) {
     margin-bottom: 30px;
+}
+
+.site-phone th {
+    text-align: center;
+}
+
+.site-phone td:nth-child(1) {
+    text-align: center;
 }

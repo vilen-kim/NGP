@@ -16,16 +16,30 @@ class MenuWidget extends Widget
         $array = null;
         $parents = Menu::find()->where(['parent_id' => 0])->orderBy('position')->all();
         foreach ($parents as $par) {
-            $array[] = [
-                'link' => Html::a($par->caption, ['site/show', 'id' => $par->page_id, '#' => $par->anchor]),
-                'type' => 'menu',
-            ];
+            if ($par->page_id){
+                $array[] = [
+                    'link' => Html::a($par->caption, ['site/show', 'id' => $par->page_id, '#' => $par->anchor]),
+                    'type' => 'menu',
+                ];
+            } else {
+                $array[] = [
+                    'link' => $par->caption,
+                    'type' => 'menu',
+                ];
+            }
             $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
             foreach ($subMenu as $sub) {
-                $array[] = [
-                    'link' => Html::a($sub->caption, ['site/show', 'id' => $sub->page_id, '#' => $sub->anchor]),
-                    'type' => 'submenu',
-                ];
+                if ($sub->page_id){
+                    $array[] = [
+                        'link' => Html::a($sub->caption, ['site/show', 'id' => $sub->page_id, '#' => $sub->anchor]),
+                        'type' => 'submenu',
+                    ];
+                } else {
+                    $array[] = [
+                        'link' => $sub->caption,
+                        'type' => 'submenu',
+                    ];
+                }
             }
         }
         $this->array = $array;

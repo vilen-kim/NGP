@@ -16,11 +16,10 @@ class Menu extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['caption', 'page_id', 'position'], 'required'],
+            [['caption', 'position'], 'required'],
             [['parent_id', 'page_id','position'], 'integer'],
             [['caption'], 'string', 'max' => 256],
             [['anchor'], 'string', 'max' => 128],
-            [['page_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pages::className(), 'targetAttribute' => ['page_id' => 'id']],
         ];
     }
 

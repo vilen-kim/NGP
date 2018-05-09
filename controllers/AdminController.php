@@ -7,6 +7,7 @@ use yii\filters\VerbFilter;
 use app\models\Auth;
 use app\models\Pages;
 use app\models\Menu;
+use app\models\RequestWhom;
 
 class AdminController extends \yii\web\Controller {
 
@@ -48,6 +49,8 @@ class AdminController extends \yii\web\Controller {
         $count['users'] = Auth::find()->count();
         $count['menu'] = Menu::find()->count();
         $count['pages'] = Pages::find()->count();
+        $count['whom'] = RequestWhom::find()->count();
+        
 
         return $this->render('index', ['count' => $count]);
     }

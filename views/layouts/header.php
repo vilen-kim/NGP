@@ -7,30 +7,30 @@
 
     <!-- Логотип -->
     <div class="col-md-1">
-        <?= Html::a(Html::img('@web/images/logo_white.gif', ['id' => 'logo', 'class' => 'scale']), Url::to(['site/index'])) ?>
+        <?= Html::a(Html::img('@web/images/logo_white.gif', ['id' => 'header_logo', 'class' => 'scale']), Url::to(['site/index'])) ?>
     </div>
 
     <!-- Поиск -->
     <div class="col-md-4">
         <div class="col-md-10">
-            <?= Html::textInput('text', '', ['class' => 'form-control', 'id' => 'searchText']) ?>
+            <?= Html::textInput('text', '', ['id' => 'header_searchText', 'class' => 'form-control']) ?>
         </div>
         <div class="col-md-2">
-            <?= Html::a(Html::img('@web/images/search.svg', ['id' => 'searchImg', 'class' => 'scale']), '') ?>
+            <?= Html::a(Html::img('@web/images/search.svg', ['id' => 'header_searchImg', 'class' => 'scale']), '') ?>
         </div>
     </div>
 
     <!-- Телефон -->
     <div class="col-md-4 col-md-offset-1">
-        <snap id="phone">
+        <snap id="header_phone">
             Единый телефон 5-45-30
-            <?= Html::a(Html::img('@web/images/question.svg', ['id' => 'questionImg', 'class' => 'scale']), '') ?>
+            <?= Html::a(Html::img('@web/images/question.svg', ['id' => 'header_questionImg', 'class' => 'scale']), '', ['id' => 'phoneLink']) ?>
         </snap>
     </div>
 
     <!-- Меню -->
     <div class="col-md-1">
-        <?= Html::a(Html::img('@web/images/menu.svg', ['id' => 'menuImg', 'class' => 'scale']), '', ['id' => 'menuLink']) ?>
+        <?= Html::a(Html::img('@web/images/menu.svg', ['id' => 'header_menuImg', 'class' => 'scale']), '', ['id' => 'menuLink']) ?>
     </div>
 
     <!-- Авторизация или выход -->

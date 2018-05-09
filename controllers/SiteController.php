@@ -32,6 +32,12 @@ class SiteController extends \yii\web\Controller {
 
 
 
+    public function actionPhone() {
+        return $this->render('phone');
+    }
+
+
+
     public function actionCreateRequest() {
         $all = Pages::find()->where(['in', 'category_id', [2, 3, 4]])->count();
         $count = min($all, 3);

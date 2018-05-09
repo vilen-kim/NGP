@@ -1,5 +1,7 @@
 header {
     height: 80px;
+    background: url("/images/headerBackground.png");
+    background-position: 82% 83%;
 }
 
 header > div:nth-child(2), header > div:nth-child(3) {
@@ -12,31 +14,31 @@ header > div:nth-child(4), header > div:nth-child(5) {
     text-align: right;
 }
 
-#logo {
+header #header_logo {
     height: 80px;
 }
 
-#searchText {
+header #header_searchText {
     float: left;
     width: 100%;
 }
 
-#searchImg {
+header #header_searchImg {
     width: 30px;
 }
 
-#phone {
+header #header_phone {
     color: black;
     font-weight: bold;
     font-size: 1.5em;
 }
 
-#questionImg {
+header #header_questionImg {
     margin-left: 10px;
     margin-bottom: 2px;
     height: 30px;
 }
 
-#menuImg {
+header #header_menuImg {
     height: 50px;
 }

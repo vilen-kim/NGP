@@ -168,6 +168,9 @@ class MenuController extends Controller {
                 return $this->redirect('index');
             } else {
                 Yii::$app->session->setFlash('danger', 'При обновлении элемента меню произошла ошибка.');
+                echo '<pre>';
+                var_dump($model->errors);
+                echo '</pre>';
             }
         }
 
