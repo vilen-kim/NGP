@@ -1,3 +1,5 @@
+var page_id = 0;
+
 function getAnchors(id){
     $.ajax({
         url: '/menu/get-anchors',
@@ -40,3 +42,16 @@ $("#menuSave").on('click', function(){
     });
     return false;
 });
+
+
+
+$("#emptyPage").on("click", function(){
+    if ($(this).prop("checked")){
+        $("#autoPage_id").attr("disabled", true);
+        $("#page_id").val("0");
+    } else {
+        $("#autoPage_id").attr("disabled", false);
+        $("#page_id").val(page_id);
+    }
+    console.log($("#page_id").val());
+})

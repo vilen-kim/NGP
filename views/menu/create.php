@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'select' => new JsExpression("function(event, ui) {
                         id = ui.item.value;
                         $('#page_id').val(id);
+                        page_id = id;
                         getAnchors(id);
                     }"),
                     'change' => new JsExpression("function(event, ui) {
@@ -38,10 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => [
                     'class' => 'form-control',
                     'placeholder' => 'Введите заголовок страницы...',
+                    'id' => 'autoPage_id',
                 ],
             ])
             ?>
-        <?= Html::activeHiddenInput($model, 'page_id', ['id' => 'page_id']) ?>
+            <?= Html::activeHiddenInput($model, 'page_id', ['id' => 'page_id']) ?>
+            <?= Html::label('Без страницы', 'emptyPage', ['style' => 'font-weight: normal']) ?>
+            <?= Html::checkbox('emptyPage', false, ['style' => 'margin-left: 5px', 'id' => 'emptyPage']) ?>
         </div>
         <?= $form->field($model, 'anchor')->dropDownList($anchors, ['id' => 'anchor']) ?>
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-default changeBack']) ?>
