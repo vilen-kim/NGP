@@ -49,7 +49,6 @@ class AdminController extends \yii\web\Controller {
         $count['users'] = Auth::find()->count();
         $count['menu'] = Menu::find()->count();
         $count['pages'] = Pages::find()->count();
-        $count['whom'] = RequestWhom::find()->count();
         
 
         return $this->render('index', ['count' => $count]);

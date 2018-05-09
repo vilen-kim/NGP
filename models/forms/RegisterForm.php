@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use app\models\Auth;
 use app\models\UserProfile;
+use app\models\RequestExecutive;
 use himiklab\yii2\recaptcha\ReCaptchaValidator;
 
 class RegisterForm extends Model {
@@ -17,10 +18,13 @@ class RegisterForm extends Model {
     public $lastname;
     public $middlename;
     public $role;
+    public $position;
+    public $kab;
+    public $priem;
+    public $executive;
     public $reCaptcha;
 
     const SCENARIO_REGISTER = 'register';
-    const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
 
 
@@ -29,9 +33,17 @@ class RegisterForm extends Model {
         $rules = [
             [['firstname', 'lastname'], 'required', 'message' => 'Это обязательное поле'],
             [['firstname', 'lastname', 'middlename'], 'string', 'max' => 128],
-            ['email', 'unique', 'targetClass' => 'app\models\Auth', 'message' => 'Такая электронная почта уже используется.'],
-            ['role', 'string'],
-            [['reCaptcha'], ReCaptchaValidator::className(), 'secret' => Yii::$app->reCaptcha->secret, 'uncheckedMessage' => 'Подтвердите, что Вы не бот.'],
+            ['email', 'unique', 'targetClass' => 'app\models\Auth',
+                'message' => 'Такая электронная почта уже используется.',
+                'except' => self::SCENARIO_UPDATE],
+            ['role', 'string', 'except' => self::SCENARIO_REGISTER],
+            ['executive', 'integer', 'except' => self::SCENARIO_REGISTER],
+            ['position', 'string', 'max' => 512, 'except' => self::SCENARIO_REGISTER],
+            ['kab', 'string', 'max' => 32, 'except' => self::SCENARIO_REGISTER],
+            ['priem', 'string', 'max' => 256, 'except' => self::SCENARIO_REGISTER],
+            [['reCaptcha'], ReCaptchaValidator::className(), 'secret' => Yii::$app->reCaptcha->secret,
+                'uncheckedMessage' => 'Подтвердите, что Вы не бот.',
+                'except' => self::SCENARIO_UPDATE],
         ];
         $email = require __DIR__ . '/EmailRules.php';
         $password = require __DIR__ . '/PasswordRules.php';
@@ -49,17 +61,11 @@ class RegisterForm extends Model {
             'firstname' => 'Имя',
             'lastname' => 'Фамилия',
             'middlename' => 'Отчество',
+            'executive' => 'Должностное лицо',
+            'position' => 'Должность',
+            'kab' => 'Кабинет',
+            'priem' => 'Время приема',
         ];
-    }
-
-
-
-    public function scenarios() {
-        $scenarios = parent::scenarios();
-        $scenarios[static::SCENARIO_REGISTER] = ['email', 'password', 'passwordRepeat', 'reCaptcha', 'firstname', 'lastname', 'middlename'];
-        $scenarios[static::SCENARIO_CREATE] = ['email', 'password', 'passwordRepeat', 'role', 'reCaptcha', 'firstname', 'lastname', 'middlename'];
-        $scenarios[static::SCENARIO_UPDATE] = ['password', 'passwordRepeat', 'role', 'reCaptcha', 'firstname', 'lastname', 'middlename'];
-        return $scenarios;
     }
 
 
@@ -82,10 +88,22 @@ class RegisterForm extends Model {
                 $profile->auth_id = $auth->id;
                 $profile->firstname = $this->firstname;
                 $profile->lastname = $this->lastname;
-                $profile->middlename = $this->middlename;
+                $profile->middlename = ($this->middlename) ? $this->middlename : '';
                 if (!$profile->save()) {
                     Yii::$app->session->setFlash('danger', 'Ошибка сохранения профиля. Повторите попытку регистрации позже.');
                     throw new Exception("Ошибка сохранения профиля");
+                }
+                
+                if ($this->executive){
+                    $executive = new RequestExecutive();
+                    $executive->auth_id = $auth->id;
+                    $executive->position = ($this->position) ? $this->position : '';
+                    $executive->kab = ($this->kab) ? $this->kab : '';
+                    $executive->priem = ($this->priem) ? $this->priem : '';
+                    if (!$executive->save()) {
+                        Yii::$app->session->setFlash('danger', 'Ошибка сохранения данных должностного лица. Повторите попытку регистрации позже.');
+                        throw new Exception("Ошибка сохранения должностного лица");
+                    }
                 }
 
                 $this->role = ($this->role) ? $this->role : 'user';
@@ -127,9 +145,31 @@ class RegisterForm extends Model {
             $profile = $auth->profile;
             $profile->firstname = $this->firstname;
             $profile->lastname = $this->lastname;
-            $profile->middlename = $this->middlename;
+            $profile->middlename = ($this->middlename) ? $this->middlename : '';
             if (!$profile->save()) {
                 return false;
+            }
+
+            if ($this->executive){
+                $executive = null;
+                if (!isset($auth->executive)){
+                    $model = new RequestExecutive;
+                    $model->auth_id = $auth->id;
+                    if (!$model->save()){
+                        return false;
+                    }
+                    $executive = $model;
+                } else {
+                    $executive = $auth->executive;
+                }
+                $executive->position = ($this->position) ? $this->position : '';
+                $executive->kab = ($this->kab) ? $this->kab : '';
+                $executive->priem = ($this->priem) ? $this->priem : '';
+                if (!$executive->save()) {
+                    return false;
+                }
+            } else if (isset($auth->executive)){
+                $auth->executive->delete();
             }
 
             $authManager = Yii::$app->authManager;

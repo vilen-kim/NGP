@@ -7,11 +7,6 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
-use yii\jui\Accordion;
-use yii\widgets\DetailView;
-use app\models\RequestWhom;
-use app\models\RequestWhomSearch;
-use app\models\forms\WhomForm;
 use app\models\forms\AuthorForm;
 
 class RequestController extends \yii\web\Controller {

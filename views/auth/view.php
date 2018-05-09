@@ -37,6 +37,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'organization',
             ],
         ]) ?>
+        
+        <?php if (isset($model->executive)){ ?>
+        <h4 class="text-center"><b>Должностное лицо:</b></h4>
+        <?= DetailView::widget([
+            'model' => $model->executive,
+            'attributes' => [
+                'position',
+                'kab',
+                'priem',
+            ],
+        ]) ?>
+        <?php } ?>
 
     </div>
 </div>

@@ -180,4 +180,10 @@ class Auth extends ActiveRecord implements IdentityInterface {
     public function getFio() {
         return $this->lastname . ' ' . $this->firstname . ' ' . $this->middlename;
     }
+
+
+
+    public function getExecutive() {
+        return $this->hasOne(RequestExecutive::className(), ['auth_id' => 'id']);
+    }
 }

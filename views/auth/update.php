@@ -26,13 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'lastname') ?>
         <?= $form->field($model, 'firstname') ?>
         <?= $form->field($model, 'middlename') ?>
-        <div class="pull-left">
-            <?= $form->field($model, 'reCaptcha')->widget(
-                ReCaptcha::className())->label(false) ?>
-        </div>
-        <div class="pull-right">
-            <?= Html::submitButton('Изменить', ['class' => 'btn btn-default changeBack']) ?>
-        </div>
+        
+        <h4 class="text-center"><b>Должностное лицо:</b></h4>
+        <?= $form->field($model, 'executive')->checkbox() ?>
+        <?= $form->field($model, 'position') ?>
+        <?= $form->field($model, 'kab') ?>
+        <?= $form->field($model, 'priem') ?>
+        
+        <?= Html::submitButton('Изменить', ['class' => 'btn btn-default changeBack']) ?>
         <?php ActiveForm::end(); ?>
 
     </div>

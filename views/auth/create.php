@@ -16,14 +16,25 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="row">
     <div class="col-md-6 col-md-offset-3 border">
 
-        <?php $form = ActiveForm::begin(['id' => 'create-form']); ?>
+        <?php $form = ActiveForm::begin(['id' => 'update-form']); ?>
+        
+        <h4 class="text-center"><b>Учетная запись:</b></h4>
         <?= $form->field($model, 'email') ?>
         <?= $form->field($model, 'password')->passwordInput(['id' => 'password']) ?>
         <?= $form->field($model, 'passwordRepeat')->passwordInput() ?>
+        <?= $form->field($model, 'role')->dropDownList($roles) ?>
+        
+        <h4 class="text-center"><b>Профиль:</b></h4>
         <?= $form->field($model, 'lastname') ?>
         <?= $form->field($model, 'firstname') ?>
         <?= $form->field($model, 'middlename') ?>
-        <?= $form->field($model, 'role')->dropDownList($roles) ?>
+        
+        <h4 class="text-center"><b>Должностное лицо:</b></h4>
+        <?= $form->field($model, 'executive')->checkbox() ?>
+        <?= $form->field($model, 'position') ?>
+        <?= $form->field($model, 'kab') ?>
+        <?= $form->field($model, 'priem') ?>
+        
         <div class="pull-left">
             <?= $form->field($model, 'reCaptcha')->widget(
                 ReCaptcha::className())->label(false) ?>

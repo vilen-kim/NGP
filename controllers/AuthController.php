@@ -78,11 +78,12 @@ class AuthController extends Controller {
 
     public function actionCreate() {
         $model = new RegisterForm;
-        $model->scenario = RegisterForm::SCENARIO_CREATE;
 
-        if ($model->load(Yii::$app->request->post()) && $model->register()) {
-            Yii::$app->session->setFlash('success', 'Учетная запись была успешно создана.');
-            return $this->redirect('index');
+        if ($model->load(Yii::$app->request->post())){
+            if ($auth = $model->register()){
+                Yii::$app->session->setFlash('success', 'Учетная запись была успешно создана.');
+                return $this->redirect(['auth/view', 'id' => $auth->id]);
+            }
         }
 
         $roles = AuthItem::findAll(['type' => 1]);
@@ -198,10 +199,16 @@ class AuthController extends Controller {
             $model->lastname = $auth->profile->lastname;
             $model->middlename = $auth->profile->middlename;
             $model->role = $auth->item['name'];
+            if (isset($auth->executive)){
+                $model->executive = true;
+                $model->position = $auth->executive->position;
+                $model->kab= $auth->executive->kab;
+                $model->priem = $auth->executive->priem;
+            }
 
             if ($model->load(Yii::$app->request->post()) && ($auth = $model->update($auth))) {
                 Yii::$app->session->setFlash('success', "Учетная запись '$auth->fio' была успешно изменена.");
-                return $this->redirect('index');
+                return $this->redirect(['auth/view', 'id' => $auth->id]);
             }
 
             $roles = AuthItem::findAll(['type' => 1]);

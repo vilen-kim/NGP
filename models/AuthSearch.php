@@ -10,12 +10,13 @@ class AuthSearch extends Auth {
 
     public $fio;
     public $description;
+    public $executive;
 
     public function rules() {
         return [
             [['id', 'status'], 'integer'],
             [['email', 'auth_key', 'password_hash', 'password_reset_token'], 'safe'],
-            [['description', 'fio'], 'safe'],
+            [['description', 'fio', 'executive'], 'safe'],
         ];
     }
 
@@ -28,7 +29,7 @@ class AuthSearch extends Auth {
 
 
     public function search($params) {
-        $query = Auth::find()->joinWith(['item', 'profile']);
+        $query = Auth::find()->joinWith(['item', 'profile', 'executive']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

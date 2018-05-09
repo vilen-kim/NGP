@@ -33,6 +33,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 },
             ],
+            [
+                'attribute' => 'executive',
+                'label' => 'Должностное лицо',
+                'content' => function ($model, $key, $index, $column) {
+                    if (isset($model->executive)) {
+                        return 'Да';
+                    }
+                },
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);
