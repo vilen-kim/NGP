@@ -46,4 +46,10 @@ class UserProfile extends \yii\db\ActiveRecord {
     public function getAuth() {
         return $this->hasOne(Auth::className(), ['id' => 'auth_id']);
     }
+
+
+
+    public function getFio() {
+        return $this->lastname . ' ' . $this->firstname . ' ' . $this->middlename;
+    }
 }

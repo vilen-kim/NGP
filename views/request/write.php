@@ -24,13 +24,13 @@ $this->title = 'Написать письмо';
         <div class="col-md-8 col-md-offset-2 border">
             <p style="margin-bottom: 20px;"><i>Поля, отмеченные *, обязательны для заполнения</i></p>
             <div class="form-group">
-                <?= Html::label('* Кому Вы направляете обращение', 'whom_id', ['class' => 'control-label']) ?>
-                <?= Html::radioList('typeWhom', 'fio', $radioArray, [
+                <?= Html::label('* Кому Вы направляете обращение', 'executive_id', ['class' => 'control-label']) ?>
+                <?= Html::radioList('typeExecutive', 'fio', $radioArray, [
                     'item' => function($index, $label, $name, $checked, $value) {
                         return '<div class="radio"><label>' . Html::radio($name, $checked, ['value' => $value]) . $label . '</label></div>';
                     },
                 ]) ?>
-                <?= Html::dropDownList('whom_id', null, $whomArray, ['id' => 'whom_id', 'class' => 'form-control']) ?>
+                <?= Html::dropDownList('executive_id', null, $executiveArray, ['id' => 'executive_id', 'class' => 'form-control']) ?>
             </div>
             <div class="form-group">
                 <?= Html::label('* Текст обращения', 'text', ['class' => 'control-label']) ?>

@@ -1,12 +1,12 @@
-$("input[name=typeWhom]").on("click", function(){
+$("input[name=typeExecutive]").on("click", function(){
     var type = $(this).val();
-    var select = $("select[name='whom_id']");
+    var select = $("select[name='executive_id']");
     if (type == 'organization'){
         select.attr('disabled', true);
     } else {
         select.attr('disabled', false);
         $.ajax({
-            url: '/request/get-whom',
+            url: '/request/get-executive',
             type: 'POST',
             data: {type},
             success: function(data){

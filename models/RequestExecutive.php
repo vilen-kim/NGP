@@ -42,4 +42,16 @@ class RequestExecutive extends \yii\db\ActiveRecord {
     public function getAuth() {
         return $this->hasOne(Auth::className(), ['id' => 'auth_id']);
     }
+
+
+
+    public function getFioPosition() {
+        return $this->auth->profile->fio . ' (' . $this->position . ')';
+    }
+
+
+
+    public function getPositionFio() {
+        return $this->position . ' (' . $this->auth->profile->fio . ')';
+    }
 }

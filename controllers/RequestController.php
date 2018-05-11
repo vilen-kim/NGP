@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use app\models\forms\AuthorForm;
+use app\models\RequestExecutive;
 
 class RequestController extends \yii\web\Controller {
 
@@ -58,41 +59,30 @@ class RequestController extends \yii\web\Controller {
     public function actionWrite() {
         $model = new AuthorForm();
 
-
-
-        $whomArray = ArrayHelper::map(RequestWhom::find()->orderBy('lastname')->all(), 'id', 'fioPosition');
+        $executiveArray = ArrayHelper::map(RequestExecutive::find()
+        ->joinWith(['auth.profile'])
+        ->orderBy('lastname')
+        ->all(), 'auth.id', 'fioPosition');
         return $this->render('write', [
-            'whomArray' => $whomArray,
+            'executiveArray' => $executiveArray,
             'model' => $model,
         ]);
     }
 
 
 
-    public function actionWhom() {
-        $searchModel = new RequestWhomSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('whom', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-
-
-    public function actionGetWhom() {
+    public function actionGetExecutive() {
         $type = Yii::$app->request->post('type');
         $array = [];
         switch ($type) {
             case 'fio':
-                $whom = RequestWhom::find()->orderBy('lastname')->all();
+                $whom = RequestExecutive::find()->joinWith(['auth.profile'])->orderBy('lastname')->all();
                 foreach ($whom as $element) {
                     $array[] = "<option value=$element->id>$element->fioPosition</option>";
                 }
                 break;
             case 'position':
-                $whom = RequestWhom::find()->orderBy('position')->all();
+                $whom = RequestExecutive::find()->orderBy('position')->all();
                 foreach ($whom as $element) {
                     $array[] = "<option value=$element->id>$element->positionFio</option>";
                 }
@@ -100,67 +90,6 @@ class RequestController extends \yii\web\Controller {
         }
         Yii::$app->response->format = Response::FORMAT_JSON;
         return $array;
-    }
-
-
-
-    public function actionCreate() {
-        $model = new WhomForm();
-
-        if ($model->load(Yii::$app->request->post()) && $model->create()) {
-            Yii::$app->session->setFlash('success', 'Учетная запись была успешно создана.');
-            return $this->redirect('whom');
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-
-
-    public function actionUpdate($id) {
-        if ($whom = $this->findModel($id)) {
-            $model = new WhomForm;
-            $model->email = $whom->email;
-            $model->phone = $whom->phone;
-            $model->firstname = $whom->firstname;
-            $model->lastname = $whom->lastname;
-            $model->middlename = $whom->middlename;
-            $model->position = $whom->position;
-            $model->organization = $whom->organization;
-
-            if ($model->load(Yii::$app->request->post()) && ($whom = $model->update($whom))) {
-                Yii::$app->session->setFlash('success', "Запись '$whom->fio' была успешно изменена.");
-                return $this->redirect('whom');
-            }
-
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-
-
-    public function actionDelete($id) {
-        if ($model = $this->findModel($id)) {
-            $fio = $model->fio;
-            if ($model->delete()) {
-                Yii::$app->session->setFlash('success', "Учетная запись '$fio' была успешно удалена.");
-            }
-        }
-        return $this->redirect('whom');
-    }
-
-
-
-    public function actionView($id) {
-        if ($whom = $this->findModel($id)) {
-            return $this->render('view', [
-                'model' => $whom,
-            ]);
-        }
     }
 
 
