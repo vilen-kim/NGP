@@ -30,11 +30,11 @@ class Request extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'request_text' => 'Текст обращения',
-            'request_auth_id' => 'Автор обращения',
+            'request_auth_id' => 'Кому обращение',
             'request_created_at' => 'Дата обращения',
             'answer_text' => 'Текст ответа',
             'answer_created_at' => 'Дата ответа',
-            'answer_auth_id' => 'Автор обращения',
+            'answer_auth_id' => 'Автор ответа',
         ];
     }
 

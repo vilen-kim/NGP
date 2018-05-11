@@ -1,6 +1,6 @@
 $("input[name=typeExecutive]").on("click", function(){
     var type = $(this).val();
-    var select = $("select[name='executive_id']");
+    var select = $("select#executive_id");
     if (type == 'organization'){
         select.attr('disabled', true);
     } else {
