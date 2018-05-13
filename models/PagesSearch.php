@@ -17,7 +17,8 @@ class PagesSearch extends Pages {
     public function rules() {
         return [
             [['id', 'category_id', 'auth_id'], 'integer'],
-            [['caption', 'text', 'created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at'], 'date', 'message' => 'Неверный формат даты'],
+            [['caption', 'text'], 'safe'],
             [['fio', 'categoryCaption'], 'safe'],
         ];
     }

@@ -4,12 +4,9 @@ namespace app\controllers;
 
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use app\models\Auth;
-use app\models\Pages;
-use app\models\Menu;
 use app\models\Request;
 
-class AdminController extends \yii\web\Controller {
+class KabinetController extends \yii\web\Controller {
 
 
 

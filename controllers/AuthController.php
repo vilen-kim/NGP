@@ -123,6 +123,15 @@ class AuthController extends Controller {
                 $auth->status = Auth::STATUS_ACTIVE;
                 $auth->removePasswordResetToken();
                 if ($auth->save()) {
+                    if ($auth->password_hash == '12345'){   // Пользователь был создан автоматически и пароля еще нету.
+                        $auth->setPassword(Yii::$app->params['genPass']);
+                        if ($auth->save()){
+                            Yii::$app->session->setFlash('info', 'Ваша учетная запись была успешно активирована. Для создания пароля воспользуйтесь ссылкой "Забыли пароль"');
+                        } else {
+                            Yii::$app->session->setFlash('danger', 'При активации учетной записи произошла ошибка. Вы можете активировать ее позже при попытке входа.');
+                        }
+                        return $this->redirect(['auth/login']);
+                    }
                     Yii::$app->user->login($auth);
                     Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно активирована. Добро пожаловать.');
                     return $this->redirect(['kabinet/index']);

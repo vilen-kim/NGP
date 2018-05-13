@@ -8,6 +8,11 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use app\models\forms\AuthorForm;
+use app\models\forms\LetterForm;
+use app\models\Request;
+use app\models\RequestExecutive;
+use app\models\RequestUser;
+use app\models\RequestSearch;
 
 class RequestController extends \yii\web\Controller {
 
@@ -20,13 +25,7 @@ class RequestController extends \yii\web\Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['admin'], // администратор
                     ],
-                    [
-                        'actions' => ['info', 'write', 'get-next-author', 'get-whom'],
-                        'allow' => true, // все
-                        'roles' => ['?', '@'],
-                    ]
                 ],
             ],
             'verbs' => [
@@ -49,31 +48,10 @@ class RequestController extends \yii\web\Controller {
 
 
 
-    public function actionInfo() {
-        return $this->render('info');
-    }
-
-
-
-    public function actionWrite() {
-        $model = new AuthorForm();
-
-
-
-        $whomArray = ArrayHelper::map(RequestWhom::find()->orderBy('lastname')->all(), 'id', 'fioPosition');
-        return $this->render('write', [
-            'whomArray' => $whomArray,
-            'model' => $model,
-        ]);
-    }
-
-
-
-    public function actionWhom() {
-        $searchModel = new RequestWhomSearch();
+    public function actionIndex() {
+        $searchModel = new RequestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('whom', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -81,86 +59,117 @@ class RequestController extends \yii\web\Controller {
 
 
 
-    public function actionGetWhom() {
-        $type = Yii::$app->request->post('type');
-        $array = [];
-        switch ($type) {
-            case 'fio':
-                $whom = RequestWhom::find()->orderBy('lastname')->all();
-                foreach ($whom as $element) {
-                    $array[] = "<option value=$element->id>$element->fioPosition</option>";
-                }
-                break;
-            case 'position':
-                $whom = RequestWhom::find()->orderBy('position')->all();
-                foreach ($whom as $element) {
-                    $array[] = "<option value=$element->id>$element->positionFio</option>";
-                }
-                break;
+    public function actionView($id) {
+        $model = $this->findModel($id);
+        $authors = null;
+        foreach ($model->requestUsers as $user){
+            $authors .= $user->auth->fio;
+            if ($user->active == RequestUser::STATUS_INACTIVE){
+                $authors .= ' (-)';
+            }
+            $authors .= '<br>';
         }
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $array;
-    }
-
-
-
-    public function actionCreate() {
-        $model = new WhomForm();
-
-        if ($model->load(Yii::$app->request->post()) && $model->create()) {
-            Yii::$app->session->setFlash('success', 'Учетная запись была успешно создана.');
-            return $this->redirect('whom');
-        }
-
-        return $this->render('create', [
+        return $this->render('view', [
             'model' => $model,
+            'authors' => $authors,
         ]);
     }
 
 
 
-    public function actionUpdate($id) {
-        if ($whom = $this->findModel($id)) {
-            $model = new WhomForm;
-            $model->email = $whom->email;
-            $model->phone = $whom->phone;
-            $model->firstname = $whom->firstname;
-            $model->lastname = $whom->lastname;
-            $model->middlename = $whom->middlename;
-            $model->position = $whom->position;
-            $model->organization = $whom->organization;
-
-            if ($model->load(Yii::$app->request->post()) && ($whom = $model->update($whom))) {
-                Yii::$app->session->setFlash('success', "Запись '$whom->fio' была успешно изменена.");
-                return $this->redirect('whom');
-            }
-
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+    public function actionInfo() {
+        return $this->render('info');
     }
 
 
 
-    public function actionDelete($id) {
-        if ($model = $this->findModel($id)) {
-            $fio = $model->fio;
-            if ($model->delete()) {
-                Yii::$app->session->setFlash('success', "Учетная запись '$fio' была успешно удалена.");
+    public function actionWrite() {
+        $author = new AuthorForm;
+        $letter = new LetterForm;
+
+        if ($letter->load(Yii::$app->request->post()) && $author->load(Yii::$app->request->post())) {
+            $haveAuthor = false;
+            $authors = Yii::$app->session->get('authors');
+
+            $transaction = Yii::$app->db->beginTransaction();
+            $letter_id = $letter->createLetter();
+            if (!is_numeric($letter_id)) {
+                return var_dump($letter_id);
             }
+            if ($author->validate()) {
+                $auth_id = $author->createAuthor();
+                if (!is_numeric($auth_id)) {
+                    return var_dump($auth_id);
+                }
+                $link_id = $this->linkRequestToAuthor($auth_id, $letter_id);
+                if (!is_numeric($link_id)) {
+                    return var_dump($link_id);
+                }
+                $haveAuthor = true;
+            }
+            if (is_array($authors)) {
+                foreach ($authors as $aut) {
+                    $auth_id = $aut->createAuthor();
+                    if (!is_numeric($auth_id)) {
+                        return var_dump($auth_id);
+                    }
+                    $link_id = $this->linkRequestToAuthor($auth_id, $letter_id);
+                    if (!is_numeric($link_id)) {
+                        return var_dump($link_id);
+                    }
+                    $haveAuthor = true;
+                }
+            }
+            if ($haveAuthor) {
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', 'Обращение ожидает подтверждения в личном кабинете каждого автора/соавтора');
+                return $this->redirect(['site/index']);
+            } else {
+                return false;
+            }
+            $transaction->rollBack();
+            return 'Были какие-то ошибки';
         }
-        return $this->redirect('whom');
+
+        $radioArray = [
+            'fio' => 'Фамилия, имя, отчество должностного лица',
+            'position' => 'Должность должностного лица',
+            'organization' => 'БУ ХМАО-Югры "Няганская городская поликлиника"',
+        ];
+        Yii::$app->session->remove('authors');
+        $executiveArray = ArrayHelper::map(RequestExecutive::find()
+        ->joinWith(['auth.profile'])
+        ->orderBy('lastname')
+        ->all(), 'auth.id', 'fioPosition');
+        return $this->render('write', [
+            'executiveArray' => $executiveArray,
+            'model' => $author,
+            'letter' => $letter,
+            'radioArray' => $radioArray,
+        ]);
     }
 
 
 
-    public function actionView($id) {
-        if ($whom = $this->findModel($id)) {
-            return $this->render('view', [
-                'model' => $whom,
-            ]);
+    public function actionGetExecutive() {
+        $type = Yii::$app->request->post('type');
+        $array = [];
+        switch ($type) {
+            case 'fio':
+                $whom = RequestExecutive::find()->joinWith(['auth.profile'])->orderBy('lastname')->all();
+                foreach ($whom as $element) {
+                    $array[] = '<option value="' . $element->auth->id . '">' . $element->fioPosition . '</option>';
+                }
+                break;
+            case 'position':
+                $whom = RequestExecutive::find()->orderBy('position')->all();
+                foreach ($whom as $element) {
+                    $array[] = '<option value="' . $element->auth->id . '">' . $element->positionFio . '</option>';
+                }
+                break;
         }
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $array;
     }
 
 
@@ -177,8 +186,22 @@ class RequestController extends \yii\web\Controller {
 
 
 
+    private function linkRequestToAuthor($auth_id, $request_id) {
+        $model = new RequestUser;
+        $model->auth_id = $auth_id;
+        $model->request_id = $request_id;
+        $model->active = RequestUser::STATUS_INACTIVE;
+        if (!$model->save()) {
+            return $model->errors;
+        } else {
+            return $model->id;
+        }
+    }
+
+
+
     protected function findModel($id) {
-        if (($model = RequestWhom::findOne($id)) !== null) {
+        if (($model = Request::findOne($id)) !== null) {
             return $model;
         }
 
