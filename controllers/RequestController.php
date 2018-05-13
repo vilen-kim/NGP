@@ -8,13 +8,15 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use app\models\forms\AuthorForm;
-use app\models\forms\ActivateForm;
-use app\models\RequestExecutive;
+use app\models\forms\LetterForm;
 use app\models\Request;
-use app\models\Auth;
-use app\models\UserProfile;
+use app\models\RequestExecutive;
+use app\models\RequestUser;
+use app\models\RequestSearch;
 
 class RequestController extends \yii\web\Controller {
+
+
 
     public function behaviors() {
         return [
@@ -23,13 +25,7 @@ class RequestController extends \yii\web\Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['admin'], // администратор
                     ],
-                    [
-                        'actions' => ['info', 'write', 'get-next-author', 'get-whom'],
-                        'allow' => true, // все
-                        'roles' => ['?', '@'],
-                    ]
                 ],
             ],
             'verbs' => [
@@ -40,6 +36,8 @@ class RequestController extends \yii\web\Controller {
         ];
     }
 
+
+
     public function actions() {
         return [
             'error' => [
@@ -48,58 +46,89 @@ class RequestController extends \yii\web\Controller {
         ];
     }
 
+
+
+    public function actionIndex() {
+        $searchModel = new RequestSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+
+    public function actionView($id) {
+        $model = $this->findModel($id);
+        $authors = null;
+        foreach ($model->requestUsers as $user){
+            $authors .= $user->auth->fio;
+            if ($user->active == RequestUser::STATUS_INACTIVE){
+                $authors .= ' (-)';
+            }
+            $authors .= '<br>';
+        }
+        return $this->render('view', [
+            'model' => $model,
+            'authors' => $authors,
+        ]);
+    }
+
+
+
     public function actionInfo() {
         return $this->render('info');
     }
 
+
+
     public function actionWrite() {
-        $model = new AuthorForm;
-        $letter = new Request;
+        $author = new AuthorForm;
+        $letter = new LetterForm;
 
-        if ($letter->load(Yii::$app->request->post())) {
+        if ($letter->load(Yii::$app->request->post()) && $author->load(Yii::$app->request->post())) {
+            $haveAuthor = false;
             $authors = Yii::$app->session->get('authors');
-            if (!$authors) {
-                Yii::$app->session->setFlash('danger', 'Укажите автора(ов) обращения');
-            } else {
-                foreach ($authors as $author) {
-                    if (!Auth::findByEmail($author->email)) {
-                        $transaction = Yii::$app->db->beginTransaction();
-                        try {
-                            $auth = new Auth;
-                            $auth->email = $author->email;
-                            $auth->status = Auth::STATUS_INACTIVE;
-                            $auth->setPassword(Yii::$app->params['genPass']);
-                            $auth->generateAuthKey();
-                            if (!$auth->save()) {
-                                throw new Exception("Ошибка сохранения учетной записи");
-                            }
 
-                            $profile = new UserProfile;
-                            $profile->auth_id = $auth->id;
-                            $profile->firstname = $author->firstname;
-                            $profile->lastname = $author->lastname;
-                            $profile->middlename = $author->middlename;
-                            $profile->phone = $author->phone;
-                            $profile->organization = $author->organization;
-                            if (!$profile->save()) {
-                                throw new Exception("Ошибка сохранения профиля");
-                            }
-
-                            $role = Yii::$app->authManager->getRole('user');
-                            Yii::$app->authManager->assign($role, $auth->id);
-                            $transaction->commit();
-
-                            $activate = new ActivateForm();
-                            $activate->email = $auth->email;
-                            $activate->sendEmail();
-                        } catch (\Exception $e) {
-                            $transaction->rollBack();
-                            throw $e;
-                        }
-                    }
-                }
-                Yii::$app->end();
+            $transaction = Yii::$app->db->beginTransaction();
+            $letter_id = $letter->createLetter();
+            if (!is_numeric($letter_id)) {
+                return var_dump($letter_id);
             }
+            if ($author->validate()) {
+                $auth_id = $author->createAuthor();
+                if (!is_numeric($auth_id)) {
+                    return var_dump($auth_id);
+                }
+                $link_id = $this->linkRequestToAuthor($auth_id, $letter_id);
+                if (!is_numeric($link_id)) {
+                    return var_dump($link_id);
+                }
+                $haveAuthor = true;
+            }
+            if (is_array($authors)) {
+                foreach ($authors as $aut) {
+                    $auth_id = $aut->createAuthor();
+                    if (!is_numeric($auth_id)) {
+                        return var_dump($auth_id);
+                    }
+                    $link_id = $this->linkRequestToAuthor($auth_id, $letter_id);
+                    if (!is_numeric($link_id)) {
+                        return var_dump($link_id);
+                    }
+                    $haveAuthor = true;
+                }
+            }
+            if ($haveAuthor) {
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', 'Обращение ожидает подтверждения в личном кабинете каждого автора/соавтора');
+                return $this->redirect(['site/index']);
+            } else {
+                return false;
+            }
+            $transaction->rollBack();
+            return 'Были какие-то ошибки';
         }
 
         $radioArray = [
@@ -109,16 +138,18 @@ class RequestController extends \yii\web\Controller {
         ];
         Yii::$app->session->remove('authors');
         $executiveArray = ArrayHelper::map(RequestExecutive::find()
-                    ->joinWith(['auth.profile'])
-                    ->orderBy('lastname')
-                    ->all(), 'auth.id', 'fioPosition');
+        ->joinWith(['auth.profile'])
+        ->orderBy('lastname')
+        ->all(), 'auth.id', 'fioPosition');
         return $this->render('write', [
-                'executiveArray' => $executiveArray,
-                'model' => $model,
-                'letter' => $letter,
-                'radioArray' => $radioArray,
+            'executiveArray' => $executiveArray,
+            'model' => $author,
+            'letter' => $letter,
+            'radioArray' => $radioArray,
         ]);
     }
+
+
 
     public function actionGetExecutive() {
         $type = Yii::$app->request->post('type');
@@ -141,6 +172,8 @@ class RequestController extends \yii\web\Controller {
         return $array;
     }
 
+
+
     public function actionGetNextAuthor() {
         $model = new AuthorForm();
         if ($model->load(Yii::$app->request->post())) {
@@ -151,12 +184,27 @@ class RequestController extends \yii\web\Controller {
         }
     }
 
+
+
+    private function linkRequestToAuthor($auth_id, $request_id) {
+        $model = new RequestUser;
+        $model->auth_id = $auth_id;
+        $model->request_id = $request_id;
+        $model->active = RequestUser::STATUS_INACTIVE;
+        if (!$model->save()) {
+            return $model->errors;
+        } else {
+            return $model->id;
+        }
+    }
+
+
+
     protected function findModel($id) {
-        if (($model = RequestWhom::findOne($id)) !== null) {
+        if (($model = Request::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('Страница не найдена.');
     }
-
 }

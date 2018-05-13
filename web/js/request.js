@@ -35,3 +35,21 @@ $('body').on('submit', 'form#author-form', function(event) {
     });
     return false;
 });
+
+$('body').on('submit', 'form#letter-form', function(event) {
+    event.preventDefault();
+    var letterForm = $(this);
+    if (letterForm.find('.has-error').length) {
+        return false;
+    }
+    $.post({
+        url: letterForm.attr('action'),
+        data: $("#letter-form, #author-form").serialize(),
+        success: function(data){
+            if (data == false){
+                alert("Укажите автора(ов) обращения");
+            }
+        }
+    });
+    return false;
+});

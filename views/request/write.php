@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use himiklab\yii2\recaptcha\ReCaptcha;
 
 app\assets\RequestAsset::register($this);
 $this->title = 'Написать письмо';
@@ -16,6 +17,7 @@ $this->title = 'Написать письмо';
             <p style="margin-bottom: 20px;"><i>Поля, отмеченные *, обязательны для заполнения</i></p>
             <?php
                 $mainForm = ActiveForm::begin([
+                    'action' => ['request/write'],
                     'id' => 'letter-form',
                 ]);
                     echo Html::label('* Кому Вы направляете обращение', 'executive_id', ['class' => 'control-label']);
@@ -26,6 +28,7 @@ $this->title = 'Написать письмо';
                     ]);
                     echo $mainForm->field($letter, 'request_auth_id')->dropDownList($executiveArray, ['id' => 'executive_id']);
                     echo $mainForm->field($letter, 'request_text')->textarea(['rows' => 6]);
+                    echo $mainForm->field($letter, 'reCaptcha')->widget(ReCaptcha::className())->label(false);
                 ActiveForm::end();
             ?>
         </div>
@@ -47,7 +50,7 @@ $this->title = 'Написать письмо';
             echo $form->field($model, 'email');
             echo $form->field($model, 'phone');
             echo '<i>Перед добавлением соавтора обращения, убедитесь, что все данные текущего автора (соавтора)'
-            . ' введены правильно, поскольку они будут недоступны для изменения.</i><br>';
+            . ' введены правильно, поскольку они будут недоступны для изменения.</i><br><br>';
             echo Html::submitButton('Добавить соавтора(ов) обращения', [
                 'class' => 'btn btn-default changeBack',
                 'form' => 'author-form',
@@ -69,7 +72,8 @@ $this->title = 'Написать письмо';
             </i></p>
         <div class="text-center">
             <?= Html::submitButton('Отправить письмо', [
-                'class' => 'btn btn-default changeBack',
+                'id' => 'mainSubmit',
+                'class' => 'btn btn-success',
                 'form' => 'letter-form',
             ]) ?>
         </div>

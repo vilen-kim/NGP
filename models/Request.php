@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 
 class Request extends \yii\db\ActiveRecord {
 
@@ -14,9 +16,22 @@ class Request extends \yii\db\ActiveRecord {
 
 
 
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['request_created_at'],
+                ]
+            ]
+        ];
+    }
+
+
+
     public function rules() {
         return [
-            [['request_text', 'request_auth_id', 'request_created_at'], 'required'],
+            [['request_text', 'request_auth_id'], 'required'],
             [['request_text', 'answer_text'], 'string'],
             [['request_auth_id', 'request_created_at', 'answer_created_at', 'answer_auth_id'], 'integer'],
             [['answer_auth_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['answer_auth_id' => 'id']],
