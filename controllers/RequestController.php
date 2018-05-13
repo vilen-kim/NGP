@@ -13,6 +13,7 @@ use app\models\Request;
 use app\models\RequestExecutive;
 use app\models\RequestUser;
 use app\models\RequestSearch;
+use app\models\Auth;
 
 class RequestController extends \yii\web\Controller {
 
@@ -62,9 +63,9 @@ class RequestController extends \yii\web\Controller {
     public function actionView($id) {
         $model = $this->findModel($id);
         $authors = null;
-        foreach ($model->requestUsers as $user){
+        foreach ($model->requestUsers as $user) {
             $authors .= $user->auth->fio;
-            if ($user->active == RequestUser::STATUS_INACTIVE){
+            if ($user->active == RequestUser::STATUS_INACTIVE) {
                 $authors .= ' (-)';
             }
             $authors .= '<br>';
@@ -137,6 +138,15 @@ class RequestController extends \yii\web\Controller {
             'organization' => 'БУ ХМАО-Югры "Няганская городская поликлиника"',
         ];
         Yii::$app->session->remove('authors');
+        if (Yii::$app->user->can('user')) {
+            $auth = Auth::findIdentity(Yii::$app->user->id);
+            $author->email = $auth->email;
+            $author->lastname = $auth->profile->lastname;
+            $author->firstname = $auth->profile->firstname;
+            $author->middlename = $auth->profile->middlename;
+            $author->organization = $auth->profile->organization;
+            $author->phone = $auth->profile->phone;
+        }
         $executiveArray = ArrayHelper::map(RequestExecutive::find()
         ->joinWith(['auth.profile'])
         ->orderBy('lastname')
@@ -187,6 +197,9 @@ class RequestController extends \yii\web\Controller {
 
 
     private function linkRequestToAuthor($auth_id, $request_id) {
+        if (RequestUser::findOne(['auth_id' => $auth_id, 'request_id' => $request_id])) {
+            return 0;
+        }
         $model = new RequestUser;
         $model->auth_id = $auth_id;
         $model->request_id = $request_id;
@@ -196,6 +209,23 @@ class RequestController extends \yii\web\Controller {
         } else {
             return $model->id;
         }
+    }
+
+
+
+    public function actionActive($id) {
+        $model = RequestUser::find()
+            ->where(['auth_id' => Yii::$app->user->id, 'id' => $id])
+            ->one();
+        if ($model) {
+            $model->active = RequestUser::STATUS_ACTIVE;
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Вы подписались под обращение. Теперь в случае ответа он будет продублирован на Вашу электронную почту.');
+            } else {
+                Yii::$app->session->setFlash('danger', 'Произошла ошибка. Пожалуйста, попробуйте позже.');
+            }
+        }
+        return $this->redirect(['kabinet/index']);
     }
 
 

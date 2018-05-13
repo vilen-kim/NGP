@@ -37,7 +37,7 @@ class AuthController extends Controller {
                         'roles' => ['?'], // гость
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'profile', 'view'],
                         'allow' => true,
                         'roles' => ['@'], // авторизованный пользователь
                     ],
@@ -79,8 +79,8 @@ class AuthController extends Controller {
     public function actionCreate() {
         $model = new RegisterForm;
 
-        if ($model->load(Yii::$app->request->post())){
-            if ($auth = $model->register()){
+        if ($model->load(Yii::$app->request->post())) {
+            if ($auth = $model->register()) {
                 Yii::$app->session->setFlash('success', 'Учетная запись была успешно создана.');
                 return $this->redirect(['auth/view', 'id' => $auth->id]);
             }
@@ -123,9 +123,9 @@ class AuthController extends Controller {
                 $auth->status = Auth::STATUS_ACTIVE;
                 $auth->removePasswordResetToken();
                 if ($auth->save()) {
-                    if ($auth->password_hash == '12345'){   // Пользователь был создан автоматически и пароля еще нету.
+                    if ($auth->password_hash == '12345') {   // Пользователь был создан автоматически и пароля еще нету.
                         $auth->setPassword(Yii::$app->params['genPass']);
-                        if ($auth->save()){
+                        if ($auth->save()) {
                             Yii::$app->session->setFlash('info', 'Ваша учетная запись была успешно активирована. Для создания пароля воспользуйтесь ссылкой "Забыли пароль"');
                         } else {
                             Yii::$app->session->setFlash('danger', 'При активации учетной записи произошла ошибка. Вы можете активировать ее позже при попытке входа.');
@@ -175,7 +175,7 @@ class AuthController extends Controller {
 
     public function actionDelete($id) {
         if ($model = $this->findModel($id)) {
-            if ($model->id == Yii::$app->user->id){
+            if ($model->id == Yii::$app->user->id) {
                 Yii::$app->session->setFlash('danger', "Нельзя удалять самого себя.");
                 return $this->redirect('index');
             }
@@ -190,11 +190,14 @@ class AuthController extends Controller {
 
 
     public function actionView($id) {
-        if ($auth = $this->findModel($id)) {
-            return $this->render('view', [
-                'model' => $auth,
-            ]);
+        if (Yii::$app->user->can('admin')){
+            $model = $this->findModel($id);
+        } else {
+            $model = $this->findModel(Yii::$app->user->id);
         }
+        return $this->render('view', [
+            'model' => $model,
+        ]);
     }
 
 
@@ -208,10 +211,10 @@ class AuthController extends Controller {
             $model->lastname = $auth->profile->lastname;
             $model->middlename = $auth->profile->middlename;
             $model->role = $auth->item['name'];
-            if (isset($auth->executive)){
+            if (isset($auth->executive)) {
                 $model->executive = true;
                 $model->position = $auth->executive->position;
-                $model->kab= $auth->executive->kab;
+                $model->kab = $auth->executive->kab;
                 $model->priem = $auth->executive->priem;
             }
 
@@ -275,6 +278,9 @@ class AuthController extends Controller {
         return $this->redirect('login');
     }
 
+
+
+    
 
 
     protected function findModel($id) {

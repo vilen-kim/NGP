@@ -3,13 +3,15 @@
 use yii\widgets\DetailView;
 
 app\assets\AuthAsset::register($this);
-$this->title = $model->fio;
-$this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['auth/index']];
-$this->params['breadcrumbs'][] = $this->title;
+if (Yii::$app->user->can('admin')){
+    $this->title = $model->fio;
+    $this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['auth/index']];
+    $this->params['breadcrumbs'][] = $this->title;
+}
 ?>
 
-<div class="row">
+<div class="row auth-view">
     <div class="col-md-8 col-md-offset-2">
 
         <h4 class="text-center"><b>Учетная запись:</b></h4>

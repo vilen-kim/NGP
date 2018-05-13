@@ -2,9 +2,10 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use app\models\Request;
+use app\models\RequestUser;
 
 class KabinetController extends \yii\web\Controller {
 
@@ -17,7 +18,7 @@ class KabinetController extends \yii\web\Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['admin', 'manager', 'editor'],
+                        'roles' => ['user'],
                     ],
                 ],
             ],
@@ -42,11 +43,13 @@ class KabinetController extends \yii\web\Controller {
 
 
     public function actionIndex() {
-        $count = null;
-        $count['users'] = Auth::find()->count();
-        $count['menu'] = Menu::find()->count();
-        $count['pages'] = Pages::find()->count();
-        $count['requests'] = Request::find()->count();
-        return $this->render('index', ['count' => $count]);
+        $model = RequestUser::find()
+        ->where(['auth_id' => Yii::$app->user->id])
+        ->joinWith(['request'])
+        ->orderBy('request_created_at')
+        ->all();
+        return $this->render('index', [
+            'model' => $model,
+        ]);
     }
 }
