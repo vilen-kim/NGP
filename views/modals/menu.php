@@ -15,9 +15,10 @@ Modal::begin([
 ]);
 
 if (Yii::$app->user->can('editor')) {
-    echo '<h4>' . Html::a('Панель управления', Url::to(['admin/index']), ['class' => 'text-danger']) . '</h4><hr />';
-} else if (Yii::$app->user->can('user')) {
-    echo '<h4>' . Html::a('Личный кабинет', Url::to(['kabinet/index']), ['class' => 'text-success']) . '</h4><hr />';
+    echo '<h4>' . Html::a('Панель управления', Url::to(['admin/index']), ['class' => 'text-danger']) . '</h4>';
+}
+if (Yii::$app->user->can('user')) {
+    echo '<h4>' . Html::a('Личный кабинет', Url::to(['kabinet/index']), ['class' => 'text-success']) . '</h4>';
 }
 
 echo Tabs::widget([

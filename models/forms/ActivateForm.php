@@ -4,7 +4,6 @@ namespace app\models\forms;
 
 use Yii;
 use app\models\Auth;
-use app\models\UserProfile;
 use yii\base\Model;
 
 class ActivateForm extends Model {
@@ -35,12 +34,12 @@ class ActivateForm extends Model {
 
 
 
-    public function sendEmail() {
+    public function sendEmail($html = 'activate') {
         $auth = Auth::findOne(['status' => Auth::STATUS_INACTIVE, 'email' => $this->email]);
         if ($auth) {
             $auth->generatePasswordResetToken();
             if ($auth->save()) {
-                $res = Yii::$app->mailer->compose(['html' => 'activate'], ['auth' => $auth])
+                $res = Yii::$app->mailer->compose(['html' => $html], ['auth' => $auth])
                     ->setFrom(Yii::$app->params['noreplyEmail'])
                     ->setTo($this->email)
                     ->setSubject("Активация учетной записи на сайте " . Yii::$app->params['siteCaption'])
