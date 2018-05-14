@@ -16,59 +16,26 @@ class MenuWidget extends Widget
         $array = null;
         $parents = Menu::find()->where(['parent_id' => 0])->orderBy('position')->all();
         foreach ($parents as $par) {
-            if ($par->page_id){
-                $array[] = [
-                    'link' => Html::a($par->caption, ['site/show', 'id' => $par->page_id, '#' => $par->anchor]),
-                    'type' => 'menu',
-                ];
-            } else {
-                $array[] = [
-                    'link' => $par->caption,
-                    'type' => 'menu',
-                ];
-            }
             $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
+            $content = '<ul>';
             foreach ($subMenu as $sub) {
                 if ($sub->page_id){
-                    $array[] = [
-                        'link' => Html::a($sub->caption, ['site/show', 'id' => $sub->page_id, '#' => $sub->anchor]),
-                        'type' => 'submenu',
-                    ];
+                    $content .= '<li>' . Html::a($sub->caption, ['site/show', 'id' => $sub->page_id, '#' => $sub->anchor]) . '</li>';
                 } else {
-                    $array[] = [
-                        'link' => $sub->caption,
-                        'type' => 'submenu',
-                    ];
+                    $content .= '<li>' . $sub->caption . '</li>';
                 }
             }
+            $content .= '</ul>';
+            $array[] = [
+                'label' => $par->caption,
+                'content' => $content,
+            ];
         }
         $this->array = $array;
     }
 
     public function run()
     {
-        if ($this->modal){
-            echo $this->render('/modals/menu.php', ['array' => $this->array]);
-        } else {
-            $array = $this->array;
-            $begin = false;
-            if (isset($array)){
-                foreach($array as $arr){
-                    if ($arr['type'] == 'menu'){
-                        if ($begin){
-                            echo '</ul>';
-                        }
-                        echo '<h4>' . $arr['link'] . '</h4>';
-                        $begin = false;
-                    } else {
-                        if (!$begin){
-                            echo '<ul>';
-                            $begin = true;
-                        }
-                        echo '<li>' . $arr['link'] . '</li>';
-                    }
-                }
-            }
-        }
+        echo $this->render('/modals/menu.php', ['array' => $this->array]);
     }
 }
