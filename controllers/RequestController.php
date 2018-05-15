@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
+use yii\web\NotFoundHttpException;
 use app\models\forms\AuthorForm;
 use app\models\forms\LetterForm;
 use app\models\forms\ActivateForm;
@@ -27,7 +28,19 @@ class RequestController extends \yii\web\Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
+                        'actions' => ['index'],
                         'allow' => true,
+                        'roles' => ['manager'], // менеджер
+                    ],
+                    [
+                        'actions' => ['get-executive', 'get-next-author', 'info', 'write'],
+                        'allow' => true,
+                        'roles' => ['?'], // гость
+                    ],
+                    [
+                        'actions' => ['active', 'get-executive', 'get-next-author', 'info', 'view', 'write'],
+                        'allow' => true,
+                        'roles' => ['@'], // авторизованный пользователь
                     ],
                 ],
             ],
@@ -63,6 +76,9 @@ class RequestController extends \yii\web\Controller {
 
 
     public function actionView($id) {
+        if (!Yii::$app->user->can('manager') && !RequestUser::findOne(['request_id' => $id, 'auth_id' => Yii::$app->user->id])){
+            throw new \yii\web\ForbiddenHttpException('У вас нет прав доступа.');
+        }
         $model = $this->findModel($id);
         $authors = null;
         foreach ($model->requestUsers as $user) {
@@ -142,6 +158,8 @@ class RequestController extends \yii\web\Controller {
                     }
                     Yii::$app->session->setFlash('danger', 'На электронную почту была отправлена инструкция по дальнейшим действиям.');
                     return $this->redirect(['site/index']);
+                } else {
+                    return false;
                 }
             } catch (\Exception $e) {
                 $transaction->rollBack();
@@ -239,7 +257,7 @@ class RequestController extends \yii\web\Controller {
 
     public function actionActive($id) {
         $model = RequestUser::find()
-            ->where(['auth_id' => Yii::$app->user->id, 'id' => $id])
+            ->where(['auth_id' => Yii::$app->user->id, 'request_id' => $id])
             ->one();
         if ($model) {
             $model->active = RequestUser::STATUS_ACTIVE;

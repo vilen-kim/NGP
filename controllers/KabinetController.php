@@ -46,7 +46,7 @@ class KabinetController extends \yii\web\Controller {
         $model = RequestUser::find()
         ->where(['auth_id' => Yii::$app->user->id])
         ->joinWith(['request'])
-        ->orderBy('request_created_at')
+        ->orderBy(['request_created_at' => SORT_DESC])
         ->all();
         return $this->render('index', [
             'model' => $model,

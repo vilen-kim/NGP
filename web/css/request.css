@@ -44,3 +44,7 @@
     margin: 20px 0px;
     font-weight: bold;
 }
+
+.request-view table.detail-view th {
+    width: 20%;
+}

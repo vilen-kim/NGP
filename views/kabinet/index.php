@@ -19,13 +19,33 @@ $this->params['breadcrumbs'][] = $this->title;
         <p><?= Html::a('Мой профиль', ['auth/view', 'id' => Yii::$app->user->id], ['class' => 'btn btn-default changeBack']) ?></p>
     </div>
     <div class="col-md-9">
-        <h4 class="text-center"><b>Обращения:</b></h4>
+        <h4 class="text-center"><b>Мои обращения:</b></h4>
         <?php
+        if (!is_array($model)){
+            echo 'У Вас пока нет поданных обращений.';
+        }
         $num = 1;
         foreach ($model as $req) {
-            echo $num++ . DetailView::widget([
+            $status = null;
+            $actions = null;
+            if ($req->active == RequestUser::STATUS_INACTIVE){
+                $status = '<span class="text-default">Ожидает активации...</span>';
+                $actions = Html::a('Активировать', ['request/active', 'id' => $req->request_id], ['class' => 'btn btn-default changeBack']);
+                $actions .= Html::a('Удалить', ['request/delete', 'id' => $req->request_id], ['class' => 'btn btn-danger', 'style' => 'margin-left: 15px']);
+            } else if (!$req->request->answer_text){
+                $status = '<span class="text-info">Ожидает ответа...</span>';
+                $actions .= Html::a('Посмотреть обращение', ['request/view', 'id' => $req->request_id], ['class' => 'btn btn-default changeBack']) . '<br>';
+            } else if ($req->request->answer_text){
+                $status = '<span class="text-success">Завершено.</span>';
+                $actions .= Html::a('Посмотреть ответ', ['request/view', 'id' => $req->request_id], ['class' => 'btn btn-default changeBack']) . '<br>';
+            }
+            echo DetailView::widget([
                 'model' => $req,
                 'attributes' => [
+                    [
+                        'label' => '№ п/п',
+                        'value' => $num++,
+                    ],
                     [
                         'label' => 'Дата обращения',
                         'value' => $req->request->request_created_at,
@@ -37,19 +57,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'label' => 'Текст',
-                        'value' => $req->request->request_text,
+                        'value' => mb_substr($req->request->request_text, 0, 300) . '...',
                     ],
                     [
-                        'label' => 'Не активировано',
-                        'value' => Html::a('Активировать', ['request/active', 'id' => $req->id]),
+                        'label' => 'Статус обращения',
+                        'value' => $status,
                         'format' => 'raw',
-                        'visible' => ($req->active == RequestUser::STATUS_INACTIVE) ? true : false,
                     ],
                     [
-                        'label' => 'Ответ',
-                        'value' => ($req->request->answer_text) ? Html::a('Ответ', ['request/view', 'id' => $req->request->id]) : 'Нет ответа',
+                        'label' => 'Действие',
+                        'value' => $actions,
                         'format' => 'raw',
-                        'visible' => ($req->active == RequestUser::STATUS_ACTIVE) ? true : false,
                     ],
                 ],
             ]);
