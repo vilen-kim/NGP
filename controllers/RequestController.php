@@ -76,7 +76,7 @@ class RequestController extends \yii\web\Controller {
 
 
     public function actionView($id) {
-        if (!Yii::$app->user->can('manager') && !RequestUser::findOne(['request_id' => $id, 'auth_id' => Yii::$app->user->id])){
+        if (!Yii::$app->user->can('manager') && !RequestUser::findOne(['request_id' => $id, 'auth_id' => Yii::$app->user->id])) {
             throw new \yii\web\ForbiddenHttpException('У вас нет прав доступа.');
         }
         $model = $this->findModel($id);
@@ -110,28 +110,21 @@ class RequestController extends \yii\web\Controller {
             $countAuthors = 0;
             $auth_ids = null;
             $authors = Yii::$app->session->get('authors');
+            if ($author->validate()) {
+                $authors[] = $author;
+            }
 
             $transaction = Yii::$app->db->beginTransaction();
             try {
-                if (!$letter_id = $letter->createLetter()){
+                if (!$letter_id = $letter->createLetter()) {
                     throw new Exception("Ошибка сохранения обращения", 500);
-                }
-                if ($author->validate()) {
-                    if (!$auth_id = $author->createAuthor()){
-                        throw new Exception("Ошибка сохранения текущего автора", 500);
-                    }
-                    if (!$this->linkRequestToAuthor($auth_id, $letter_id)){
-                        throw new Exception("Ошибка привязки обращения к автору", 500);
-                    }
-                    $auth_ids[] = $auth_id;
-                    $countAuthors++;
                 }
                 if (is_array($authors)) {
                     foreach ($authors as $aut) {
-                        if (!$auth_id = $aut->createAuthor()){
-                            throw new Exception("Ошибка сохранения соавтора", 500);
+                        if (!$auth_id = $aut->createAuthor()) {
+                            throw new Exception("Ошибка сохранения автора", 500);
                         }
-                        if (!$this->linkRequestToAuthor($auth_id, $letter_id)){
+                        if (!$this->linkRequestToAuthor($auth_id, $letter_id)) {
                             throw new Exception("Ошибка привязки обращения к автору", 500);
                         }
                         $auth_ids[] = $auth_id;
@@ -140,23 +133,23 @@ class RequestController extends \yii\web\Controller {
                 }
                 if ($countAuthors) {
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', 'Обращение успешно создано.');
-                    foreach($auth_ids as $id){
+                    foreach ($auth_ids as $id) {
                         $auth = Auth::findOne(['id' => $id]);
                         $request = Request::findOne(['id' => $letter_id]);
                         $activate = new ActivateForm;
                         $activate->email = $auth->email;
                         $activate->sendEmail('activateForRequest');
-                        if ($countAuthors > 1){
+                        if ($countAuthors > 1 && $id != Yii::$app->user->id) {
                             $requestEmailType = 'requestGroup';
-                        } else if (Yii::$app->user->id == $id){
+                        } else if (Yii::$app->user->id == $id) {
                             $requestEmailType = 'requestUser';
                         } else {
                             $requestEmailType = 'requestOne';
                         }
                         $this->sendRequestEmail($requestEmailType, $auth, $request);
                     }
-                    Yii::$app->session->setFlash('danger', 'На электронную почту была отправлена инструкция по дальнейшим действиям.');
+                    $this->sendHaveRequestEmail(Request::findOne(['id' => $letter_id]));
+                    Yii::$app->session->setFlash('success', 'Обращение успешно создано. На электронную почту была отправлена инструкция по дальнейшим действиям.');
                     return $this->redirect(['site/index']);
                 } else {
                     return false;
@@ -257,8 +250,8 @@ class RequestController extends \yii\web\Controller {
 
     public function actionActive($id) {
         $model = RequestUser::find()
-            ->where(['auth_id' => Yii::$app->user->id, 'request_id' => $id])
-            ->one();
+        ->where(['auth_id' => Yii::$app->user->id, 'request_id' => $id])
+        ->one();
         if ($model) {
             $model->active = RequestUser::STATUS_ACTIVE;
             if ($model->save()) {
@@ -279,17 +272,37 @@ class RequestController extends \yii\web\Controller {
 
         throw new NotFoundHttpException('Страница не найдена.');
     }
-    
+
+
+
     private function sendRequestEmail($html, $auth, $letter) {
         $res = Yii::$app->mailer->compose(['html' => $html], ['auth' => $auth, 'model' => $letter])
+        ->setFrom(Yii::$app->params['noreplyEmail'])
+        ->setTo($auth->email)
+        ->setSubject("Создание обращения на сайте " . Yii::$app->params['siteCaption'])
+        ->send();
+        if ($res) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+    private function sendHaveRequestEmail($letter) {
+        if (RequestUser::findOne(['request_id' => $letter->id, 'active' => RequestUser::STATUS_ACTIVE])){
+            $res = Yii::$app->mailer->compose(['html' => 'haveRequest'], ['model' => $letter])
             ->setFrom(Yii::$app->params['noreplyEmail'])
-            ->setTo($auth->email)
-            ->setSubject("Создание обращения на сайте " . Yii::$app->params['siteCaption'])
+            ->setTo($letter->requestAuth->email)
+            ->setSubject("Вам обращение с сайта " . Yii::$app->params['siteCaption'])
             ->send();
             if ($res) {
                 return true;
             } else {
                 return false;
             }
+        }
+        return false;
     }
 }

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\RequestUser;
+use app\models\RequestExecutive;
 
 app\assets\KabinetAsset::register($this);
 
@@ -16,6 +17,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="row kabinet-index">
     <div class="col-md-3">
         <p><?= Html::a('Создать обращение', ['request/write'], ['class' => 'btn btn-default changeBack']) ?></p>
+        <?php
+            if ($haveRequest) {
+                echo '<p>';
+                $text = "Мне обращения <span class='badge'>$countUnanswered</span>";
+                echo Html::a($text, ['request/have-request'], ['class' => 'btn btn-default changeBack']);
+                echo '</p>';
+            }
+        ?>
         <p><?= Html::a('Мой профиль', ['auth/view', 'id' => Yii::$app->user->id], ['class' => 'btn btn-default changeBack']) ?></p>
     </div>
     <div class="col-md-9">
@@ -30,14 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
             $actions = null;
             if ($req->active == RequestUser::STATUS_INACTIVE){
                 $status = '<span class="text-default">Ожидает активации...</span>';
-                $actions = Html::a('Активировать', ['request/active', 'id' => $req->request_id], ['class' => 'btn btn-default changeBack']);
-                $actions .= Html::a('Удалить', ['request/delete', 'id' => $req->request_id], ['class' => 'btn btn-danger', 'style' => 'margin-left: 15px']);
+                $actions = Html::a('<span class="glyphicon glyphicon-ok"></span>', ['request/active', 'id' => $req->request_id], ['title' => 'Активировать', 'class' => 'text-success']);
+                $actions .= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['request/delete', 'id' => $req->request_id], ['title' => 'Удалить', 'style' => 'margin-left: 10px;', 'class' => 'text-danger']);
             } else if (!$req->request->answer_text){
                 $status = '<span class="text-info">Ожидает ответа...</span>';
-                $actions .= Html::a('Посмотреть обращение', ['request/view', 'id' => $req->request_id], ['class' => 'btn btn-default changeBack']) . '<br>';
+                $actions .= Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['request/view', 'id' => $req->request_id], ['title' => 'Посмотреть']);
             } else if ($req->request->answer_text){
                 $status = '<span class="text-success">Завершено.</span>';
-                $actions .= Html::a('Посмотреть ответ', ['request/view', 'id' => $req->request_id], ['class' => 'btn btn-default changeBack']) . '<br>';
+                $actions .= Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['request/view', 'id' => $req->request_id], ['title' => 'Посмотреть']);
             }
             echo DetailView::widget([
                 'model' => $req,

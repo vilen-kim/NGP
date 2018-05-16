@@ -30,7 +30,7 @@ if (Yii::$app->user->can('manager')){
                     'value' => $model->request_text,
                 ],
                 [
-                    'label' => 'Авторы',
+                    'label' => 'Автор(ы)',
                     'value' => $authors,
                     'format' => 'raw',
                 ],
