@@ -6,9 +6,9 @@
         После этого в случае ответа должностным лицом на это обращение, копия ответа будет направлена Вам на электронную почту
         и в личный кабинет.</p>
     
-    <b>Дата обращения: </b><?= Yii::$app->formatter->asDate($model->request_created_at, 'dd.MM.yyyy') ?><br>
-    <b>Кому: </b><?= $model->requestAuth->fio ?><br>
-    <b>Текст: </b><?= $model->request_text ?><br>
+    <b>Дата обращения: </b><?= Yii::$app->formatter->asDate($request->request_created_at, 'dd.MM.yyyy') ?><br>
+    <b>Кому: </b><?= $request->requestAuth->fio ?><br>
+    <b>Текст: </b><?= $request->request_text ?><br>
     
     <br><br><br>
     

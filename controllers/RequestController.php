@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 use app\models\forms\AuthorForm;
-use app\models\forms\LetterForm;
+use app\models\forms\RequestForm;
 use app\models\forms\ActivateForm;
 use app\models\Request;
 use app\models\RequestExecutive;
@@ -30,17 +30,17 @@ class RequestController extends \yii\web\Controller {
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['manager'], // менеджер
+                        'roles' => ['manager'],
                     ],
                     [
-                        'actions' => ['get-executive', 'get-next-author', 'info', 'write'],
+                        'actions' => ['active', 'view'],
                         'allow' => true,
-                        'roles' => ['?'], // гость
+                        'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['active', 'get-executive', 'get-next-author', 'info', 'view', 'write'],
+                        'actions' => ['info', 'get-executive', 'get-next-author', 'write'],
                         'allow' => true,
-                        'roles' => ['@'], // авторизованный пользователь
+                        'roles' => ['?', '@'],
                     ],
                 ],
             ],
@@ -68,8 +68,8 @@ class RequestController extends \yii\web\Controller {
         $searchModel = new RequestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -89,8 +89,8 @@ class RequestController extends \yii\web\Controller {
             $authors .= '<br>';
         }
         return $this->render('view', [
-            'model' => $model,
-            'authors' => $authors,
+                'model' => $model,
+                'authors' => $authors,
         ]);
     }
 
@@ -104,61 +104,7 @@ class RequestController extends \yii\web\Controller {
 
     public function actionWrite() {
         $author = new AuthorForm;
-        $letter = new LetterForm;
-
-        if ($letter->load(Yii::$app->request->post()) && $author->load(Yii::$app->request->post())) {
-            $countAuthors = 0;
-            $auth_ids = null;
-            $authors = Yii::$app->session->get('authors');
-            if ($author->validate()) {
-                $authors[] = $author;
-            }
-
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                if (!$letter_id = $letter->createLetter()) {
-                    throw new Exception("Ошибка сохранения обращения", 500);
-                }
-                if (is_array($authors)) {
-                    foreach ($authors as $aut) {
-                        if (!$auth_id = $aut->createAuthor()) {
-                            throw new Exception("Ошибка сохранения автора", 500);
-                        }
-                        if (!$this->linkRequestToAuthor($auth_id, $letter_id)) {
-                            throw new Exception("Ошибка привязки обращения к автору", 500);
-                        }
-                        $auth_ids[] = $auth_id;
-                        $countAuthors++;
-                    }
-                }
-                if ($countAuthors) {
-                    $transaction->commit();
-                    foreach ($auth_ids as $id) {
-                        $auth = Auth::findOne(['id' => $id]);
-                        $request = Request::findOne(['id' => $letter_id]);
-                        $activate = new ActivateForm;
-                        $activate->email = $auth->email;
-                        $activate->sendEmail('activateForRequest');
-                        if ($countAuthors > 1 && $id != Yii::$app->user->id) {
-                            $requestEmailType = 'requestGroup';
-                        } else if (Yii::$app->user->id == $id) {
-                            $requestEmailType = 'requestUser';
-                        } else {
-                            $requestEmailType = 'requestOne';
-                        }
-                        $this->sendRequestEmail($requestEmailType, $auth, $request);
-                    }
-                    $this->sendHaveRequestEmail(Request::findOne(['id' => $letter_id]));
-                    Yii::$app->session->setFlash('success', 'Обращение успешно создано. На электронную почту была отправлена инструкция по дальнейшим действиям.');
-                    return $this->redirect(['site/index']);
-                } else {
-                    return false;
-                }
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                throw $e;
-            }
-        }
+        $letter = new RequestForm;
 
         $radioArray = [
             'fio' => 'Фамилия, имя, отчество должностного лица',
@@ -176,14 +122,14 @@ class RequestController extends \yii\web\Controller {
             $author->phone = $auth->profile->phone;
         }
         $executiveArray = ArrayHelper::map(RequestExecutive::find()
-        ->joinWith(['auth.profile'])
-        ->orderBy('lastname')
-        ->all(), 'auth.id', 'fioPosition');
+                    ->joinWith(['auth.profile'])
+                    ->orderBy('lastname')
+                    ->all(), 'auth.id', 'fioPosition');
         return $this->render('write', [
-            'executiveArray' => $executiveArray,
-            'model' => $author,
-            'letter' => $letter,
-            'radioArray' => $radioArray,
+                'executiveArray' => $executiveArray,
+                'model' => $author,
+                'letter' => $letter,
+                'radioArray' => $radioArray,
         ]);
     }
 
@@ -236,12 +182,7 @@ class RequestController extends \yii\web\Controller {
         if ($model->save()) {
             return $model->id;
         } else {
-            $error = new Errors;
-            $error->controller = Yii::$app->controller->id;
-            $error->action = Yii::$app->controller->action->id;
-            $error->doing = 'linkRequestToAuthor()';
-            $error->error = $model->error;
-            $error->save();
+            Yii::error('Ошибка привязки обращения к автору', 'requestUser_category');
             return false;
         }
     }
@@ -250,8 +191,8 @@ class RequestController extends \yii\web\Controller {
 
     public function actionActive($id) {
         $model = RequestUser::find()
-        ->where(['auth_id' => Yii::$app->user->id, 'request_id' => $id])
-        ->one();
+            ->where(['auth_id' => Yii::$app->user->id, 'request_id' => $id])
+            ->one();
         if ($model) {
             $model->active = RequestUser::STATUS_ACTIVE;
             if ($model->save()) {
@@ -275,28 +216,102 @@ class RequestController extends \yii\web\Controller {
 
 
 
-    private function sendRequestEmail($html, $auth, $letter) {
-        $res = Yii::$app->mailer->compose(['html' => $html], ['auth' => $auth, 'model' => $letter])
-        ->setFrom(Yii::$app->params['noreplyEmail'])
-        ->setTo($auth->email)
-        ->setSubject("Создание обращения на сайте " . Yii::$app->params['siteCaption'])
-        ->send();
-        if ($res) {
-            return true;
-        } else {
-            return false;
+    public function actionCreateRequestAndAuthors() {
+        $author = new AuthorForm;
+        $request = new RequestForm;
+
+        if ($request->load(Yii::$app->request->post()) && $author->load(Yii::$app->request->post())) {
+            $countAuthors = 0;
+            $auth_ids = null;
+            $authors = Yii::$app->session->get('authors');
+            if ($author->validate()) {
+                $authors[] = $author;
+            } else if (!is_array($authors)) {
+                return false;
+            }
+
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                if (!$request_id = $request->createRequest()) {
+                    throw new Exception("Во время сохранения обращения возникла ошибка.", 500);
+                }
+                foreach ($authors as $aut) {
+                    if (!$auth_id = $aut->createAuthor()) {
+                        throw new Exception("Во время регистрации автора возникла ошибка", 500);
+                    }
+                    if (!$this->linkRequestToAuthor($auth_id, $request_id)) {
+                        throw new Exception("Ошибка привязки обращения к автору", 500);
+                    }
+                    $auth_ids[] = $auth_id;
+                    $countAuthors++;
+                }
+                $transaction->commit();
+                foreach ($auth_ids as $id) {
+                    $this->sendActivateEmail($id);
+                    $this->sendRequestEmail($id, $countAuthors, $request_id);
+                    $this->sendHaveRequestEmail($request_id);
+                }
+                Yii::$app->session->setFlash('success', 'Обращение успешно создано. На электронную почту была отправлена инструкция по дальнейшим действиям.');
+                return $this->redirect(['site/index']);
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                throw $e;
+            }
         }
     }
 
 
 
-    private function sendHaveRequestEmail($letter) {
-        if (RequestUser::findOne(['request_id' => $letter->id, 'active' => RequestUser::STATUS_ACTIVE])){
-            $res = Yii::$app->mailer->compose(['html' => 'haveRequest'], ['model' => $letter])
+    private function sendActivateEmail($id) {
+        if ($auth = Auth::findOne(['status' => Auth::STATUS_INACTIVE, 'id' => $id])) {
+            $auth->generatePasswordResetToken();
+            if (!$auth->save()) {
+                Yii::error('Ошибка сохранения passwordresettoken в auth', 'auth_category');
+                return false;
+            }
+            if (!$res = Yii::$app->mailer->compose(['html' => 'activateForRequest'], ['auth' => $auth])
+                ->setFrom(Yii::$app->params['noreplyEmail'])
+                ->setTo($auth->email)
+                ->setSubject("Активация учетной записи на сайте " . Yii::$app->params['siteCaption'])
+                ->send()) {
+                Yii::warning('Ошибка отправки письма активации activateForRequest', 'email_category');
+                return false;
+            }
+            return true;
+        }
+    }
+
+
+
+    private function sendRequestEmail($id, $count, $request_id) {
+        $auth = Auth::findOne(['id' => $id]);
+        $request = Request::findOne(['id' => $request_id]);
+        $type = 'requestGuest';
+        if (Yii::$app->user->id == $id) {
+            $type = 'requestUser';
+        } else if ($count > 1) {
+            $type = 'requestGroup';
+        }
+        if (!$res = Yii::$app->mailer->compose(['html' => $type], ['auth' => $auth, 'request' => $request])
             ->setFrom(Yii::$app->params['noreplyEmail'])
-            ->setTo($letter->requestAuth->email)
-            ->setSubject("Вам обращение с сайта " . Yii::$app->params['siteCaption'])
-            ->send();
+            ->setTo($auth->email)
+            ->setSubject("Создание обращения на сайте " . Yii::$app->params['siteCaption'])
+            ->send()) {
+            Yii::warning('Ошибка отправки письма о создании обращения', 'email_category');
+            return false;
+        }
+        return true;
+    }
+
+
+
+    private function sendHaveRequestEmail($letter) {
+        if (RequestUser::findOne(['request_id' => $letter->id, 'active' => RequestUser::STATUS_ACTIVE])) {
+            $res = Yii::$app->mailer->compose(['html' => 'haveRequest'], ['model' => $letter])
+                ->setFrom(Yii::$app->params['noreplyEmail'])
+                ->setTo($letter->requestAuth->email)
+                ->setSubject("Вам обращение с сайта " . Yii::$app->params['siteCaption'])
+                ->send();
             if ($res) {
                 return true;
             } else {

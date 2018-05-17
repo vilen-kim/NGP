@@ -6,7 +6,6 @@ use Yii;
 use yii\base\Model;
 use app\models\Auth;
 use app\models\UserProfile;
-use app\models\forms\ActivateForm;
 use app\models\Errors;
 
 class AuthorForm extends Model {
@@ -65,12 +64,7 @@ class AuthorForm extends Model {
             $auth->generateAuthKey();
             if (!$auth->save()) {
                 $transaction->rollBack();
-                $error = new Errors;
-                $error->controller = Yii::$app->controller->id;
-                $error->action = Yii::$app->controller->action->id;
-                $error->doing = 'AuthorForm->createAuthor()-auth';
-                $error->error = $auth->error;
-                $error->save();
+                Yii::error('Ошибка сохранения автора в auth', 'author_category');
                 return false;
             }
 
@@ -83,12 +77,7 @@ class AuthorForm extends Model {
             $profile->organization = $this->organization;
             if (!$profile->save()) {
                 $transaction->rollBack();
-                $error = new Errors;
-                $error->controller = Yii::$app->controller->id;
-                $error->action = Yii::$app->controller->action->id;
-                $error->doing = 'AuthorForm->createAuthor()-profile';
-                $error->error = $profile->error;
-                $error->save();
+                Yii::error('Ошибка сохранения автора в profile', 'author_category');
                 return false;
             }
 

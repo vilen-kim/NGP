@@ -4,9 +4,9 @@
     <p>Сейчас оно находится в неактивном состоянии, то есть еще не отправлено адресату.</p>
     <p>Для активации обращения Вам необходимо зайти в свой личный кабинет и в нужном обращении нажать ссылку "Активировать".</p>
     
-    <b>Дата обращения: </b><?= Yii::$app->formatter->asDate($model->request_created_at, 'dd.MM.yyyy') ?><br>
-    <b>Кому: </b><?= $model->requestAuth->fio ?><br>
-    <b>Текст: </b><?= $model->request_text ?><br>
+    <b>Дата обращения: </b><?= Yii::$app->formatter->asDate($request->request_created_at, 'dd.MM.yyyy') ?><br>
+    <b>Кому: </b><?= $request->requestAuth->fio ?><br>
+    <b>Текст: </b><?= $request->request_text ?><br>
     
     <br><br><br>
     

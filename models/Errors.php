@@ -4,31 +4,13 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "errors".
- *
- * @property int $id
- * @property string $controller
- * @property string $action
- * @property string $doing
- * @property string $error
- * @property int $auth_id
- */
-class Errors extends \yii\db\ActiveRecord
-{
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
+class Errors extends \yii\db\ActiveRecord {
+
+    public static function tableName() {
         return 'errors';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['controller', 'action', 'doing', 'error', 'auth_id'], 'required'],
             [['error'], 'string'],
@@ -38,11 +20,7 @@ class Errors extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'controller' => 'Controller',
@@ -52,4 +30,5 @@ class Errors extends \yii\db\ActiveRecord
             'auth_id' => 'Auth ID',
         ];
     }
+
 }

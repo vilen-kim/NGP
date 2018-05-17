@@ -7,9 +7,8 @@ use yii\base\Model;
 use himiklab\yii2\recaptcha\ReCaptchaValidator;
 use app\models\Auth;
 use app\models\Request;
-use app\models\Errors;
 
-class LetterForm extends Model {
+class RequestForm extends Model {
 
     public $request_text;
     public $request_auth_id;
@@ -41,19 +40,14 @@ class LetterForm extends Model {
 
 
 
-    public function createLetter() {
+    public function createRequest() {
         $model = new Request;
         $model->request_text = $this->request_text;
         $model->request_auth_id = $this->request_auth_id;
         if ($model->save()) {
             return $model->id;
         } else {
-            $error = new Errors;
-            $error->controller = Yii::$app->controller->id;
-            $error->action = Yii::$app->controller->action->id;
-            $error->doing = 'LetterForm->createLetter()';
-            $error->error = $model->error;
-            $error->save();
+            Yii::error('Ошибка создания обращения', 'request_category');
             return false;
         }
     }
