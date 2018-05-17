@@ -12,6 +12,7 @@ class KabinetAsset extends AssetBundle {
         'css/kabinet.css',
     ];
     public $js = [
+        'js/kabinet.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
