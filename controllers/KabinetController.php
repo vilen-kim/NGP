@@ -56,8 +56,30 @@ class KabinetController extends \yii\web\Controller {
             $type = (!$type) ? 'fromMe' : $type;
         }
         $detailView = null;
-        $countUnanswered = Request::find()->where(['request_auth_id' => $user_id, 'answer_text' => null])->count();
-        $countUnactive = RequestUser::find()->where(['auth_id' => $user_id, 'active' => RequestUser::STATUS_INACTIVE])->count();
+        $countFromMe['inactive'] = RequestUser::find()
+            ->where(['auth_id' => $user_id])
+            ->andWhere(['active' => RequestUser::STATUS_INACTIVE])
+            ->count();
+        $countFromMe['no_answer'] = RequestUser::find()
+            ->joinWith(['request'])
+            ->where(['auth_id' => $user_id])
+            ->andWhere(['active' => RequestUser::STATUS_ACTIVE])
+            ->andwhere(['is', 'request.answer_text', null])
+            ->count();
+        $countFromMe['answer'] = RequestUser::find()
+            ->joinWith(['request'])
+            ->where(['auth_id' => $user_id])
+            ->andWhere(['active' => RequestUser::STATUS_ACTIVE])
+            ->andwhere(['is not', 'request.answer_text', null])
+            ->count();
+        $countToMe['no_answer'] = Request::find()
+            ->where(['request_auth_id' => $user_id])
+            ->andWhere(['is', 'answer_text', null])
+            ->count();
+        $countToMe['answer'] = Request::find()
+            ->where(['request_auth_id' => $user_id])
+            ->andWhere(['is not', 'answer_text', null])
+            ->count();
         if ($type == 'toMe'){
             $detailView = $this->actionGetRequestsToMe();
         } else {
@@ -65,8 +87,8 @@ class KabinetController extends \yii\web\Controller {
         }
         
         return $this->render('index', [
-            'countUnanswered' => $countUnanswered,
-            'countUnactive' => $countUnactive,
+            'countFromMe' => $countFromMe,
+            'countToMe' => $countToMe,
             'user_id' => $user_id,
             'detailView' => $detailView,
             'isExecutive' => $isExecutive,

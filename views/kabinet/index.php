@@ -19,18 +19,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-9">
         <div class="text-center">
             <?php
-                $unActive = ($countUnactive) ? "<span class='badge' style='background: orange; color: black'>$countUnactive</span>" : '';
-                $unAnswered = ($countUnanswered) ? "<span class='badge' style='background: lightblue; color: black'>$countUnanswered</span>" : '';
+                $fromMe = ($countFromMe['inactive']) ? "<span class='badge' title='Неактивные' style='background: orange; color: black; margin-left: 5px;'>{$countFromMe['inactive']}</span>" : '';
+                $fromMe .= ($countFromMe['no_answer']) ? "<span class='badge' title='Ожидает ответа' style='background: lightblue; color: black; margin-left: 5px;'>{$countFromMe['no_answer']}</span>" : '';
+                $fromMe .= ($countFromMe['answer']) ? "<span class='badge' title='Завершенные' style='background: lightgreen; color: black; margin-left: 5px;'>{$countFromMe['answer']}</span>" : '';
+                $toMe = ($countToMe['no_answer']) ? "<span class='badge' title='Ожидает ответа' style='background: lightblue; color: black; margin-left: 5px;'>{$countToMe['no_answer']}</span>" : '';
+                $toMe .= ($countToMe['answer']) ? "<span class='badge' title='Завершенные' style='background: lightgreen; color: black; margin-left: 5px;'>{$countToMe['answer']}</span>" : '';
                 if ($isExecutive) {
                     echo Html::radioList('requestType', $type, [
-                        'fromMe' => "Мои обращения $unActive",
-                        'toMe' => "Принятые обращения $unAnswered",
+                        'fromMe' => "Мои обращения" . $fromMe,
+                        'toMe' => "Принятые обращения" . $toMe,
                     ], [
                         'encode' => false,
                         'itemOptions' => ['style' => 'margin-left: 10px;']
                     ]);
                 } else {
-                    echo "<h4>Мои обращения $unActive</h4>";
+                    echo "<h4>Мои обращения $fromMe</h4>";
                 }
             ?>
         </div>
