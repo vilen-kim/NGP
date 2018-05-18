@@ -18,7 +18,21 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="col-md-9">
         <div class="text-center">
-            <?= Html::radioList('requestType', $type, ['fromMe' => 'Мои обращения', 'toMe' => "Принятые обращения <span class='badge'>$count</span>"], ['encode' => false]) ?>
+            <?php
+                $unActive = ($countUnactive) ? "<span class='badge' style='background: orange; color: black'>$countUnactive</span>" : '';
+                $unAnswered = ($countUnanswered) ? "<span class='badge' style='background: lightblue; color: black'>$countUnanswered</span>" : '';
+                if ($isExecutive) {
+                    echo Html::radioList('requestType', $type, [
+                        'fromMe' => "Мои обращения $unActive",
+                        'toMe' => "Принятые обращения $unAnswered",
+                    ], [
+                        'encode' => false,
+                        'itemOptions' => ['style' => 'margin-left: 10px;']
+                    ]);
+                } else {
+                    echo "<h4>Мои обращения $unActive</h4>";
+                }
+            ?>
         </div>
         <div id="requests">
             <?php

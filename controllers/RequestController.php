@@ -9,14 +9,13 @@ use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 use app\models\forms\AuthorForm;
+use app\models\forms\AnswerForm;
 use app\models\forms\RequestForm;
-use app\models\forms\ActivateForm;
 use app\models\Request;
 use app\models\RequestExecutive;
 use app\models\RequestUser;
 use app\models\RequestSearch;
 use app\models\Auth;
-use app\models\Errors;
 
 class RequestController extends \yii\web\Controller {
 
@@ -33,12 +32,12 @@ class RequestController extends \yii\web\Controller {
                         'roles' => ['manager'],
                     ],
                     [
-                        'actions' => ['active', 'view'],
+                        'actions' => ['active', 'view', 'answer'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['info', 'get-executive', 'get-next-author', 'write'],
+                        'actions' => ['info', 'get-executive', 'get-next-author', 'write', 'create-request-and-authors'],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
@@ -68,15 +67,17 @@ class RequestController extends \yii\web\Controller {
         $searchModel = new RequestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
         ]);
     }
 
 
 
     public function actionView($id) {
-        if (!Yii::$app->user->can('manager') && !RequestUser::findOne(['request_id' => $id, 'auth_id' => Yii::$app->user->id])) {
+        if (!Yii::$app->user->can('manager') &&
+            !RequestUser::findOne(['request_id' => $id, 'auth_id' => Yii::$app->user->id]) &&
+            !Request::findOne(['id' => $id, 'request_auth_id' => Yii::$app->user->id])) {
             throw new \yii\web\ForbiddenHttpException('У вас нет прав доступа.');
         }
         $model = $this->findModel($id);
@@ -89,8 +90,8 @@ class RequestController extends \yii\web\Controller {
             $authors .= '<br>';
         }
         return $this->render('view', [
-            'model' => $model,
-            'authors' => $authors,
+                'model' => $model,
+                'authors' => $authors,
         ]);
     }
 
@@ -122,15 +123,40 @@ class RequestController extends \yii\web\Controller {
             $author->phone = $auth->profile->phone;
         }
         $executiveArray = ArrayHelper::map(RequestExecutive::find()
-        ->joinWith(['auth.profile'])
-        ->orderBy('lastname')
-        ->all(), 'auth.id', 'fioPosition');
+                    ->joinWith(['auth.profile'])
+                    ->orderBy('lastname')
+                    ->all(), 'auth.id', 'fioPosition');
         return $this->render('write', [
-            'executiveArray' => $executiveArray,
-            'model' => $author,
-            'letter' => $letter,
-            'radioArray' => $radioArray,
+                'executiveArray' => $executiveArray,
+                'model' => $author,
+                'letter' => $letter,
+                'radioArray' => $radioArray,
         ]);
+    }
+
+
+
+    public function actionAnswer($id) {
+        $request = $this->findModel($id);
+        $answer = new AnswerForm;
+        $authors = null;
+        foreach ($request->requestUsers as $user) {
+            $authors .= $user->auth->fio;
+            if ($user->active == RequestUser::STATUS_INACTIVE) {
+                $authors .= ' (-)';
+            }
+            $authors .= '<br>';
+        }
+        $user_id = Yii::$app->user->id;
+        if (RequestExecutive::findOne(['auth_id' => $user_id]) && $request->request_auth_id == $user_id){
+            return $this->render('answer', [
+                'request' => $request,
+                'answer' => $answer,
+                'authors' => $authors,
+            ]);
+        } else {
+            throw new \yii\web\ForbiddenHttpException('У вас нет прав доступа.');
+        }
     }
 
 
@@ -191,8 +217,8 @@ class RequestController extends \yii\web\Controller {
 
     public function actionActive($id) {
         $model = RequestUser::find()
-        ->where(['auth_id' => Yii::$app->user->id, 'request_id' => $id])
-        ->one();
+            ->where(['auth_id' => Yii::$app->user->id, 'request_id' => $id])
+            ->one();
         if ($model) {
             $model->active = RequestUser::STATUS_ACTIVE;
             if ($model->save()) {
@@ -270,10 +296,10 @@ class RequestController extends \yii\web\Controller {
                 return false;
             }
             if (!$res = Yii::$app->mailer->compose(['html' => 'activateForRequest'], ['auth' => $auth])
-            ->setFrom(Yii::$app->params['noreplyEmail'])
-            ->setTo($auth->email)
-            ->setSubject("Активация учетной записи на сайте " . Yii::$app->params['siteCaption'])
-            ->send()) {
+                ->setFrom(Yii::$app->params['noreplyEmail'])
+                ->setTo($auth->email)
+                ->setSubject("Активация учетной записи на сайте " . Yii::$app->params['siteCaption'])
+                ->send()) {
                 Yii::warning('Ошибка отправки письма активации activateForRequest', 'email_category');
                 return false;
             }
@@ -293,10 +319,10 @@ class RequestController extends \yii\web\Controller {
             $type = 'requestGroup';
         }
         if (!$res = Yii::$app->mailer->compose(['html' => $type], ['auth' => $auth, 'request' => $request])
-        ->setFrom(Yii::$app->params['noreplyEmail'])
-        ->setTo($auth->email)
-        ->setSubject("Создание обращения на сайте " . Yii::$app->params['siteCaption'])
-        ->send()) {
+            ->setFrom(Yii::$app->params['noreplyEmail'])
+            ->setTo($auth->email)
+            ->setSubject("Создание обращения на сайте " . Yii::$app->params['siteCaption'])
+            ->send()) {
             Yii::warning('Ошибка отправки письма о создании обращения', 'email_category');
             return false;
         }
@@ -308,10 +334,10 @@ class RequestController extends \yii\web\Controller {
     private function sendHaveRequestEmail($request_id) {
         $request = Request::findOne(['id' => $request_id]);
         if (!$res = Yii::$app->mailer->compose(['html' => 'haveRequest'], ['request' => $request])
-        ->setFrom(Yii::$app->params['noreplyEmail'])
-        ->setTo($request->requestAuth->email)
-        ->setSubject("Вам обращение с сайта " . Yii::$app->params['siteCaption'])
-        ->send()) {
+            ->setFrom(Yii::$app->params['noreplyEmail'])
+            ->setTo($request->requestAuth->email)
+            ->setSubject("Вам обращение с сайта " . Yii::$app->params['siteCaption'])
+            ->send()) {
             Yii::warning('Ошибка отправки письма о поступлении обращения', 'email_category');
             return false;
         }

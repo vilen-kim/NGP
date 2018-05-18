@@ -17,7 +17,7 @@ $this->title = 'Написать письмо';
             <p style="margin-bottom: 20px;"><i>Поля, отмеченные *, обязательны для заполнения</i></p>
             <?php
                 $mainForm = ActiveForm::begin([
-                    'action' => ['request/write'],
+                    'action' => ['request/create-request-and-authors'],
                     'id' => 'letter-form',
                 ]);
                     echo Html::label('* Кому Вы направляете обращение', 'executive_id', ['class' => 'control-label']);

@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\Request;
 use app\models\RequestUser;
+use app\models\RequestExecutive;
 
 class KabinetController extends \yii\web\Controller {
 
@@ -47,20 +48,36 @@ class KabinetController extends \yii\web\Controller {
 
     public function actionIndex() {
         $user_id = Yii::$app->user->id;
-        $type = 'fromMe';
+        $isExecutive = RequestExecutive::findOne(['auth_id' => $user_id]);
+        if (!$isExecutive){
+            $type = 'fromMe';
+        } else {
+            $type = Yii::$app->session->get('requestType');
+            $type = (!$type) ? 'fromMe' : $type;
+        }
+        $detailView = null;
         $countUnanswered = Request::find()->where(['request_auth_id' => $user_id, 'answer_text' => null])->count();
-        $detailView = $this->actionGetRequestsFromMe();
+        $countUnactive = RequestUser::find()->where(['auth_id' => $user_id, 'active' => RequestUser::STATUS_INACTIVE])->count();
+        if ($type == 'toMe'){
+            $detailView = $this->actionGetRequestsToMe();
+        } else {
+            $detailView = $this->actionGetRequestsFromMe();
+        }
+        
         return $this->render('index', [
-            'count' => $countUnanswered,
+            'countUnanswered' => $countUnanswered,
+            'countUnactive' => $countUnactive,
             'user_id' => $user_id,
-            'type' => $type,
             'detailView' => $detailView,
+            'isExecutive' => $isExecutive,
+            'type' => $type,
         ]);
     }
 
 
 
     public function actionGetRequestsFromMe() {
+        Yii::$app->session->set('requestType', 'fromMe');
         $num = 1;
         $model = RequestUser::find()
         ->where(['auth_id' => Yii::$app->user->id])
@@ -102,7 +119,7 @@ class KabinetController extends \yii\web\Controller {
                     ],
                     [
                         'label' => 'Кому',
-                        'value' => $req->request->requestAuth->fio . ' - ' . $req->request->requestAuth->executive->position,
+                        'value' => $req->request->requestAuth->executive->position . ' ' . $req->request->requestAuth->fio,
                     ],
                     [
                         'label' => 'Текст',
@@ -127,6 +144,7 @@ class KabinetController extends \yii\web\Controller {
 
 
     public function actionGetRequestsToMe() {
+        Yii::$app->session->set('requestType', 'toMe');
         $num = 1;
         $model = Request::find()
         ->where(['request_auth_id' => Yii::$app->user->id])
@@ -152,6 +170,7 @@ class KabinetController extends \yii\web\Controller {
             if (!$req->answer_text) {
                 $status = 'Ожидает ответа...';
                 $color = 'lightblue';
+                $actions .= Html::a('<span class="glyphicon glyphicon-share-alt"></span>', ['request/answer', 'id' => $req->id], ['title' => 'Ответить', 'style' => 'margin-left: 10px;']);
             } else if ($req->answer_text) {
                 $status = 'Завершено.';
                 $color = 'lightgreen';
@@ -172,6 +191,7 @@ class KabinetController extends \yii\web\Controller {
                     [
                         'label' => 'Авторы',
                         'value' => $authors,
+                        'format' => 'raw',
                     ],
                     [
                         'label' => 'Текст',
