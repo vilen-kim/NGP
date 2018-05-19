@@ -134,7 +134,7 @@ class RegisterForm extends Model {
 
     public function update($auth) {
         if ($this->validate()) {
-            if ($this->password != '1234567890') {
+            if ($this->password) {
                 $auth->setPassword($this->password);
                 $auth->generateAuthKey();
                 if (!$auth->save()) {
