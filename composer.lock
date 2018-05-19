@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa21b2afb6b7dde92860f9e7142202c2",
+    "content-hash": "0f8695a4bc7428c47a32a5fb9ee1f260",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -663,6 +663,48 @@
                 "mailer"
             ],
             "time": "2018-01-23T07:37:21+00:00"
+        },
+        {
+            "name": "vladkens/vk",
+            "version": "v0.1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vladkens/VK.git",
+                "reference": "bab4b4763764e443982963617c208ec3db7c52f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vladkens/VK/zipball/bab4b4763764e443982963617c208ec3db7c52f5",
+                "reference": "bab4b4763764e443982963617c208ec3db7c52f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "VK": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vlad Pronsky",
+                    "email": "vladkens@yandex.ru"
+                }
+            ],
+            "description": "The PHP class for vk.com API with support OAuth.",
+            "keywords": [
+                "api",
+                "oauth",
+                "vk",
+                "vk.com"
+            ],
+            "time": "2015-08-02T19:34:58+00:00"
         },
         {
             "name": "yiisoft/yii2",

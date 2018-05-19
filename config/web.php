@@ -3,6 +3,7 @@
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $url = require __DIR__ . '/url.php';
+$vk = require __DIR__ . '/vk.php';
 
 $config = [
     'id' => 'basic',
@@ -64,6 +65,7 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        'vk' => $vk,
     ],
     'params' => $params,
 ];

@@ -24,7 +24,8 @@
         "himiklab/yii2-recaptcha-widget": "*",
         "kartik-v/yii2-sortable": "@dev",
         "yiisoft/yii2-jui": "^2.0",
-        "electrolinux/phpquery": "^0.9.6"
+        "electrolinux/phpquery": "^0.9.6",
+        "vladkens/vk": "^0.1.9"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
