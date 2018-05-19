@@ -29,7 +29,11 @@ $('body').on('submit', 'form#author-form', function(event) {
         success: function(data){
             $("#titlePrevAuthors").removeClass('hidden');
             $("#prevAuthors").append(data);
-            form[0].reset();
+            $(':input','#author-form')
+                .not(':button, :submit, :reset, :hidden')
+                .val('')
+                .prop('checked', false)
+                .prop('selected', false);
             form.yiiActiveForm('validate', true);
         }
     });

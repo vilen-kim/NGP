@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use app\models\Auth;
 use app\models\UserProfile;
-use app\models\forms\ActivateForm;
+use app\models\Errors;
 
 class AuthorForm extends Model {
 
@@ -64,7 +64,8 @@ class AuthorForm extends Model {
             $auth->generateAuthKey();
             if (!$auth->save()) {
                 $transaction->rollBack();
-                return $auth->errors;
+                Yii::error('Ошибка сохранения автора в auth', 'author_category');
+                return false;
             }
 
             $profile = new UserProfile;
@@ -76,17 +77,14 @@ class AuthorForm extends Model {
             $profile->organization = $this->organization;
             if (!$profile->save()) {
                 $transaction->rollBack();
-                return $profile->errors;
+                Yii::error('Ошибка сохранения автора в profile', 'author_category');
+                return false;
             }
 
             $role = Yii::$app->authManager->getRole('user');
             if (Yii::$app->authManager->assign($role, $auth->id)){
-                $activate = new ActivateForm();
-                $activate->email = $auth->email;
-                if ($activate->sendEmail()){
-                    $transaction->commit();
-                    return $auth->id;
-                }
+                $transaction->commit();
+                return $auth->id;
             }
         $transaction->rollBack();
         return false;

@@ -1,6 +1,8 @@
 <?php
 
+use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ActiveForm;
 
 app\assets\RequestAsset::register($this);
 
@@ -18,16 +20,16 @@ if (Yii::$app->user->can('manager')){
         <h4 class="text-center"><b>Обращение:</b></h4>
         <?=
         DetailView::widget([
-            'model' => $model,
+            'model' => $request,
             'attributes' => [
                 'request_created_at:date',
                 [
                     'label' => 'Кому',
-                    'value' => $model->requestAuth->fio . ' - ' . $model->requestAuth->executive->position,
+                    'value' => $request->requestAuth->fio . ' - ' . $request->requestAuth->executive->position,
                 ],
                 [
                     'label' => 'Текст',
-                    'value' => $model->request_text,
+                    'value' => $request->request_text,
                 ],
                 [
                     'label' => 'Автор(ы)',
@@ -38,22 +40,16 @@ if (Yii::$app->user->can('manager')){
         ])
         ?>
 
-        <h4 class="text-center"><b>Ответ:</b></h4>
-        <?=
-        DetailView::widget([
-            'model' => $model,
-            'attributes' => [
-                'answer_created_at:date',
-                [
-                    'label' => 'Автор',
-                    'value' => (isset($model->answerAuth)) ? $model->answerAuth->fio . ' - ' . $model->answerAuth->executive->position : null,
-                ],
-                [
-                    'label' => 'Текст',
-                    'value' => $model->answer_text,
-                ],
-            ],
-        ])
+        <h4 class="text-center"><b>Ваш ответ:</b></h4>
+        <?php
+            $form = ActiveForm::begin([
+                'id' => 'answer-form',
+            ]);
+            echo $form->field($answer, 'answer_text')->textarea(['rows' => 6]);
+            echo Html::submitButton('Отправить ответ', [
+                'class' => 'btn btn-success',
+            ]);
+            ActiveForm::end();
         ?>
     </div>
 </div>

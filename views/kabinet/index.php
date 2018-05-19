@@ -1,8 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-use app\models\RequestUser;
 
 app\assets\KabinetAsset::register($this);
 
@@ -19,41 +17,34 @@ $this->params['breadcrumbs'][] = $this->title;
         <p><?= Html::a('Мой профиль', ['auth/view', 'id' => Yii::$app->user->id], ['class' => 'btn btn-default changeBack']) ?></p>
     </div>
     <div class="col-md-9">
-        <h4 class="text-center"><b>Обращения:</b></h4>
-        <?php
-        $num = 1;
-        foreach ($model as $req) {
-            echo $num++ . DetailView::widget([
-                'model' => $req,
-                'attributes' => [
-                    [
-                        'label' => 'Дата обращения',
-                        'value' => $req->request->request_created_at,
-                        'format' => 'date',
-                    ],
-                    [
-                        'label' => 'Кому',
-                        'value' => $req->request->requestAuth->fio . ' - ' . $req->request->requestAuth->executive->position,
-                    ],
-                    [
-                        'label' => 'Текст',
-                        'value' => $req->request->request_text,
-                    ],
-                    [
-                        'label' => 'Не активировано',
-                        'value' => Html::a('Активировать', ['request/active', 'id' => $req->id]),
-                        'format' => 'raw',
-                        'visible' => ($req->active == RequestUser::STATUS_INACTIVE) ? true : false,
-                    ],
-                    [
-                        'label' => 'Ответ',
-                        'value' => ($req->request->answer_text) ? Html::a('Ответ', ['request/view', 'id' => $req->request->id]) : 'Нет ответа',
-                        'format' => 'raw',
-                        'visible' => ($req->active == RequestUser::STATUS_ACTIVE) ? true : false,
-                    ],
-                ],
-            ]);
-        }
-        ?>
+        <div class="text-center">
+            <?php
+                $fromMe = ($countFromMe['inactive']) ? "<span class='badge' title='Неактивные' style='background: orange; color: black; margin-left: 5px;'>{$countFromMe['inactive']}</span>" : '';
+                $fromMe .= ($countFromMe['no_answer']) ? "<span class='badge' title='Ожидает ответа' style='background: lightblue; color: black; margin-left: 5px;'>{$countFromMe['no_answer']}</span>" : '';
+                $fromMe .= ($countFromMe['answer']) ? "<span class='badge' title='Завершенные' style='background: lightgreen; color: black; margin-left: 5px;'>{$countFromMe['answer']}</span>" : '';
+                $toMe = ($countToMe['no_answer']) ? "<span class='badge' title='Ожидает ответа' style='background: lightblue; color: black; margin-left: 5px;'>{$countToMe['no_answer']}</span>" : '';
+                $toMe .= ($countToMe['answer']) ? "<span class='badge' title='Завершенные' style='background: lightgreen; color: black; margin-left: 5px;'>{$countToMe['answer']}</span>" : '';
+                if ($isExecutive) {
+                    echo Html::radioList('requestType', $type, [
+                        'fromMe' => "Мои обращения" . $fromMe,
+                        'toMe' => "Принятые обращения" . $toMe,
+                    ], [
+                        'encode' => false,
+                        'itemOptions' => ['style' => 'margin-left: 10px;']
+                    ]);
+                } else {
+                    echo "<h4>Мои обращения $fromMe</h4>";
+                }
+            ?>
+        </div>
+        <div id="requests">
+            <?php
+                if (!$detailView){
+                    echo 'У Вас пока нет обращений.';
+                } else {
+                    echo $detailView;
+                }
+            ?>
+        </div>
     </div>
 </div>

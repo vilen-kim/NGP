@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Pages;
 use app\components\NewsWidget;
+use yii\web\NotFoundHttpException;
 
 class SiteController extends \yii\web\Controller {
 

@@ -24,7 +24,7 @@ $config = [
             'identityClass' => 'app\models\Auth',
             'enableAutoLogin' => true,
             'loginUrl' => ['auth/login'],
-            'on afterLogin' => function($event){
+            'on afterLogin' => function($event) {
                 Yii::$app->user->identity->updateAttributes(['login_at' => time()]);
             },
         ],
@@ -54,6 +54,7 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'maxLogFiles' => 10
                 ],
             ],
         ],

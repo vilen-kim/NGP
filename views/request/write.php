@@ -17,7 +17,7 @@ $this->title = 'Написать письмо';
             <p style="margin-bottom: 20px;"><i>Поля, отмеченные *, обязательны для заполнения</i></p>
             <?php
                 $mainForm = ActiveForm::begin([
-                    'action' => ['request/write'],
+                    'action' => ['request/create-request-and-authors'],
                     'id' => 'letter-form',
                 ]);
                     echo Html::label('* Кому Вы направляете обращение', 'executive_id', ['class' => 'control-label']);
@@ -64,7 +64,7 @@ $this->title = 'Написать письмо';
         <ol id="prevAuthors"></ol>
 
     </div>
-    <div class="col-md-8 col-md-offset-2 text-justify" style="margin-top: 20px;">
+    <div class="col-md-8 col-md-offset-2 text-justify" style="margin-top: 20px; margin-bottom: 20px;">
         <p><i>
                 Данное обращение будет сохранено в "Личном кабинете" у каждого автора/соавтора обращения. В случае отсутствия
                 "Личного кабинета" он будет автоматически создан и автору/соавтору будет отправлено письмо на его
@@ -78,7 +78,4 @@ $this->title = 'Написать письмо';
             ]) ?>
         </div>
     </div>
-</div>
-
-<?= Html::endForm() ?>
 </div>
