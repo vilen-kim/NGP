@@ -32,7 +32,7 @@ class RequestController extends \yii\web\Controller {
                         'roles' => ['manager'],
                     ],
                     [
-                        'actions' => ['active', 'view', 'answer', 'delete'],
+                        'actions' => ['active', 'view', 'answer', 'delete', 'resend'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -178,6 +178,28 @@ class RequestController extends \yii\web\Controller {
         } else {
             throw new \yii\web\ForbiddenHttpException('У вас нет прав доступа.');
         }
+    }
+
+
+
+    public function actionResend() {
+        $auth_id = Yii::$app->request->post('auth_id');
+        $request_id = Yii::$app->request->post('request_id');
+        $from = RequestExecutive::findOne(['auth_id' => Yii::$app->user->id]);
+        $to = RequestExecutive::findOne(['auth_id' => $auth_id]);
+        if ($from && $to) {
+            $request = Request::findOne(['id' => $request_id]);
+            $fio = $to->fioPosition;
+            $prevFio = $from->fioPosition;
+            if ($request) {
+                $request->request_auth_id = $auth_id;
+                if ($request->save()) {
+                    Yii::$app->session->setFlash('success', "Обращение было перенаправлено на $fio");
+                    $this->sendResendRequestEmail($request_id, $prevFio);
+                }
+            }
+        }
+        $this->redirect(['kabinet/index']);
     }
 
 
@@ -361,6 +383,19 @@ class RequestController extends \yii\web\Controller {
         ->setSubject("Вам обращение с сайта " . Yii::$app->params['siteCaption'])
         ->send()) {
             Yii::warning('Ошибка отправки письма о поступлении обращения', 'email_category');
+            return false;
+        }
+        return true;
+    }
+    
+    private function sendResendRequestEmail($request_id, $fio) {
+        $request = Request::findOne(['id' => $request_id]);
+        if (!$res = Yii::$app->mailer->compose(['html' => 'haveResendRequest'], ['request' => $request, 'fio' => $fio])
+        ->setFrom(Yii::$app->params['noreplyEmail'])
+        ->setTo($request->requestAuth->email)
+        ->setSubject("Вам перенаправили обращение с сайта " . Yii::$app->params['siteCaption'])
+        ->send()) {
+            Yii::warning('Ошибка отправки письма о перенаправлении обращения', 'email_category');
             return false;
         }
         return true;

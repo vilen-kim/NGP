@@ -48,3 +48,4 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<div id="forModal"></div>

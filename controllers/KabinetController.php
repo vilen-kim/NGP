@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use app\models\Request;
 use app\models\RequestUser;
 use app\models\RequestExecutive;
@@ -49,7 +50,7 @@ class KabinetController extends \yii\web\Controller {
     public function actionIndex() {
         $user_id = Yii::$app->user->id;
         $isExecutive = RequestExecutive::findOne(['auth_id' => $user_id]);
-        if (!$isExecutive){
+        if (!$isExecutive) {
             $type = 'fromMe';
         } else {
             $type = Yii::$app->session->get('requestType');
@@ -57,35 +58,35 @@ class KabinetController extends \yii\web\Controller {
         }
         $detailView = null;
         $countFromMe['inactive'] = RequestUser::find()
-            ->where(['auth_id' => $user_id])
-            ->andWhere(['active' => RequestUser::STATUS_INACTIVE])
-            ->count();
+        ->where(['auth_id' => $user_id])
+        ->andWhere(['active' => RequestUser::STATUS_INACTIVE])
+        ->count();
         $countFromMe['no_answer'] = RequestUser::find()
-            ->joinWith(['request'])
-            ->where(['auth_id' => $user_id])
-            ->andWhere(['active' => RequestUser::STATUS_ACTIVE])
-            ->andwhere(['is', 'request.answer_text', null])
-            ->count();
+        ->joinWith(['request'])
+        ->where(['auth_id' => $user_id])
+        ->andWhere(['active' => RequestUser::STATUS_ACTIVE])
+        ->andwhere(['is', 'request.answer_text', null])
+        ->count();
         $countFromMe['answer'] = RequestUser::find()
-            ->joinWith(['request'])
-            ->where(['auth_id' => $user_id])
-            ->andWhere(['active' => RequestUser::STATUS_ACTIVE])
-            ->andwhere(['is not', 'request.answer_text', null])
-            ->count();
+        ->joinWith(['request'])
+        ->where(['auth_id' => $user_id])
+        ->andWhere(['active' => RequestUser::STATUS_ACTIVE])
+        ->andwhere(['is not', 'request.answer_text', null])
+        ->count();
         $countToMe['no_answer'] = Request::find()
-            ->where(['request_auth_id' => $user_id])
-            ->andWhere(['is', 'answer_text', null])
-            ->count();
+        ->where(['request_auth_id' => $user_id])
+        ->andWhere(['is', 'answer_text', null])
+        ->count();
         $countToMe['answer'] = Request::find()
-            ->where(['request_auth_id' => $user_id])
-            ->andWhere(['is not', 'answer_text', null])
-            ->count();
-        if ($type == 'toMe'){
+        ->where(['request_auth_id' => $user_id])
+        ->andWhere(['is not', 'answer_text', null])
+        ->count();
+        if ($type == 'toMe') {
             $detailView = $this->actionGetRequestsToMe();
         } else {
             $detailView = $this->actionGetRequestsFromMe();
         }
-        
+
         return $this->render('index', [
             'countFromMe' => $countFromMe,
             'countToMe' => $countToMe,
@@ -93,6 +94,17 @@ class KabinetController extends \yii\web\Controller {
             'detailView' => $detailView,
             'isExecutive' => $isExecutive,
             'type' => $type,
+        ]);
+    }
+
+
+
+    public function actionGetModalResendRequest() {
+        $id = Yii::$app->request->post('id');
+        $executiveArray = ArrayHelper::map(RequestExecutive::find()->where(['<>' , 'auth_id', Yii::$app->user->id])->all(), 'auth_id', 'fioPosition');
+        return $this->renderPartial('/modals/resend', [
+            'id' => $id,
+            'executiveArray' => $executiveArray,
         ]);
     }
 
@@ -106,7 +118,7 @@ class KabinetController extends \yii\web\Controller {
         ->joinWith(['request'])
         ->orderBy(['active' => SORT_DESC, 'request_created_at' => SORT_DESC])
         ->all();
-        if (!$model){
+        if (!$model) {
             return false;
         }
         $result = null;
@@ -173,7 +185,7 @@ class KabinetController extends \yii\web\Controller {
         ->joinWith(['requestUsers'])
         ->orderBy(['answer_created_at' => SORT_DESC, 'request_created_at' => SORT_DESC])
         ->all();
-        if (!$model){
+        if (!$model) {
             return false;
         }
         $result = null;
@@ -193,7 +205,7 @@ class KabinetController extends \yii\web\Controller {
                 $status = 'Ожидает ответа...';
                 $color = 'lightblue';
                 $actions .= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['request/answer', 'id' => $req->id], ['title' => 'Ответить', 'style' => 'margin-left: 10px;']);
-                $actions .= Html::a('<span class="glyphicon glyphicon-share-alt"></span>', '', ['class' => 'reSend', 'date-id' => $req->id, 'title' => 'Перенаправить', 'style' => 'margin-left: 10px;']);
+                $actions .= Html::a('<span class="glyphicon glyphicon-share-alt"></span>', '', ['class' => 'reSend', 'data-id' => $req->id, 'title' => 'Перенаправить', 'style' => 'margin-left: 10px;']);
             } else if ($req->answer_text) {
                 $status = 'Завершено.';
                 $color = 'lightgreen';

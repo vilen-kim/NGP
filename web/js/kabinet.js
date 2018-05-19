@@ -17,3 +17,19 @@ $("input[name=requestType]").on("click", function(){
         }
     });
 });
+
+$("a.reSend").on("click", function(){
+    var id = $(this).attr("data-id");
+    $.ajax({
+        url: '/kabinet/get-modal-resend-request',
+        type: 'POST',
+        data: {id},
+        success: function(data){
+            if (data){
+                $("#forModal").html(data);
+                $("#modalResend").modal();
+            }
+        }
+    });
+    return false;
+})
