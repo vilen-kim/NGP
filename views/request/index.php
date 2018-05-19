@@ -26,7 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'request_auth_id',
                 'content' => function ($model, $key, $index, $column) {
-                    return Html::a($model->requestAuth->fio . ' - ' . $model->requestAuth->executive->position, ['auth/view', 'id' => $model->requestAuth->id]);
+                    $result = '';
+                    if ($model->requestAuth){
+                        $result .= $model->requestAuth->fio;
+                    }
+                    if ($model->requestAuth->executive){
+                        $result .= ' - ' . $model->requestAuth->executive->position;
+                    }
+                    if ($result){
+                        return Html::a($result, ['auth/view', 'id' => $model->requestAuth->id]);
+                    } else {
+                        return '';
+                    }
+                        
                 },
             ],
             [
