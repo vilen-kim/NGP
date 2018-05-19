@@ -31,6 +31,8 @@ class AnswerForm extends Model {
 
     public function createAnswer($model) {
         $model->answer_text = $this->answer_text;
+        $model->touch('answer_created_at');
+        $model->answer_auth_id = Yii::$app->user->id;
         if ($model->save()) {
             return $model->id;
         } else {

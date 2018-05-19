@@ -43,7 +43,6 @@ if (Yii::$app->user->can('manager')){
         <h4 class="text-center"><b>Ваш ответ:</b></h4>
         <?php
             $form = ActiveForm::begin([
-                'action' => ['request/create-answer'],
                 'id' => 'answer-form',
             ]);
             echo $form->field($answer, 'answer_text')->textarea(['rows' => 6]);

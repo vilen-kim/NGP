@@ -10,8 +10,7 @@
     <b>Автор(ы): </b>
         <?php
             foreach($request->requestUsers as $users){
-                echo $users->auth->fio;
-                echo ($users->active) ? ' (активировано)<br>' : ' (не активировано)<br>';
+                echo $users->auth->fio . '<br>';
             }
         ?>
     <br>

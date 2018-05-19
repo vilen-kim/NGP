@@ -192,7 +192,8 @@ class KabinetController extends \yii\web\Controller {
             if (!$req->answer_text) {
                 $status = 'Ожидает ответа...';
                 $color = 'lightblue';
-                $actions .= Html::a('<span class="glyphicon glyphicon-share-alt"></span>', ['request/answer', 'id' => $req->id], ['title' => 'Ответить', 'style' => 'margin-left: 10px;']);
+                $actions .= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['request/answer', 'id' => $req->id], ['title' => 'Ответить', 'style' => 'margin-left: 10px;']);
+                $actions .= Html::a('<span class="glyphicon glyphicon-share-alt"></span>', '', ['class' => 'reSend', 'date-id' => $req->id, 'title' => 'Перенаправить', 'style' => 'margin-left: 10px;']);
             } else if ($req->answer_text) {
                 $status = 'Завершено.';
                 $color = 'lightgreen';

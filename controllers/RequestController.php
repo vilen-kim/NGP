@@ -32,7 +32,7 @@ class RequestController extends \yii\web\Controller {
                         'roles' => ['manager'],
                     ],
                     [
-                        'actions' => ['active', 'view', 'answer'],
+                        'actions' => ['active', 'view', 'answer', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -67,8 +67,8 @@ class RequestController extends \yii\web\Controller {
         $searchModel = new RequestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -76,8 +76,8 @@ class RequestController extends \yii\web\Controller {
 
     public function actionView($id) {
         if (!Yii::$app->user->can('manager') &&
-            !RequestUser::findOne(['request_id' => $id, 'auth_id' => Yii::$app->user->id]) &&
-            !Request::findOne(['id' => $id, 'request_auth_id' => Yii::$app->user->id])) {
+        !RequestUser::findOne(['request_id' => $id, 'auth_id' => Yii::$app->user->id, 'active' => RequestUser::STATUS_ACTIVE]) &&
+        !Request::findOne(['id' => $id, 'request_auth_id' => Yii::$app->user->id])) {
             throw new \yii\web\ForbiddenHttpException('У вас нет прав доступа.');
         }
         $model = $this->findModel($id);
@@ -90,9 +90,19 @@ class RequestController extends \yii\web\Controller {
             $authors .= '<br>';
         }
         return $this->render('view', [
-                'model' => $model,
-                'authors' => $authors,
+            'model' => $model,
+            'authors' => $authors,
         ]);
+    }
+
+
+
+    public function actionDelete($id) {
+        $model = RequestUser::findOne(['request_id' => $id, 'auth_id' => Yii::$app->user->id, 'active' => RequestUser::STATUS_INACTIVE]);
+        if ($model && $model->delete()) {
+            Yii::$app->session->setFlash('success', 'Обращение было успешно удалено');
+        }
+        $this->redirect(['kabinet/index']);
     }
 
 
@@ -123,14 +133,14 @@ class RequestController extends \yii\web\Controller {
             $author->phone = $auth->profile->phone;
         }
         $executiveArray = ArrayHelper::map(RequestExecutive::find()
-                    ->joinWith(['auth.profile'])
-                    ->orderBy('lastname')
-                    ->all(), 'auth.id', 'fioPosition');
+        ->joinWith(['auth.profile'])
+        ->orderBy('lastname')
+        ->all(), 'auth.id', 'fioPosition');
         return $this->render('write', [
-                'executiveArray' => $executiveArray,
-                'model' => $author,
-                'letter' => $letter,
-                'radioArray' => $radioArray,
+            'executiveArray' => $executiveArray,
+            'model' => $author,
+            'letter' => $letter,
+            'radioArray' => $radioArray,
         ]);
     }
 
@@ -139,6 +149,17 @@ class RequestController extends \yii\web\Controller {
     public function actionAnswer($id) {
         $request = $this->findModel($id);
         $answer = new AnswerForm;
+
+        if ($answer->load(Yii::$app->request->post()) && $answer->createAnswer($request)) {
+            foreach ($request->requestUsers as $user) {
+                if ($user->active == RequestUser::STATUS_ACTIVE) {
+                    $this->sendHaveAnswerEmail($request, $user->auth);
+                }
+            }
+            Yii::$app->session->setFlash('success', 'Ваш ответ на обращение успешно сохранен.');
+            return $this->redirect(['kabinet/index']);
+        }
+
         $authors = null;
         foreach ($request->requestUsers as $user) {
             $authors .= $user->auth->fio;
@@ -148,7 +169,7 @@ class RequestController extends \yii\web\Controller {
             $authors .= '<br>';
         }
         $user_id = Yii::$app->user->id;
-        if (RequestExecutive::findOne(['auth_id' => $user_id]) && $request->request_auth_id == $user_id){
+        if (RequestExecutive::findOne(['auth_id' => $user_id]) && $request->request_auth_id == $user_id) {
             return $this->render('answer', [
                 'request' => $request,
                 'answer' => $answer,
@@ -216,13 +237,14 @@ class RequestController extends \yii\web\Controller {
 
 
     public function actionActive($id) {
-        $model = RequestUser::find()
-            ->where(['auth_id' => Yii::$app->user->id, 'request_id' => $id])
-            ->one();
+        $model = RequestUser::findOne(['auth_id' => Yii::$app->user->id, 'request_id' => $id]);
         if ($model) {
             $model->active = RequestUser::STATUS_ACTIVE;
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Вы подписались под обращение. Теперь в случае ответа он будет продублирован на Вашу электронную почту.');
+                Yii::$app->session->setFlash('success', 'Вы подписались под обращением. Теперь в случае ответа он будет продублирован на Вашу электронную почту.');
+                if ($model->request->answer_text) {
+                    $this->sendHaveAnswerEmail($model->request, $model->auth);
+                }
             } else {
                 Yii::$app->session->setFlash('danger', 'Произошла ошибка. Пожалуйста, попробуйте позже.');
             }
@@ -275,8 +297,8 @@ class RequestController extends \yii\web\Controller {
                 foreach ($auth_ids as $id) {
                     $this->sendActivateEmail($id);
                     $this->sendRequestEmail($id, $countAuthors, $request_id);
-                    $this->sendHaveRequestEmail($request_id);
                 }
+                $this->sendHaveRequestEmail($request_id);
                 Yii::$app->session->setFlash('success', 'Обращение успешно создано. На электронную почту была отправлена инструкция по дальнейшим действиям.');
                 return $this->redirect(['site/index']);
             } catch (\Exception $e) {
@@ -296,10 +318,10 @@ class RequestController extends \yii\web\Controller {
                 return false;
             }
             if (!$res = Yii::$app->mailer->compose(['html' => 'activateForRequest'], ['auth' => $auth])
-                ->setFrom(Yii::$app->params['noreplyEmail'])
-                ->setTo($auth->email)
-                ->setSubject("Активация учетной записи на сайте " . Yii::$app->params['siteCaption'])
-                ->send()) {
+            ->setFrom(Yii::$app->params['noreplyEmail'])
+            ->setTo($auth->email)
+            ->setSubject("Активация учетной записи на сайте " . Yii::$app->params['siteCaption'])
+            ->send()) {
                 Yii::warning('Ошибка отправки письма активации activateForRequest', 'email_category');
                 return false;
             }
@@ -319,10 +341,10 @@ class RequestController extends \yii\web\Controller {
             $type = 'requestGroup';
         }
         if (!$res = Yii::$app->mailer->compose(['html' => $type], ['auth' => $auth, 'request' => $request])
-            ->setFrom(Yii::$app->params['noreplyEmail'])
-            ->setTo($auth->email)
-            ->setSubject("Создание обращения на сайте " . Yii::$app->params['siteCaption'])
-            ->send()) {
+        ->setFrom(Yii::$app->params['noreplyEmail'])
+        ->setTo($auth->email)
+        ->setSubject("Создание обращения на сайте " . Yii::$app->params['siteCaption'])
+        ->send()) {
             Yii::warning('Ошибка отправки письма о создании обращения', 'email_category');
             return false;
         }
@@ -334,11 +356,25 @@ class RequestController extends \yii\web\Controller {
     private function sendHaveRequestEmail($request_id) {
         $request = Request::findOne(['id' => $request_id]);
         if (!$res = Yii::$app->mailer->compose(['html' => 'haveRequest'], ['request' => $request])
-            ->setFrom(Yii::$app->params['noreplyEmail'])
-            ->setTo($request->requestAuth->email)
-            ->setSubject("Вам обращение с сайта " . Yii::$app->params['siteCaption'])
-            ->send()) {
+        ->setFrom(Yii::$app->params['noreplyEmail'])
+        ->setTo($request->requestAuth->email)
+        ->setSubject("Вам обращение с сайта " . Yii::$app->params['siteCaption'])
+        ->send()) {
             Yii::warning('Ошибка отправки письма о поступлении обращения', 'email_category');
+            return false;
+        }
+        return true;
+    }
+
+
+
+    private function sendHaveAnswerEmail($request, $auth) {
+        if (!$res = Yii::$app->mailer->compose(['html' => 'haveAnswer'], ['request' => $request, 'auth' => $auth])
+        ->setFrom(Yii::$app->params['noreplyEmail'])
+        ->setTo($auth->email)
+        ->setSubject("Ответ на Ваше обращение с сайта " . Yii::$app->params['siteCaption'])
+        ->send()) {
+            Yii::warning('Ошибка отправки письма о поступлении ответа на обращение', 'email_category');
             return false;
         }
         return true;
