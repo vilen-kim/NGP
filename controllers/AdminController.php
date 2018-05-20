@@ -80,8 +80,9 @@ class AdminController extends \yii\web\Controller {
             $id = $item['id'];
             if (!Pages::findOne(['vk_id' => $id])) {
                 $page = new Pages;
-                $page->caption = 'Запись в ВК';
-                $page->text = '<p>' . nl2br($item['text']) . '</p>';
+                $page->text = '<p>' . nl2br($item['text'], false) . '</p>';
+                $caption = stristr($page->text, '<br>', true);
+                $page->caption = ($caption) ? $caption :'Запись в ВК';
                 $page->category_id = 2;
                 $page->vk_id = $item['id'];
                 $page->auth_id = Yii::$app->user->id;
