@@ -6,7 +6,6 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
-use phpQuery;
 use app\models\Auth;
 use app\models\Pages;
 use app\models\Menu;
@@ -60,6 +59,14 @@ class AdminController extends \yii\web\Controller {
 
 
     public function actionGetWall() {
+        $photoSizeArray = [
+            //'photo_2560',
+            //'photo_1280',
+            'photo_807',
+            'photo_604',
+            'photo_130',
+            'photo_75',
+        ];
         $owner_id = Yii::$app->vk->owner_id;
         $count = 0;
         $haveErrors = null;
@@ -68,15 +75,40 @@ class AdminController extends \yii\web\Controller {
             'count' => 10,
             'v' => '5.75',
         ]);
-        foreach($walls['response']['items'] as $item){
+        $rev_walls = array_reverse($walls['response']['items']);
+        foreach ($rev_walls as $item) {
             $id = $item['id'];
             if (!Pages::findOne(['vk_id' => $id])) {
                 $page = new Pages;
                 $page->caption = 'Запись в ВК';
-                $page->text = '<p>' . str_replace("\r\n", '</p><p>', $item['text']) . '</p>';
+                $page->text = '<p>' . nl2br($item['text']) . '</p>';
                 $page->category_id = 2;
                 $page->vk_id = $item['id'];
                 $page->auth_id = Yii::$app->user->id;
+
+                foreach ($item['attachments'] as $attach) {
+                    switch ($attach['type']) {
+                        case 'photo':
+                            foreach ($photoSizeArray as $size) {
+                                if (isset($attach['photo'][$size])) {
+                                    $page->text .= '<p>' . Html::img($attach['photo'][$size]) . '</p>';
+                                    break;
+                                }
+                            }
+                            break;
+                        case 'link':
+                            $url = $attach['link']['url'];
+                            foreach ($photoSizeArray as $size) {
+                                if (isset($attach['link']['photo'][$size])) {
+                                    $img = Html::img($attach['link']['photo'][$size]);
+                                    $page->text .= '<p>' . Html::a($img, $url) . '</p>';
+                                    break;
+                                }
+                            }
+                            break;
+                    }
+                }
+
                 if (!$page->save()) {
                     $haveErrors = true;
                 } else {
