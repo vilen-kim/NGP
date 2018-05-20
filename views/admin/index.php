@@ -38,6 +38,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'caption' => 'Обращения',
             'options' => Yii::$app->user->can('manager') ? ['class' => 'btn btn-default changeBack'] : ['class' => 'btn btn-default', 'disabled' => '', 'onClick' => 'return false;'],
         ],
+        'wall' => [
+            'count' => '<span class="badge">' . $count['wall'] . '</span>',
+            'url' => Yii::$app->user->can('editor') ? Url::to(['admin/get-wall']) : '',
+            'caption' => 'Получить записи со стены в ВК',
+            'options' => Yii::$app->user->can('editor') ? ['class' => 'btn btn-default changeBack'] : ['class' => 'btn btn-default', 'disabled' => '', 'onClick' => 'return false;'],
+        ],
+        
     ];
 
     foreach ($array as $arr) {

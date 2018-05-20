@@ -29,6 +29,7 @@ class Pages extends \yii\db\ActiveRecord {
         if (!$this->purified_text && $this->text) {
             $this->purified_text = HTMLPurifier::process($this->text, [
                 'Attr.EnableID' => true,
+                'AutoFormat.AutoParagraph' => true,
             ]);
             $this->update();
         }
@@ -47,7 +48,7 @@ class Pages extends \yii\db\ActiveRecord {
         return [
             [['caption', 'text', 'category_id', 'auth_id'], 'required', 'message' => 'Это обязательное поле'],
             [['text', 'purified_text'], 'string'],
-            [['category_id', 'auth_id'], 'integer'],
+            [['category_id', 'auth_id', 'vk_id'], 'integer'],
             [['caption'], 'string', 'max' => 1024],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['auth_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['auth_id' => 'id']],
@@ -66,6 +67,7 @@ class Pages extends \yii\db\ActiveRecord {
             'updated_at' => 'Изменение',
             'fio' => 'Последний редактор',
             'categoryCaption' => 'Категория',
+            'vk_id' => 'ID статьи в ВК',
         ];
     }
 

@@ -35,3 +35,7 @@
 .site-phone td:nth-child(1) {
     text-align: center;
 }
+
+.site-show pre {
+    white-space: pre-line;
+}
