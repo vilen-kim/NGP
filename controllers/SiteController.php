@@ -21,9 +21,12 @@ class SiteController extends \yii\web\Controller {
 
 
 
-    public function actionIndex() {
+    public function actionIndex($reset = false) {
         $all = Pages::find()->where(['in', 'category_id', [2, 3, 4]])->count();
-        $count = min($all, 3);
+        $loadedNews = Yii::$app->session->get('loadedNews');
+        $loadedNews = (!$loadedNews) ? 3 : $loadedNews;
+        $min = ($reset) ? 3 : $loadedNews;
+        $count = min($all, $min);
         $remain = $all - $count;
         return $this->render('index', [
             'count' => $count,
@@ -67,6 +70,7 @@ class SiteController extends \yii\web\Controller {
         for ($i = $loaded; $i < $loaded + $count; $i++) {
             $result .= NewsWidget::widget(['num' => $i]);
         }
+        Yii::$app->session->set('loadedNews', $loaded + $count);
         return $result;
     }
 
