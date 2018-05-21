@@ -7,7 +7,7 @@
 
     <!-- Логотип -->
     <div class="col-md-1">
-        <?= Html::a(Html::img('@web/images/logo_white.gif', ['id' => 'header_logo', 'class' => 'scale']), Url::to(['site/index', 'reset' => true])) ?>
+        <?= Html::a(Html::img('@web/images/logo_white.gif', ['id' => 'header_logo', 'class' => 'scale']), Url::to(['site/index'])) ?>
     </div>
 
     <!-- Поиск -->

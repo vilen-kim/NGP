@@ -80,7 +80,7 @@ class AdminController extends \yii\web\Controller {
             $id = $item['id'];
             if (!Pages::findOne(['vk_id' => $id])) {
                 $page = new Pages;
-                $page->text = '<p>' . nl2br($item['text'], false) . '</p>';
+                $page->text = nl2br($item['text'], false);
                 $caption = stristr($page->text, '<br>', true);
                 $page->caption = ($caption) ? $caption :'Запись в ВК';
                 $page->category_id = 2;

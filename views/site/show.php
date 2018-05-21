@@ -11,9 +11,14 @@ $this->title = $model->caption;
 <h3 class="page-header text-center"><?= $this->title ?></h3>
 
 <div class="site-show container">
-
+    <div class="toBack">
+        <?= Html::a('<span class="glyphicon glyphicon-triangle-left"></span>Назад', '') ?>
+    </div>
     <div class="text-justify">
         <?= $model->purified_text ?>
+    </div>
+    <div class="toBack">
+        <?= Html::a('<span class="glyphicon glyphicon-triangle-left"></span>Назад', '') ?>
     </div>
 
     <?php

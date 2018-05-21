@@ -21,11 +21,10 @@ class SiteController extends \yii\web\Controller {
 
 
 
-    public function actionIndex($reset = false) {
+    public function actionIndex() {
         $all = Pages::find()->where(['in', 'category_id', [2, 3, 4]])->count();
         $loadedNews = Yii::$app->session->get('loadedNews');
-        $loadedNews = (!$loadedNews) ? 3 : $loadedNews;
-        $min = ($reset) ? 3 : $loadedNews;
+        $min = (!$loadedNews) ? 3 : $loadedNews;
         $count = min($all, $min);
         $remain = $all - $count;
         return $this->render('index', [
