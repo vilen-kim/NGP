@@ -87,26 +87,28 @@ class AdminController extends \yii\web\Controller {
                 $page->vk_id = $item['id'];
                 $page->auth_id = Yii::$app->user->id;
 
-                foreach ($item['attachments'] as $attach) {
-                    switch ($attach['type']) {
-                        case 'photo':
-                            foreach ($photoSizeArray as $size) {
-                                if (isset($attach['photo'][$size])) {
-                                    $page->text .= '<p>' . Html::img($attach['photo'][$size]) . '</p>';
-                                    break;
+                if (isset($item['attachments'])){
+                    foreach ($item['attachments'] as $attach) {
+                        switch ($attach['type']) {
+                            case 'photo':
+                                foreach ($photoSizeArray as $size) {
+                                    if (isset($attach['photo'][$size])) {
+                                        $page->text .= '<p>' . Html::img($attach['photo'][$size]) . '</p>';
+                                        break;
+                                    }
                                 }
-                            }
-                            break;
-                        case 'link':
-                            $url = $attach['link']['url'];
-                            foreach ($photoSizeArray as $size) {
-                                if (isset($attach['link']['photo'][$size])) {
-                                    $img = Html::img($attach['link']['photo'][$size]);
-                                    $page->text .= '<p>' . Html::a($img, $url) . '</p>';
-                                    break;
+                                break;
+                            case 'link':
+                                $url = $attach['link']['url'];
+                                foreach ($photoSizeArray as $size) {
+                                    if (isset($attach['link']['photo'][$size])) {
+                                        $img = Html::img($attach['link']['photo'][$size]);
+                                        $page->text .= '<p>' . Html::a($img, $url) . '</p>';
+                                        break;
+                                    }
                                 }
-                            }
-                            break;
+                                break;
+                        }
                     }
                 }
 
