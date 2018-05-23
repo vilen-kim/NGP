@@ -48,3 +48,14 @@
 .request-view table.detail-view th {
     width: 20%;
 }
+
+.request-share .row:nth-child(odd) {
+    margin: 0px 10px;
+    padding: 20px;
+    background: lightgoldenrodyellow;
+}
+.request-share .row:nth-child(even) {
+    margin: 0px 10px;
+    padding: 20px;
+    background: lightblue;
+}

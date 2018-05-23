@@ -37,7 +37,7 @@ class RequestController extends \yii\web\Controller {
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['info', 'get-executive', 'get-next-author', 'write', 'create-request-and-authors'],
+                        'actions' => ['info', 'share', 'get-executive', 'get-next-author', 'write', 'create-request-and-authors'],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
@@ -178,6 +178,28 @@ class RequestController extends \yii\web\Controller {
         } else {
             throw new \yii\web\ForbiddenHttpException('У вас нет прав доступа.');
         }
+    }
+
+
+
+    public function actionShare($id = false) {
+        if ($id && RequestExecutive::findOne(['auth_id' => Yii::$app->user->id])){
+            $model = Request::findOne(['id' => $id]);
+            if ($model->answer_text){
+                $model->share = true;
+                if ($model->save()){
+                    Yii::$app->session->setFlash('success', 'Обращение успешно расшарено.');
+                } else {
+                    Yii::$app->session->setFlash('danger', 'Произошла ошибка. Попробуйте позже.');
+                }
+                return $this->redirect(['kabinet/index']);
+            }
+        }
+        
+        $model = Request::find()->where(['share' => true])->orderBy(['request_created_at' => SORT_DESC])->all();
+        return $this->render('share', [
+            'model' => $model,
+        ]);
     }
 
 
@@ -387,7 +409,9 @@ class RequestController extends \yii\web\Controller {
         }
         return true;
     }
-    
+
+
+
     private function sendResendRequestEmail($request_id, $fio) {
         $request = Request::findOne(['id' => $request_id]);
         if (!$res = Yii::$app->mailer->compose(['html' => 'haveResendRequest'], ['request' => $request, 'fio' => $fio])

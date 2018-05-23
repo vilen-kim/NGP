@@ -33,7 +33,7 @@ class Request extends \yii\db\ActiveRecord {
         return [
             [['request_text', 'request_auth_id'], 'required'],
             [['request_text', 'answer_text'], 'string'],
-            [['request_auth_id', 'request_created_at', 'answer_created_at', 'answer_auth_id'], 'integer'],
+            [['request_auth_id', 'request_created_at', 'answer_created_at', 'answer_auth_id', 'share'], 'integer'],
             [['answer_auth_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['answer_auth_id' => 'id']],
             [['request_auth_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['request_auth_id' => 'id']],
         ];
@@ -50,6 +50,7 @@ class Request extends \yii\db\ActiveRecord {
             'answer_text' => 'Текст ответа',
             'answer_created_at' => 'Дата ответа',
             'answer_auth_id' => 'Автор ответа',
+            'share' => 'Неопределенное обращение',
         ];
     }
 

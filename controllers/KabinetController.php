@@ -209,6 +209,7 @@ class KabinetController extends \yii\web\Controller {
             } else if ($req->answer_text) {
                 $status = 'Завершено.';
                 $color = 'lightgreen';
+                $actions .= Html::a('<span class="glyphicon glyphicon-blackboard"></span>', ['request/share', 'id' => $req->id], ['title' => 'Расшарить для просмотра', 'style' => 'margin-left: 10px;']);
             }
             $result .= DetailView::widget([
                 'model' => $req,
