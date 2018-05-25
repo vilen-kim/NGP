@@ -8,6 +8,6 @@ return [
     'ckeditorClientOptions' => [
         'allowedContent' => true,
         'language' => 'ru',
-        'extraPlugins' => 'justify',
+        'extraPlugins' => 'youtube',
     ]
 ];
