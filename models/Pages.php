@@ -29,6 +29,8 @@ class Pages extends \yii\db\ActiveRecord {
         if (!$this->purified_text && $this->text) {
             $this->purified_text = HTMLPurifier::process($this->text, [
                 'Attr.EnableID' => true,
+                'HTML.SafeIframe' => true,
+                'URI.SafeIframeRegexp' => '%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%',
                 'AutoFormat.AutoParagraph' => true,
             ]);
             $this->update();
