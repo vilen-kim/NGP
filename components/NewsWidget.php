@@ -4,6 +4,7 @@ namespace app\components;
 use Yii;
 use yii\helpers\Html;
 use yii\base\Widget;
+use yii\helpers\Url;
 use app\models\Pages;
 use app\models\Category;
 
@@ -37,6 +38,7 @@ class NewsWidget extends Widget
                 break;
             }
         }
+        $this->image = (!$this->image) ? Url::to("/images/emptyNewsImage.jpg") : $this->image;
         
         // Очищаем текст от тэгов HTML
         $text = strip_tags($model->purified_text);
