@@ -71,4 +71,10 @@ class Request extends \yii\db\ActiveRecord {
     public function getRequestUsers() {
         return $this->hasMany(RequestUser::className(), ['request_id' => 'id']);
     }
+
+
+
+    public function isShare() {
+        return ($this->share) ? true : false;
+    }
 }

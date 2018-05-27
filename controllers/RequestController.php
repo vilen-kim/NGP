@@ -6,6 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 use app\models\forms\AuthorForm;
@@ -16,6 +17,7 @@ use app\models\RequestExecutive;
 use app\models\RequestUser;
 use app\models\RequestSearch;
 use app\models\Auth;
+use kartik\mpdf\Pdf;
 
 class RequestController extends \yii\web\Controller {
 
@@ -32,12 +34,20 @@ class RequestController extends \yii\web\Controller {
                         'roles' => ['manager'],
                     ],
                     [
-                        'actions' => ['active', 'view', 'answer', 'delete', 'resend'],
+                        'actions' => ['active', 'view', 'answer', 'delete', 'resend', 'un-share'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['info', 'share', 'get-executive', 'get-next-author', 'write', 'create-request-and-authors'],
+                        'actions' => [
+                            'info',
+                            'share',
+                            'get-executive',
+                            'get-next-author',
+                            'get-pdf',
+                            'write',
+                            'create-request-and-authors'
+                        ],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
@@ -183,23 +193,89 @@ class RequestController extends \yii\web\Controller {
 
 
     public function actionShare($id = false) {
-        if ($id && RequestExecutive::findOne(['auth_id' => Yii::$app->user->id])){
-            $model = Request::findOne(['id' => $id]);
-            if ($model->answer_text){
+        if ($id && RequestExecutive::findOne(['auth_id' => Yii::$app->user->id])) {
+            $model = Request::findOne(['id' => $id, 'answer_auth_id' => Yii::$app->user->id, 'share' => null]);
+            if ($model->answer_text) {
                 $model->share = true;
-                if ($model->save()){
+                if ($model->save()) {
+                    $this->createPdf($model);
                     Yii::$app->session->setFlash('success', 'Обращение успешно расшарено.');
                 } else {
                     Yii::$app->session->setFlash('danger', 'Произошла ошибка. Попробуйте позже.');
                 }
-                return $this->redirect(['kabinet/index']);
             }
+            return $this->redirect(['kabinet/index']);
         }
-        
+
+        $array = [];
         $model = Request::find()->where(['share' => true])->orderBy(['request_created_at' => SORT_DESC])->all();
+        $num = count($model);
+        foreach ($model as $element) {
+            $i = Html::tag('i', 'Вопрос от ' . Yii::$app->formatter->asDate($element->request_created_at));
+            $pHeader = Html::tag('p', "$num. $i", ['class' => 'small', 'style' => 'font-weight: bold']);
+            $pContent = Html::tag('p', Html::encode($element->request_text), ['class' => 'text-justify']);
+            $div11 = Html::tag('div', $pHeader . $pContent, ['class' => 'col-md-11']);
+            $pdfLink = Html::a(Html::img('/images/pdf.svg', ['width' => '40px']), "/pdf/$element->id.pdf", ['class' => 'getPdf']);
+            $div1 = Html::tag('div', $pdfLink, ['class' => 'col-md-1 text-center']);
+            $divRow = Html::tag('div', $div11 . $div1, ['class' => 'row']);
+            $question = $divRow;
+
+            $i = Html::tag('i', 'Ответ от ' . Yii::$app->formatter->asDate($element->answer_created_at));
+            $pHeader = Html::tag('p', "$i", ['class' => 'small', 'style' => 'font-weight: bold']);
+            $pContent = Html::tag('p', Html::encode($element->answer_text), ['class' => 'text-justify']);
+            $answer = $pHeader . $pContent;
+
+            $array[] = [
+                'header' => $question,
+                'content' => $answer,
+            ];
+            $num--;
+        }
         return $this->render('share', [
             'model' => $model,
+            'array' => $array,
         ]);
+    }
+
+
+
+    public function actionUnShare($id) {
+        if ($id && RequestExecutive::findOne(['auth_id' => Yii::$app->user->id])) {
+            $model = Request::findOne(['id' => $id, 'answer_auth_id' => Yii::$app->user->id, 'share' => true]);
+            $model->share = null;
+            if ($model->save()) {
+                system("rm -rf pdf/$id.pdf");
+                Yii::$app->session->setFlash('success', 'Обращение снято с общего просмотра.');
+            } else {
+                var_dump($model->errors);
+                Yii::$app->session->setFlash('danger', 'Произошла ошибка. Попробуйте позже.');
+            }
+        }
+        return $this->redirect(['kabinet/index']);
+    }
+
+
+
+    private function createPdf($model) {
+        $i = Html::tag('i', 'Вопрос от ' . Yii::$app->formatter->asDate($model->request_created_at));
+        $pHeader = Html::tag('p', $i, ['class' => 'small', 'style' => 'font-weight: bold']);
+        $pContent = Html::tag('p', Html::encode($model->request_text), ['class' => 'text-justify']);
+        $question = $pHeader . $pContent;
+
+        $i = Html::tag('i', 'Ответ от ' . Yii::$app->formatter->asDate($model->answer_created_at));
+        $pHeader = Html::tag('p', "$i", ['class' => 'small', 'style' => 'font-weight: bold']);
+        $pContent = Html::tag('p', Html::encode($model->answer_text), ['class' => 'text-justify']);
+        $answer = $pHeader . $pContent;
+
+        $pdf = new Pdf([
+            'content' => "$question<br><br>$answer",
+            'filename' => "pdf/$model->id.pdf",
+            'destination' => Pdf::DEST_FILE,
+            'options' => [
+                'title' => 'Ответы на обращения, затрагивающие интересы неопределенного круга лиц',
+            ],
+        ]);
+        return $pdf->render();
     }
 
 

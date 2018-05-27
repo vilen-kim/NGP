@@ -4,6 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $url = require __DIR__ . '/url.php';
 $vk = require __DIR__ . '/vk.php';
+$pdf = require __DIR__ . '/pdf.php';
 
 $config = [
     'id' => 'basic',
@@ -66,6 +67,7 @@ $config = [
             'class' => 'yii\rbac\DbManager',
         ],
         'vk' => $vk,
+        'pdf' => $pdf,
     ],
     'params' => $params,
 ];
