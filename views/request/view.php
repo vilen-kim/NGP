@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 app\assets\RequestAsset::register($this);

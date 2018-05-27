@@ -17,7 +17,7 @@ $this->title = 'Информация для ознакомления, желаю
     <div class="col-md-4 col-md-offset-5">
         <?php
         $element = '<div class="changeBack" style="padding: 8px;">Ответы на обращения, затрагивающие интересы неопределенного круга лиц</div>';
-        echo Html::a($element, ['request/answers']);
+        echo Html::a($element, ['request/share']);
         ?>
     </div>
 </div>

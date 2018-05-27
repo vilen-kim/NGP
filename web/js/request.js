@@ -57,3 +57,8 @@ $('body').on('submit', 'form#letter-form', function(event) {
     });
     return false;
 });
+
+$('.getPdf').on('click', function(){
+    location = $(this).attr('href');
+    return false;
+})
