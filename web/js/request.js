@@ -1,7 +1,7 @@
-$("input[name=typeExecutive]").on("click", function(){
+$("input[name=typeExecutive]").on("click", function () {
     var type = $(this).val();
     var select = $("select#executive_id");
-    if (type == 'organization'){
+    if (type == 'organization') {
         select.attr('disabled', true);
     } else {
         select.attr('disabled', false);
@@ -9,14 +9,14 @@ $("input[name=typeExecutive]").on("click", function(){
             url: '/request/get-executive',
             type: 'POST',
             data: {type},
-            success: function(data){
+            success: function (data) {
                 select.html(data);
             }
         });
     }
 });
 
-$('body').on('submit', 'form#author-form', function(event) {
+$('body').on('submit', 'form#author-form', function (event) {
     event.preventDefault();
     var form = $(this);
     if (form.find('.has-error').length) {
@@ -26,21 +26,21 @@ $('body').on('submit', 'form#author-form', function(event) {
         url: form.attr('action'),
         type: 'POST',
         data: form.serialize(),
-        success: function(data){
+        success: function (data) {
             $("#titlePrevAuthors").removeClass('hidden');
             $("#prevAuthors").append(data);
-            $(':input','#author-form')
-                .not(':button, :submit, :reset, :hidden')
-                .val('')
-                .prop('checked', false)
-                .prop('selected', false);
+            $(':input', '#author-form')
+                    .not(':button, :submit, :reset, :hidden')
+                    .val('')
+                    .prop('checked', false)
+                    .prop('selected', false);
             form.yiiActiveForm('validate', true);
         }
     });
     return false;
 });
 
-$('body').on('submit', 'form#letter-form', function(event) {
+$('body').on('submit', 'form#letter-form', function (event) {
     event.preventDefault();
     var letterForm = $(this);
     if (letterForm.find('.has-error').length) {
@@ -49,8 +49,8 @@ $('body').on('submit', 'form#letter-form', function(event) {
     $.post({
         url: letterForm.attr('action'),
         data: $("#letter-form, #author-form").serialize(),
-        success: function(data){
-            if (data == false){
+        success: function (data) {
+            if (data == false) {
                 alert("Укажите автора(ов) обращения");
             }
         }
@@ -58,7 +58,13 @@ $('body').on('submit', 'form#letter-form', function(event) {
     return false;
 });
 
-$('.getPdf').on('click', function(){
+$('.getPdf').on('click', function () {
     location = $(this).attr('href');
     return false;
-})
+});
+
+$('#dateFilter').on('click', function () {
+    date = $("input[name=date]").val();
+    location = '/request/share?date=' + date;
+    return false;
+});

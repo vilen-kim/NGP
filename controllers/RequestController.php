@@ -18,6 +18,9 @@ use app\models\RequestUser;
 use app\models\RequestSearch;
 use app\models\Auth;
 use kartik\mpdf\Pdf;
+use yii\data\Pagination;
+use DateTime;
+use DateInterval;
 
 class RequestController extends \yii\web\Controller {
 
@@ -192,7 +195,7 @@ class RequestController extends \yii\web\Controller {
 
 
 
-    public function actionShare($id = false) {
+    public function actionShare($id = false, $date = false) {
         if ($id && RequestExecutive::findOne(['auth_id' => Yii::$app->user->id])) {
             $model = Request::findOne(['id' => $id, 'answer_auth_id' => Yii::$app->user->id, 'share' => null]);
             if ($model->answer_text) {
@@ -208,11 +211,24 @@ class RequestController extends \yii\web\Controller {
         }
 
         $array = [];
-        $model = Request::find()->where(['share' => true])->orderBy(['request_created_at' => SORT_DESC])->all();
-        $num = count($model);
+        $query = Request::find()->where(['share' => true])->orderBy(['request_created_at' => SORT_DESC]);
+        if ($date){
+            $date = DateTime::createFromFormat('d.m.Y', $date);
+            $date->setTime(0, 0, 0);
+            $unixDateStart = $date->getTimeStamp();
+            $date->add(new DateInterval('P1D'));
+            $date->sub(new DateInterval('PT1S'));
+            $unixDateEnd = $date->getTimeStamp();
+            $query->andWhere(['between', 'request_created_at', $unixDateStart, $unixDateEnd]);
+        }
+        $countQuery = clone $query;
+        $totalCount = $countQuery->count();
+        $pages = new Pagination(['totalCount' => $totalCount, 'pageSize' => 10]);
+        $pages->pageSizeParam = false;
+        $model = $query->offset($pages->offset)->limit($pages->limit)->all();
         foreach ($model as $element) {
             $i = Html::tag('i', 'Вопрос от ' . Yii::$app->formatter->asDate($element->request_created_at));
-            $pHeader = Html::tag('p', "$num. $i", ['class' => 'small', 'style' => 'font-weight: bold']);
+            $pHeader = Html::tag('p', $i, ['class' => 'small', 'style' => 'font-weight: bold']);
             $pContent = Html::tag('p', Html::encode($element->request_text), ['class' => 'text-justify']);
             $div11 = Html::tag('div', $pHeader . $pContent, ['class' => 'col-md-11']);
             $pdfLink = Html::a(Html::img('/images/pdf.svg', ['width' => '40px']), "/pdf/$element->id.pdf", ['class' => 'getPdf']);
@@ -229,11 +245,11 @@ class RequestController extends \yii\web\Controller {
                 'header' => $question,
                 'content' => $answer,
             ];
-            $num--;
         }
         return $this->render('share', [
             'model' => $model,
             'array' => $array,
+            'pages' => $pages,
         ]);
     }
 
