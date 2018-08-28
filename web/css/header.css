@@ -1,44 +1,5 @@
 header {
-    height: 80px;
-    background: url("/images/headerBackground.png");
-    background-position: 82% 83%;
-}
-
-header > div:nth-child(2), header > div:nth-child(3) {
-    height: 100%;
-    padding-top: 20px;
-}
-
-header > div:nth-child(4), header > div:nth-child(5) {
-    padding: 13px 10px;
-    text-align: right;
-}
-
-header #header_logo {
-    height: 80px;
-}
-
-header #header_searchText {
-    float: left;
-    width: 100%;
-}
-
-header #header_searchImg {
-    width: 30px;
-}
-
-header #header_phone {
-    color: black;
-    font-weight: bold;
-    font-size: 1.5em;
-}
-
-header #header_questionImg {
-    margin-left: 10px;
-    margin-bottom: 2px;
-    height: 30px;
-}
-
-header #header_menuImg {
-    height: 50px;
+    height: 90px;
+    padding: 5px;
+    border-bottom: 1px solid lightgray;
 }
