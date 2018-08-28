@@ -2,9 +2,8 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Pages;
-use app\components\NewsWidget;
+use app\components\News;
 use yii\web\NotFoundHttpException;
 
 class SiteController extends \yii\web\Controller {
@@ -22,14 +21,9 @@ class SiteController extends \yii\web\Controller {
 
 
     public function actionIndex() {
-        $all = Pages::find()->where(['in', 'category_id', [2, 3, 4]])->count();
-        $loadedNews = Yii::$app->session->get('loadedNews');
-        $min = (!$loadedNews) ? 3 : $loadedNews;
-        $count = min($all, $min);
-        $remain = $all - $count;
+        $lastNews = new News(0, 200);
         return $this->render('index', [
-            'count' => $count,
-            'remain' => $remain,
+            'news' => $lastNews,
         ]);
     }
 
@@ -57,20 +51,6 @@ class SiteController extends \yii\web\Controller {
         return $this->render('show', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-
-
-    public function actionLoadNews() {
-        $loaded = Yii::$app->request->post('loaded');
-        $all = Pages::find()->where(['in', 'category_id', [2, 3, 4]])->count();
-        $count = min($all - $loaded, 3);
-        $result = null;
-        for ($i = $loaded; $i < $loaded + $count; $i++) {
-            $result .= NewsWidget::widget(['num' => $i]);
-        }
-        Yii::$app->session->set('loadedNews', $loaded + $count);
-        return $result;
     }
 
 

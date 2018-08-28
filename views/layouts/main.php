@@ -31,8 +31,8 @@
             echo $this->render('/modals/phone.php');
         ?>
         
-        <div class="container-fluid">
-            <div style="margin-bottom: 20px">
+        <div class="container">
+            <div style="margin-top: 50px;">
                 <?= $content ?>
             </div>
         </div>

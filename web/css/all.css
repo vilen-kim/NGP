@@ -4,7 +4,6 @@ html {
 }
 body {
     height: 100%;
-    color: black;
     margin-bottom: 90px;
     font-family: 'PT Sans', sans-serif;
 }
@@ -15,6 +14,10 @@ img {
 .largeBold {
     font-weight: bold;
     font-size: xx-large;
+}
+.mediumGray {
+    font-size: large;
+    color: gray;
 }
 .textInput {
     border: none;
