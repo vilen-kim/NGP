@@ -19,6 +19,15 @@ img {
     font-size: large;
     color: gray;
 }
+.mediumWhiteBold {
+    font-weight: bold;
+    font-size: medium;
+    color: white;
+}
+.smallWhite {
+    font-size: small;
+    color: white;
+}
 .textInput {
     border: none;
     border-bottom: 1px solid black;

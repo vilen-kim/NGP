@@ -23,6 +23,7 @@
         <?php
             $this->beginBody();
             echo $this->render('./header');
+            
             echo Breadcrumbs::widget(['links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 'homeLink' => false]);
             foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
                 echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
