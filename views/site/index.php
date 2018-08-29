@@ -8,48 +8,60 @@ $this->title = 'Няганская городская поликлиника';
 <div class="site-index row">
 
     <div class="jumbotron col-md-5" style='padding: 0px;'>
-        <?= Html::img($news->image, ['width' => '100%', 'style' => 'border-radius: 1px']) ?>
+        <?= Html::img($news->image, ['id' => 'image', 'width' => '100%']) ?>
     </div>
-    <div class="col-md-5 col-md-offset-1" style="margin-top: 20px;">
-        <div class="largeBold"><?= Html::a($news->caption, ['site/show', 'id' => $news->id]) ?></div>
-        <div class="mediumGray"><?= $news->text ?></div>
-        <div id='over'></div>
+    
+    <div class="col-md-6 col-md-offset-1">
+        <div class="largeBold" id="header"><?= Html::a($news->caption, ['site/show', 'id' => $news->id]) ?></div>
+        <div class="mediumNormal" id="text"><?= $news->text ?></div>
+        <div id="over"></div>
     </div>
-    <div class="col-md-1">
-        <?php $height = 10 ?>
-        <div><?= Html::a(Html::img('@web/images/select_circle.svg', ['height' => $height, 'style' => 'margin-bottom: 10px; margin-top: 80px;']), '') ?></div>
-        <div><?= Html::a(Html::img('@web/images/unselect_circle.svg', ['height' => $height, 'style' => 'margin-bottom: 10px;']), '') ?></div>
-        <div><?= Html::a(Html::img('@web/images/unselect_circle.svg', ['height' => $height, 'style' => 'margin-bottom: 10px;']), '') ?></div>
-        <div><?= Html::a(Html::img('@web/images/unselect_circle.svg', ['height' => $height, 'style' => 'margin-bottom: 10px;']), '') ?></div>
-        <div><?= Html::a(Html::img('@web/images/unselect_circle.svg', ['height' => $height, 'style' => 'margin-bottom: 10px;']), '') ?></div>
+    
+    <div class="col-md-12 text-center" id="circles">
+        <?php
+            $height = 20;
+            $selectImage = Html::img('@web/images/select_circle.svg', ['height' => $height]);
+            $unselectImage = Html::img('@web/images/unselect_circle.svg', ['height' => $height]);
+            echo Html::a($selectImage, '');
+            for ($i = 0; $i < 4; $i++){
+                echo Html::a($unselectImage, '');
+            }
+        ?>
     </div>
 
 </div>
 
 <?php
     $this->registerCss('
-        div.largeBold {
-            margin-bottom: 20px;
+        #image {
+            border-radius: 1px;
+        }
+        #header {
+            margin-bottom: 10px;
             letter-spacing: 2px;
             line-height: 1.3;
         }
-        div.largeBold a {
-            color: rgb(51,51,51);
-        }
-        div.mediumGray {
+        #text {
             position: absolute;
-            height: 150px;
             overflow: hidden;
             z-index: 1;
         }
-        div#over {
+        #over {
             position: absolute;
-            height: 150px;
             background: linear-gradient(to bottom, transparent, transparent, transparent, white);
             z-index: 2;
+        }
+        #circles img {
+            margin-right: 10px;
+            margin-top: -10px;
         }
     ');
     
     $this->registerJs('
-        $("div#over").width($("div.mediumGray").width());
+        width = $("#text").width();
+        bottom = $("#image").offset().top + $("#image").height();
+        height = bottom - $("#text").offset().top;
+        $("#over").width(width);
+        $("#text").height(height);
+        $("#over").height(height);
     ');

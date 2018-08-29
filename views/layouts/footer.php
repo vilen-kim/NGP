@@ -5,17 +5,20 @@
 <div id="footerHolder">
     <footer class="container">
         <div class="col-md-3">
-            <div class="mediumWhiteBold">Наименование</div>
-            <div class="smallWhite">Бюджетное учреждение Ханты-Мансийского автономного округа - Югры "Няганская городская поликлиника"</div>
+            <div class="mediumGrayBold">Наименование</div>
+            <div class="smallGray">Бюджетное учреждение Ханты-Мансийского автономного округа - Югры "Няганская городская поликлиника"</div>
         </div>
         <div class="col-md-2">
-            <div class="mediumWhiteBold">О поликлинике</div>
+            <div class="mediumGrayBold">О поликлинике</div>
+            <div><?= Html::a('Контакты', ['site/show', 'id' => 16], ['class' => 'smallGray']) ?></div>
+            <div><?= Html::a('Режим и график работы', ['site/show', 'id' => 17], ['class' => 'smallGray']) ?></div>
+            <div><?= Html::a('Цены на платные услуги', ['site/show', 'id' => 29], ['class' => 'smallGray']) ?></div>
         </div>
         <div class="col-md-2">
-            <div class="mediumWhiteBold">Пациентам</div>
+            <div class="mediumGrayBold">Пациентам</div>
         </div>
         <div class="col-md-2">
-            <div class="mediumWhiteBold">Социальные сети</div>
+            <div class="mediumGrayBold">Социальные сети</div>
             <div style="margin-top: 10px">
                 <?php $height = 30; ?>
                 <?= Html::a(Html::img('@web/images/vk.svg', ['height' => $height]), 'https://vk.com/id433055831', ['title' => 'ВКонтакте', 'style' => 'margin-right: 5px;']) ?>
@@ -25,13 +28,13 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="mediumWhiteBold">Важная информация</div>
-            <div class="smallWhite">
+            <div class="mediumGrayBold">Важная информация</div>
+            <div class="smallGray">
                 Телефон единой службы спасения:
-                <span class="mediumWhiteBold">112</span>
+                <span class="mediumGrayBold">112</span>
             </div>
-            <div class="smallWhite">
-                Контакт-центр: <span class="mediumWhiteBold">8-800-100-86-03</span>
+            <div class="smallGray">
+                Контакт-центр: <span class="mediumGrayBold">8-800-100-86-03</span>
             </div>
         </div>
     </footer>
@@ -42,13 +45,12 @@
         #footerHolder {
             position: absolute;
             bottom: 0px;
-            height: 90px;
+            height: 96px;
             width: 100%;
         }
         footer {
             height: 100%;
-            background: rgb(51,51,51);
-            padding: 5px;
-            color: white;
+            background-image: url("images/footer.png");
+            padding: 10px;
         }
     ');

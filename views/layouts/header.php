@@ -38,38 +38,33 @@ use app\components\MenuItems;
                         'margin-top' => '-6px',
                         'border-bottom' => '1px solid lightgray',
                     ],
+                    'id' => 'menu',
                 ],
             ]);
-            ?></div>
-        <div style="margin-top: 6px;">
+        ?></div>
+        <div style="margin-top: 6px;" id="buttons">
             <div class="col-md-4" style="padding: 0px;">
                 <?php
-                $content = '' .
-                        '<div class="col-md-2">' .
-                        Html::img('@web/images/registration.svg', ['height' => 30, 'style' => 'margin-top: 6px;']) .
-                        '</div>' .
-                        '<div class="col-md-8" style="padding-left: 20px">Электронная регистратура</div>';
-                echo Html::a($content, '', ['style' => 'color: rgb(51,51,51)']);
+                    $img = Html::img('@web/images/registration.svg', ['height' => 30, 'style' => 'margin-top: 6px;']);
+                    $content = "<div class='col-md-2'>$img</div>";
+                    $content .= '<div class="col-md-8" style="padding-left: 20px">Электронная регистратура</div>';
+                    echo Html::a($content, 'https://er.dzhmao.ru/?setlocality=8600000500000');
                 ?>
             </div>
             <div class="col-md-4" style="padding: 0px;">
                 <?php
-                $content = '' .
-                        '<div class="col-md-2">' .
-                        Html::img('@web/images/doctor.svg', ['height' => 30, 'style' => 'margin-top: 6px;']) .
-                        '</div>' .
-                        '<div class="col-md-8" style="padding-left: 20px">Вызов врача на дом</div>';
-                echo Html::a($content, '', ['style' => 'color: rgb(51,51,51)']);
+                    $img = Html::img('@web/images/doctor.svg', ['height' => 30, 'style' => 'margin-top: 6px;']);
+                    $content = "<div class='col-md-2'>$img</div>";
+                    $content .= '<div class="col-md-8" style="padding-left: 20px">Вызов врача на дом</div>';
+                    echo Html::a($content, '');
                 ?>
             </div>
             <div class="col-md-4" style="padding: 0px;">
                 <?php
-                $content = '' .
-                        '<div class="col-md-2">' .
-                        Html::img('@web/images/request.svg', ['height' => 30, 'style' => 'margin-top: 6px;']) .
-                        '</div>' .
-                        '<div class="col-md-8" style="padding-left: 20px">Регистрация обращения</div>';
-                echo Html::a($content, '', ['style' => 'color: rgb(51,51,51)']);
+                    $img = Html::img('@web/images/request.svg', ['height' => 30, 'style' => 'margin-top: 6px;']);
+                    $content = "<div class='col-md-2'>$img</div>";
+                    $content .= '<div class="col-md-8" style="padding-left: 20px">Регистрация обращения</div>';
+                    echo Html::a($content, ['request/info']);
                 ?>
             </div>
         </div>
@@ -101,5 +96,25 @@ use app\components\MenuItems;
             height: 94px;
             padding: 5px;
             border-bottom: 1px solid lightgray;
+        }
+        #menu ul {
+            border-radius: 2px;
+            max-width: 600px;
+            overflow: auto;
+            
+        }
+        #menu > li > a:hover {
+            background: lightblue;
+            border-radius: 2px;
+        }
+        #menu > li.open > a {
+            background: lightgreen;
+            border-radius: 2px;
+        }
+        #buttons > div:first-child {
+            border-left: 1px solid lightgray;
+        }
+        #buttons > div {
+            border-right: 1px solid lightgray;
         }
     ');

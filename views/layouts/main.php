@@ -31,7 +31,7 @@
         ?>
         
         <div class="container">
-            <div style="margin-top: 50px;">
+            <div style="margin: 50px 0px">
                 <?= $content ?>
             </div>
         </div>
