@@ -1,7 +1,6 @@
 <?php
     use yii\helpers\Html;
     use yii\widgets\Breadcrumbs;
-    use app\components\MenuWidget;
     app\assets\AppAsset::register($this);
 ?>
 
@@ -28,7 +27,6 @@
             foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
                 echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
             }
-            echo MenuWidget::widget(['modal' => true]);
             echo $this->render('/modals/phone.php');
         ?>
         

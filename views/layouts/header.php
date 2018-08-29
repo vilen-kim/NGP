@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Nav;
+use app\components\MenuItems;
+
 ?>
 
 <header class="container row center-block">
@@ -27,29 +29,9 @@ use yii\bootstrap\Nav;
     <!-- Меню и кнопки основных действий -->
     <div class="col-md-6">
         <div><?php
+            $items = new MenuItems();
             echo Nav::widget([
-                'items' => [
-                        [
-                        'label' => 'О поликлинике',
-                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
-                    ],
-                        [
-                        'label' => 'Новости',
-                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
-                    ],
-                        [
-                        'label' => 'Пациентам',
-                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
-                    ],
-                        [
-                        'label' => 'Специалистам',
-                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
-                    ],
-                        [
-                        'label' => 'Партнерам',
-                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
-                    ],
-                ],
+                'items' => $items->array,
                 'options' => [
                     'class' => 'nav-pills',
                     'style' => [
