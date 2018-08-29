@@ -31,27 +31,35 @@ use yii\bootstrap\Nav;
                 'items' => [
                         [
                         'label' => 'О поликлинике',
+                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
                     ],
                         [
                         'label' => 'Новости',
+                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
                     ],
                         [
                         'label' => 'Пациентам',
+                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
                     ],
                         [
                         'label' => 'Специалистам',
+                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
                     ],
                         [
                         'label' => 'Партнерам',
+                        'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
                     ],
                 ],
                 'options' => [
                     'class' => 'nav-pills',
-                    'style' => 'margin-top: -6px;',
+                    'style' => [
+                        'margin-top' => '-6px',
+                        'border-bottom' => '1px solid lightgray',
+                    ],
                 ],
             ]);
             ?></div>
-        <div>
+        <div style="margin-top: 6px;">
             <div class="col-md-4" style="padding: 0px;">
                 <?php
                 $content = '' .
@@ -59,7 +67,7 @@ use yii\bootstrap\Nav;
                         Html::img('@web/images/registration.svg', ['height' => 30, 'style' => 'margin-top: 6px;']) .
                         '</div>' .
                         '<div class="col-md-8" style="padding-left: 20px">Электронная регистратура</div>';
-                echo Html::a($content, '');
+                echo Html::a($content, '', ['style' => 'color: rgb(51,51,51)']);
                 ?>
             </div>
             <div class="col-md-4" style="padding: 0px;">
@@ -69,7 +77,7 @@ use yii\bootstrap\Nav;
                         Html::img('@web/images/doctor.svg', ['height' => 30, 'style' => 'margin-top: 6px;']) .
                         '</div>' .
                         '<div class="col-md-8" style="padding-left: 20px">Вызов врача на дом</div>';
-                echo Html::a($content, '');
+                echo Html::a($content, '', ['style' => 'color: rgb(51,51,51)']);
                 ?>
             </div>
             <div class="col-md-4" style="padding: 0px;">
@@ -79,7 +87,7 @@ use yii\bootstrap\Nav;
                         Html::img('@web/images/request.svg', ['height' => 30, 'style' => 'margin-top: 6px;']) .
                         '</div>' .
                         '<div class="col-md-8" style="padding-left: 20px">Регистрация обращения</div>';
-                echo Html::a($content, '');
+                echo Html::a($content, '', ['style' => 'color: rgb(51,51,51)']);
                 ?>
             </div>
         </div>
@@ -88,9 +96,6 @@ use yii\bootstrap\Nav;
     <!-- Для слабовидящих и авторизация -->
     <div class="col-md-1">
         <div>
-            <?= Html::a(Html::img('@web/images/eye.svg', ['height' => 30]), '') ?>
-        </div>
-        <div style="margin-top: 12px;">
             <?php
                 if (Yii::$app->user->isGuest) {
                     $img = Html::img('@web/images/login.svg', ['style' => 'height: 30px']);
@@ -101,6 +106,9 @@ use yii\bootstrap\Nav;
                 }
                 echo Html::a($img, $url);
             ?>
+        </div>
+        <div style="margin-top: 16px;">
+            <?= Html::a(Html::img('@web/images/eye.svg', ['height' => 30]), '') ?>
         </div>
     </div>
 </header>

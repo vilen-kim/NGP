@@ -21,7 +21,7 @@ class SiteController extends \yii\web\Controller {
 
 
     public function actionIndex() {
-        $lastNews = new News(0, 200);
+        $lastNews = new News(0, 600);
         return $this->render('index', [
             'news' => $lastNews,
         ]);
