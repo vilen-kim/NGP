@@ -23,7 +23,7 @@ use app\components\MenuItems;
             </div>
             <div style="margin-top: 12px;">
                 <?= Html::a(Html::img('@web/images/icons/search.svg', ['height' => 30, 'class' => 'backGray']), '') ?>
-                <?= Html::textInput('text', '', ['class' => 'textInput', 'size' => 15, 'style' => 'margin-left: 10px;']) ?>
+                <?= Html::textInput('text', '', ['class' => 'textInput', 'size' => 15, 'style' => 'margin-left: 10px; background-color: transparent;']) ?>
             </div>
         </div>
 
@@ -105,8 +105,11 @@ use app\components\MenuItems;
             height: 100%
             padding: 5px;
         }
+        #headerMenu {
+            background: rgba(0, 0, 0, 0.1);
+        }
         #headerMenu > li > a {
-            padding: 12px 10px;
+            padding: 12px 9px;
             margin-left: 4px;
         }
         #headerMenu > li > a:hover {

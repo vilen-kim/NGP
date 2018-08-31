@@ -19,7 +19,8 @@
         <?php $this->head() ?>
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container-fluid" id="backImage">
+        <div class="container-fluid" id="backImageOver">
             <?php $this->beginBody() ?>
             <?= $this->render('./header') ?>
             <div class="container" style="margin: 50px 0px">
@@ -27,6 +28,7 @@
             </div>
             <?= $this->render('./footer') ?>
             <?php $this->endBody() ?>
+        </div>
         </div>
     </body>
 </html>

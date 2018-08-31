@@ -1,23 +1,26 @@
 <?php
-
-use yii\helpers\Html;
-
-app\assets\SiteAsset::register($this);
-$this->title = 'Няганская городская поликлиника';
+    use yii\helpers\Html;
+    app\assets\SiteAsset::register($this);
+    $this->title = 'Няганская городская поликлиника';
 ?>
+
 <div class="site-index row">
 
     <div class="jumbotron col-md-5" style='padding: 0px;'>
-        <?= Html::img($news->image, ['id' => 'image', 'width' => '100%']) ?>
+        <?= Html::img($news->image, ['width' => '100%']) ?>
     </div>
     
     <div class="col-md-6 col-md-offset-1">
-        <div class="largeBold" id="header"><?= Html::a($news->caption, ['site/show', 'id' => $news->id]) ?></div>
-        <div class="mediumNormal" id="text"><?= $news->text ?></div>
-        <div id="over"></div>
+        <div class="largeBold" id="siteIndexHeader">
+            <?= Html::a($news->caption, ['site/show', 'id' => $news->id]) ?>
+        </div>
+        <div class="mediumNormal" id="siteIndexText">
+            <?= $news->text ?>
+        </div>
+        <div id="siteIndexTextOver"></div>
     </div>
     
-    <div class="col-md-12 text-center" id="circles">
+    <div class="col-md-12 text-center" id="siteIndexCircles">
         <?php
             $height = 20;
             $selectImage = Html::img('@web/images/select_circle.svg', ['height' => $height]);
@@ -33,25 +36,31 @@ $this->title = 'Няганская городская поликлиника';
 
 <?php
     $this->registerCss('
-        #image {
-            border-radius: 1px;
+        #backImage {
+            background-image: url("images/backgrounds/siteIndex.jpg");
+            background-size: cover;
+            padding: 0px;
         }
-        #header {
+        #backImageOver {
+            background: rgba(255, 255, 255, 0.85);
+            
+        }
+        #siteIndexHeader {
             margin-bottom: 10px;
             letter-spacing: 2px;
             line-height: 1.3;
         }
-        #text {
+        #siteIndexText {
             position: absolute;
             overflow: hidden;
             z-index: 1;
         }
-        #over {
+        #siteIndexTextOver {
             position: absolute;
             background: linear-gradient(to bottom, transparent, transparent, transparent, white);
             z-index: 2;
         }
-        #circles img {
+        #siteIndexCircles img {
             margin-right: 10px;
             margin-top: -10px;
         }
