@@ -19,27 +19,22 @@
         <?php $this->head() ?>
     </head>
     <body>
-        <?php
-            $this->beginBody();
-            echo $this->render('./header');
-            
-            echo Breadcrumbs::widget(['links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 'homeLink' => false]);
-            foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-                echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
-            }
-            echo $this->render('/modals/phone.php');
-        ?>
-        
-        <div class="container">
-            <div style="margin: 50px 0px">
+        <div class="container-fluid">
+            <?php $this->beginBody() ?>
+            <?= $this->render('./header') ?>
+            <div class="container" style="margin: 50px 0px">
                 <?= $content ?>
             </div>
+            <?= $this->render('./footer') ?>
+            <?php $this->endBody() ?>
         </div>
-        
-        <?php
-            echo $this->render('./footer');
-            $this->endBody();
-        ?>
     </body>
 </html>
-<?php $this->endPage() ?>
+<?php $this->endPage();
+
+//echo Breadcrumbs::widget(['links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 'homeLink' => false]);
+//            foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+//                echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
+//            }
+//            echo $this->render('/modals/phone.php');
+

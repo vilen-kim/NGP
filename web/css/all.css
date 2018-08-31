@@ -15,6 +15,7 @@ a {
     text-decoration: none;
 }
 a:hover {
+    color: rgb(51,51,51);
     text-decoration: none;
 }
 
@@ -35,16 +36,17 @@ a:hover {
     font-size: small;
     color: lightgray;
 }
+.backGray:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
 .textInput {
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid gray;
     font-size: large;
 }
-.textInput:focus {
-    border: none;
-    border-bottom: 1px solid black;
-    font-size: large;
-}
+
 
 
 

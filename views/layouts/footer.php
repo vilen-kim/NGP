@@ -2,8 +2,9 @@
     use yii\helpers\Html;
 ?>
 
-<div id="footerHolder">
-    <footer class="container">
+<div class=container-fluid" id="footerHolder">
+    <footer class="container row center-block">
+        
         <div class="col-md-3">
             <div class="mediumGrayBold">Наименование</div>
             <div class="smallGray">Бюджетное учреждение Ханты-Мансийского автономного округа - Югры "Няганская городская поликлиника"</div>
@@ -36,6 +37,7 @@
             <div class="smallGray">
                 Контакт-центр: <span class="mediumGrayBold">8-800-100-86-03</span>
             </div>
+        
         </div>
     </footer>
 </div>
@@ -45,12 +47,13 @@
         #footerHolder {
             position: absolute;
             bottom: 0px;
-            height: 96px;
+            left: 0px;
+            height: 100px;
             width: 100%;
+            background-image: url("images/footer.png");
         }
         footer {
             height: 100%;
-            background-image: url("images/footer.png");
             padding: 10px;
         }
     ');
