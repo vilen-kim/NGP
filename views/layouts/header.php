@@ -12,17 +12,17 @@ use app\components\MenuItems;
 
         <!-- Логотип -->
         <div class="col-md-1">
-            <?= Html::a(Html::img('@web/images/logo.png', ['height' => 92, 'class' => 'backGray']), Url::to(['site/index'])) ?>
+            <?= Html::a(Html::img('@web/images/logo.png', ['height' => 92, 'class' => 'scale']), Url::to(['site/index'])) ?>
         </div>
 
         <!-- Телефон и поиск -->
         <div class="col-md-3 col-md-offset-1">
             <div style="margin-top: 6px;">
-                <?= Html::a(Html::img('@web/images/icons/call.svg', ['height' => 30, 'class' => 'backGray']), '') ?>
+                <?= Html::a(Html::img('@web/images/icons/call.svg', ['height' => 30, 'class' => 'scale']), '') ?>
                 <span class="largeBold" style="line-height: 1; margin-left: 10px;">5-45-30</span>
             </div>
             <div style="margin-top: 12px;">
-                <?= Html::a(Html::img('@web/images/icons/search.svg', ['height' => 30, 'class' => 'backGray']), '') ?>
+                <?= Html::a(Html::img('@web/images/icons/search.svg', ['height' => 30, 'class' => 'scale']), '') ?>
                 <?= Html::textInput('text', '', ['class' => 'textInput', 'size' => 15, 'style' => 'margin-left: 10px; background-color: transparent;']) ?>
             </div>
         </div>
@@ -78,17 +78,17 @@ use app\components\MenuItems;
             <div style="margin-top: 6px;">
                 <?php
                     if (Yii::$app->user->isGuest) {
-                        $img = Html::img('@web/images/icons/login.svg', ['height' => 30, 'class' => 'backGray']);
+                        $img = Html::img('@web/images/icons/login.svg', ['height' => 30, 'class' => 'scale']);
                         $url = Url::to(['auth/login']);
                     } else {
-                        $img = Html::img('@web/images/icons/logout.svg', ['height' => 30, 'class' => 'backGray']);
+                        $img = Html::img('@web/images/icons/logout.svg', ['height' => 30, 'class' => 'scale']);
                         $url = Url::to(['auth/logout']);
                     }
                     echo Html::a($img, $url);
                 ?>
             </div>
             <div style="margin-top: 14px;">
-                <?= Html::a(Html::img('@web/images/icons/eye.svg', ['height' => 30, 'class' => 'backGray']), '') ?>
+                <?= Html::a(Html::img('@web/images/icons/eye.svg', ['height' => 30, 'class' => 'scale']), '') ?>
             </div>
         </div>
     </header>

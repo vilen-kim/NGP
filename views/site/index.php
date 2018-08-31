@@ -7,20 +7,19 @@
 <div class="site-index row">
 
     <div class="jumbotron col-md-5" style='padding: 0px;'>
-        <?= Html::img($news->image, ['width' => '100%']) ?>
+        <?= Html::img($news->image, ['width' => '100%', 'id' => 'newsImage']) ?>
     </div>
     
     <div class="col-md-6 col-md-offset-1">
-        <div class="largeBold" id="siteIndexHeader">
+        <div class="largeBold" id="newsHeader">
             <?= Html::a($news->caption, ['site/show', 'id' => $news->id]) ?>
         </div>
-        <div class="mediumNormal" id="siteIndexText">
+        <div class="mediumNormal" id="newsText">
             <?= $news->text ?>
         </div>
-        <div id="siteIndexTextOver"></div>
     </div>
     
-    <div class="col-md-12 text-center" id="siteIndexCircles">
+    <div class="col-md-12 text-center" id="newsNavigation">
         <?php
             $height = 20;
             $selectImage = Html::img('@web/images/select_circle.svg', ['height' => $height]);
@@ -42,35 +41,28 @@
             padding: 0px;
         }
         #backImageOver {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.8);
             
         }
-        #siteIndexHeader {
+        #newsHeader {
             margin-bottom: 10px;
             letter-spacing: 2px;
             line-height: 1.3;
         }
-        #siteIndexText {
+        #newsText {
             position: absolute;
             overflow: hidden;
             z-index: 1;
         }
-        #siteIndexTextOver {
-            position: absolute;
-            background: linear-gradient(to bottom, transparent, transparent, transparent, white);
-            z-index: 2;
-        }
-        #siteIndexCircles img {
+        #newsNavigation img {
             margin-right: 10px;
             margin-top: -10px;
         }
     ');
     
     $this->registerJs('
-        width = $("#text").width();
-        bottom = $("#image").offset().top + $("#image").height();
-        height = bottom - $("#text").offset().top;
-        $("#over").width(width);
-        $("#text").height(height);
-        $("#over").height(height);
+        width = $("#newsText").width();
+        bottom = $("#newsImage").offset().top + $("#newsImage").height();
+        height = bottom - $("#newsText").offset().top;
+        $("#newsText").height(height);
     ');

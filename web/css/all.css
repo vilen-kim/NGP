@@ -29,16 +29,16 @@ a:hover {
 }
 .mediumNormal {
     font-size: large;
-    color: gray;
+    color: rgb(80, 80, 80);
 }
 .mediumGrayBold {
     font-weight: bold;
     font-size: medium;
-    color: lightgray;
+    color: gray;
 }
 .smallGray {
     font-size: small;
-    color: lightgray;
+    color: gray;
 }
 .backGray:hover {
     background: rgba(0, 0, 0, 0.1);
@@ -59,9 +59,9 @@ a:hover {
     transition: all 0.5s ease;
 }
 .scale:hover {
-    -webkit-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    transform: scale(1.2);
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
 }
 .changeBack:hover {
     background-color: yellow;
