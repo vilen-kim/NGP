@@ -1,0 +1,23 @@
+.black {
+    color: #333;
+}
+.gray {
+    color: #555;
+}
+.white {
+    color: white;
+}
+
+.xx-large {
+    font-weight: bold;
+    font-size: xx-large;
+}
+.large {
+    font-size: large;
+}
+.small {
+    font-size: small;
+}
+.bold {
+    font-weight: bold;
+}

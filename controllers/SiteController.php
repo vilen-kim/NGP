@@ -21,9 +21,14 @@ class SiteController extends \yii\web\Controller {
 
 
     public function actionIndex() {
-        $lastNews = new News(0, 600);
+        $lastNewsID = Pages::find()->select('id')->where(['in', 'category_id', [2, 3, 4]])->limit(5)->all();
+        $lastNews = null;
+        foreach ($lastNewsID as $lastID){
+            $lastNews[] = new News($lastID->id, 600);
+        }
         return $this->render('index', [
             'news' => $lastNews,
+            'count' => count($lastNews),
         ]);
     }
 

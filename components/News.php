@@ -14,7 +14,7 @@ class News extends BaseObject
 
     public function __construct($num, $len)
     {
-        $model = Pages::find()->limit(1)->offset($num)->where(['in', 'category_id', [2, 3, 4]])->orderBy(['id'=> SORT_DESC])->one();
+        $model = Pages::findOne(['id' => $num]);
         if (!$model){
             return false;
         }

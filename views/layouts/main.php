@@ -1,6 +1,5 @@
 <?php
     use yii\helpers\Html;
-    use yii\widgets\Breadcrumbs;
     app\assets\AppAsset::register($this);
 ?>
 
@@ -19,24 +18,26 @@
         <?php $this->head() ?>
     </head>
     <body>
-        <div class="container-fluid" id="backImage">
-        <div class="container-fluid" id="backImageOver">
+        <div id="backImage">
+        <div id="backImageOver">
+            
             <?php $this->beginBody() ?>
-            <?= $this->render('./header') ?>
-            <div class="container" style="margin: 50px 0px">
+            
+            <div class="container-fluid" id="headerHolder">
+                <?= $this->render('./header') ?>
+            </div>
+            <div class="container" style="margin-top: 50px; margin-bottom: 50px">
                 <?= $content ?>
             </div>
-            <?= $this->render('./footer') ?>
+            <div class="container-fluid" id="footerHolder">
+                <?= $this->render('./footer') ?>
+            </div>
+            
             <?php $this->endBody() ?>
+            
         </div>
         </div>
+            
     </body>
 </html>
 <?php $this->endPage();
-
-//echo Breadcrumbs::widget(['links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 'homeLink' => false]);
-//            foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-//                echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
-//            }
-//            echo $this->render('/modals/phone.php');
-

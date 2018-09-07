@@ -6,74 +6,15 @@ body {
     height: 100%;
     font-family: 'PT Sans', sans-serif;
 }
-
-
-
 img {
     vertical-align: top;
 }
 a {
-    color: rgb(51,51,51);
-    text-decoration: none;
+    color: #333;
+    text-decoration: underline;
 }
-a:hover {
-    color: rgb(51,51,51);
-    text-decoration: none;
-}
-
-
-
-.largeBold {
-    font-weight: bold;
-    font-size: xx-large;
-}
-.mediumNormal {
-    font-size: large;
-    color: rgb(80, 80, 80);
-}
-.mediumGrayBold {
-    font-weight: bold;
-    font-size: medium;
-    color: gray;
-}
-.smallGray {
-    font-size: small;
-    color: gray;
-}
-.backGray:hover {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-}
-
-
-
 .textInput {
     border: none;
     border-bottom: 1px solid gray;
     font-size: large;
-}
-.scale, .changeBack, .moveUp, .moveDown {
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-}
-.scale:hover {
-    -webkit-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    transform: scale(1.1);
-}
-.changeBack:hover {
-    background-color: yellow;
-    cursor: pointer;
-}
-.moveUp:hover {
-    -webkit-transform: translateY(-6px);
-    -ms-transform: translateY(-6px);
-    transform: translateY(-6px);
-}
-.moveDown:hover {
-    -webkit-transform: translateY(6px);
-    -ms-transform: translateY(6px);
-    transform: translateY(6px);
 }

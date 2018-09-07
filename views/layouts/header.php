@@ -2,133 +2,149 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Nav;
-use app\components\MenuItems;
 
 ?>
 
-<div class="container-fluid" id="headerHolder">
-    <header class="container row center-block">
+<header class="container row center-block">
 
-        <!-- Логотип -->
-        <div class="col-md-1">
-            <?= Html::a(Html::img('@web/images/logo.png', ['height' => 92, 'class' => 'scale']), Url::to(['site/index'])) ?>
-        </div>
+    
+    
+    <!-- Логотип -->
+    <div class="col-md-1">
+        <?php
+            $img = Html::img('@web/images/logo.png', ['height' => 68, 'class' => 'scale']);
+            echo Html::a($img, ['site/index']);
+        ?>
+    </div>
 
-        <!-- Телефон и поиск -->
-        <div class="col-md-3 col-md-offset-1">
-            <div style="margin-top: 6px;">
-                <?= Html::a(Html::img('@web/images/icons/call.svg', ['height' => 30, 'class' => 'scale']), '') ?>
-                <span class="largeBold" style="line-height: 1; margin-left: 10px;">5-45-30</span>
-            </div>
-            <div style="margin-top: 12px;">
-                <?= Html::a(Html::img('@web/images/icons/search.svg', ['height' => 30, 'class' => 'scale']), '') ?>
-                <?= Html::textInput('text', '', ['class' => 'textInput', 'size' => 15, 'style' => 'margin-left: 10px; background-color: transparent;']) ?>
-            </div>
-        </div>
+    
+    
+    <!-- Поиск -->
+    <div class="col-md-2 col-md-offset-1" style="margin-top: 16px;">
+        <?php
+            $img = Html::img('@web/images/icons/search.svg', ['height' => 30, 'class' => 'scale']);
+            echo Html::a($img, '');
+            echo Html::textInput('text', '', ['class' => 'textInput', 'id' => 'headerSearch', 'size' => 10]);
+        ?>
+    </div>
+    
+    
+    
+    <!-- Телефон -->
+    <div class="col-md-2" style='margin-top: 16px;'>
+        <?php
+            $img = Html::img('@web/images/icons/call.svg', ['height' => 30, 'class' => 'scale']);
+            echo Html::a($img, '');
+        ?>
+        <span class="xx-large bold black" style="line-height: 1; margin-left: 10px;">5-45-30</span>
+    </div>
 
-        <!-- Меню и кнопки основных действий -->
-        <div class="col-md-6">
-            <div>
+    
+    
+    <!-- Кнопки основных действий -->
+    <div class="col-md-6 row" id="headerButtons">
+        <div class="col-md-2 text-center">
             <?php
-                $menu = new MenuItems();
-                echo Nav::widget([
-                    'items' => $menu->items,
-                    'options' => [
-                        'class' => 'nav-pills',
-                        'style' => [
-                            'margin-top' => '-6px',
-                            'border-bottom' => '1px solid lightgray',
-                        ],
-                        'id' => 'headerMenu',
-                    ],
-                ]);
+                $text = 'Электронная регистратура';
+                $img = Html::img('@web/images/icons/registration.svg', ['height' => 50, 'id' => 'hb1']);
+                $imgHover = Html::img('@web/images/icons/registrationHover.svg', ['height' => 50, 'id' => 'hb1H', 'class' => 'hidden']);
+                echo Html::a($img, 'https://er.dzhmao.ru/?setlocality=8600000500000');
+                echo Html::a($imgHover, 'https://er.dzhmao.ru/?setlocality=8600000500000');
+                echo "<span>$text</span>";
             ?>
-            </div>
-            <div class="row" style="margin-top: 6px;" id="headerButtons">
-                <div class="col-md-4 backGray">
-                    <?php
-                        $img = Html::img('@web/images/icons/registration.svg', ['height' => 30, 'style' => 'margin-top: 6px;']);
-                        $content = "<div class='col-md-2'>$img</div>";
-                        $content .= '<div class="col-md-8" style="padding-left: 20px">Электронная регистратура</div>';
-                        echo Html::a($content, 'https://er.dzhmao.ru/?setlocality=8600000500000');
-                    ?>
-                </div>
-                <div class="col-md-4 backGray">
-                    <?php
-                        $img = Html::img('@web/images/icons/doctor.svg', ['height' => 30, 'style' => 'margin-top: 6px;']);
-                        $content = "<div class='col-md-2'>$img</div>";
-                        $content .= '<div class="col-md-8" style="padding-left: 20px">Вызов врача на дом</div>';
-                        echo Html::a($content, '');
-                    ?>
-                </div>
-                <div class="col-md-4 backGray">
-                    <?php
-                        $img = Html::img('@web/images/icons/request.svg', ['height' => 30, 'style' => 'margin-top: 6px;']);
-                        $content = "<div class='col-md-2'>$img</div>";
-                        $content .= '<div class="col-md-8" style="padding-left: 20px">Регистрация обращения</div>';
-                        echo Html::a($content, ['request/info']);
-                    ?>
-                </div>
-            </div>
         </div>
-
-        <!-- Для слабовидящих и авторизация -->
-        <div class="col-md-1">
-            <div style="margin-top: 6px;">
-                <?php
-                    if (Yii::$app->user->isGuest) {
-                        $img = Html::img('@web/images/icons/login.svg', ['height' => 30, 'class' => 'scale']);
-                        $url = Url::to(['auth/login']);
-                    } else {
-                        $img = Html::img('@web/images/icons/logout.svg', ['height' => 30, 'class' => 'scale']);
-                        $url = Url::to(['auth/logout']);
-                    }
-                    echo Html::a($img, $url);
-                ?>
-            </div>
-            <div style="margin-top: 14px;">
-                <?= Html::a(Html::img('@web/images/icons/eye.svg', ['height' => 30, 'class' => 'scale']), '') ?>
-            </div>
+        <div class="col-md-2 text-center">
+            <?php
+                $text = 'Вызов врача на дом';
+                $img = Html::img('@web/images/icons/doctor.svg', ['height' => 50]);
+                echo Html::a($img, '');
+                echo "<span>$text</span>";
+            ?>
         </div>
-    </header>
-</div>
+        <div class="col-md-2 text-center">
+            <?php
+                $text = 'Регистрация обращения';
+                $img = Html::img('@web/images/icons/request.svg', ['height' => 50]);
+                echo Html::a($img, ['request/info']);
+                echo "<span>$text</span>";
+            ?>
+        </div>
+        <div class="col-md-2 text-center">
+            <?php
+                $text = 'Меню';
+                $img = Html::img('@web/images/icons/menu.svg', ['height' => 50]);
+                echo Html::a($img, ['menu/show']);
+                echo "<span>$text</span>";
+            ?>
+        </div>
+        <div class="col-md-2 text-center">
+            <?php
+                $text = null;
+                if (Yii::$app->user->isGuest) {
+                    $img = Html::img('@web/images/icons/login.svg', ['height' => 50]);
+                    $url = Url::to(['auth/login']);
+                    $text = 'Вход';
+                } else {
+                    $img = Html::img('@web/images/icons/logout.svg', ['height' => 50]);
+                    $url = Url::to(['auth/logout']);
+                    $text = 'Выход';
+                }
+                echo Html::a($img, $url);
+                echo "<span>$text</span>";
+            ?>
+        </div>
+        <div class="col-md-2 text-center">
+            <?php
+                $text = 'Режим для слабовидящих';
+                $img = Html::img('@web/images/icons/eye.svg', ['height' => 50]);
+                echo Html::a($img, '');
+                echo "<span>$text</span>";
+            ?>
+        </div>
+    </div>
+</header>
 
 <?php
     $this->registerCss('
         #headerHolder {
-            height: 94px;
-            border-bottom: 1px solid lightgray;
+            height: 82px;
             width: 100%;
+            margin: 0px;
+            background: rgba(255, 255, 255, 0.3);
         }
         header {
-            height: 100%
-            padding: 5px;
+            height: 100%;
+            padding-top: 5px;
         }
-        #headerMenu {
-            background: rgba(0, 0, 0, 0.1);
-        }
-        #headerMenu > li > a {
-            padding: 12px 9px;
-            margin-left: 4px;
-        }
-        #headerMenu > li > a:hover {
-            background: #a3da41;
-            border-radius: 2px;
-        }
-        #headerMenu > li.open > a {
-            background: #a3da41;
-            border-radius: 2px;
-        }
-        #headerMenu ul {
-            border-radius: 2px;
-            max-width: 600px;
-            overflow: auto;
+        #headerSearch {
+            margin-left: 10px;
+            background-color: transparent;
         }
         #headerButtons > div {
-            padding: 0px 0px 0px 22px;
-        }
-        #headerButtons > div div {
+            margin-top: 10px;
             padding: 0px;
         }
+        #headerButtons > div > a > img {
+            position: absolute;
+            top: 0px;
+        }
+        #headerButtons > div > span {
+            position: absolute;
+            left: 0px;
+            top: 20px;
+            display: none;
+        }
+    ');
+    
+    $this->registerJs('
+        $("#hb1").hover(
+            function(){
+                $("#hb1").addClass("hidden");
+                $("#hb1H").removeClass("hidden");
+            },
+            function(){
+                $("#hb1").removeClass("hidden");
+                $("#hb1H").addClass("hidden");
+            }
+        );
     ');

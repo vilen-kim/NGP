@@ -1,0 +1,28 @@
+.scale, .changeBack, .moveUp, .moveDown, .changeImg {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.backGray:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+.scale:hover {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+.moveUp:hover {
+    -webkit-transform: translateY(-6px);
+    -ms-transform: translateY(-6px);
+    transform: translateY(-6px);
+}
+.moveDown:hover {
+    -webkit-transform: translateY(6px);
+    -ms-transform: translateY(6px);
+    transform: translateY(6px);
+}
+a:hover {
+    text-decoration: none;
+}

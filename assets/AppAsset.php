@@ -10,6 +10,9 @@ class AppAsset extends AssetBundle {
     public $baseUrl = '@web';
     public $css = [
         'css/all.css',
+        'css/layout.css',
+        'css/text.css',
+        'css/hover.css',
     ];
     public $js = [
         'js/backImage.js',
