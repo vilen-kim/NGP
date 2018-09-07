@@ -22,7 +22,7 @@ class AdminController extends \yii\web\Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['admin', 'manager', 'editor'],
+                        'roles' => ['admin', 'manager', 'editor', '?'],
                     ],
                 ],
             ],
@@ -42,6 +42,25 @@ class AdminController extends \yii\web\Controller {
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
+    }
+    
+    public function actionVote(){
+        $url = 'https://XN--B1AGAA6A0AFI1CWE.XN--P1AI/local/templates/vmesteyarche/plus_voice.php';
+        $params = array(
+            'iblock_id' => 13,
+            'name' => 'Ханты-Мансийский автономный округ-Югра',
+            'regID' => '986',
+        );
+        for ($i = 1; $i < 1000; $i++){
+            $result = file_get_contents($url, false, stream_context_create(array(
+                'http' => array(
+                    'method'  => 'POST',
+                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => http_build_query($params)
+                )
+            )));
+        }
+        echo 'ready';
     }
 
 

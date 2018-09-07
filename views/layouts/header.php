@@ -7,7 +7,9 @@ use yii\helpers\Url;
 
 <header class="container row center-block">
 
-    
+    <?php
+        $height = 40;
+    ?>
     
     <!-- Логотип -->
     <div class="col-md-1">
@@ -22,7 +24,7 @@ use yii\helpers\Url;
     <!-- Поиск -->
     <div class="col-md-2 col-md-offset-1" style="margin-top: 16px;">
         <?php
-            $img = Html::img('@web/images/icons/search.svg', ['height' => 30, 'class' => 'scale']);
+            $img = Html::img('@web/images/icons/search.svg', ['height' => $height, 'class' => 'scale']);
             echo Html::a($img, '');
             echo Html::textInput('text', '', ['class' => 'textInput', 'id' => 'headerSearch', 'size' => 10]);
         ?>
@@ -33,7 +35,7 @@ use yii\helpers\Url;
     <!-- Телефон -->
     <div class="col-md-2" style='margin-top: 16px;'>
         <?php
-            $img = Html::img('@web/images/icons/call.svg', ['height' => 30, 'class' => 'scale']);
+            $img = Html::img('@web/images/icons/call.svg', ['height' => $height, 'class' => 'scale']);
             echo Html::a($img, '');
         ?>
         <span class="xx-large bold black" style="line-height: 1; margin-left: 10px;">5-45-30</span>
@@ -43,62 +45,58 @@ use yii\helpers\Url;
     
     <!-- Кнопки основных действий -->
     <div class="col-md-6 row" id="headerButtons">
-        <div class="col-md-2 text-center">
+        <?php
+            $class = "col-md-2 text-center showText";
+        ?>
+        <div class="<?= $class ?>">
             <?php
                 $text = 'Электронная регистратура';
-                $img = Html::img('@web/images/icons/registration.svg', ['height' => 50, 'id' => 'hb1']);
-                $imgHover = Html::img('@web/images/icons/registrationHover.svg', ['height' => 50, 'id' => 'hb1H', 'class' => 'hidden']);
-                echo Html::a($img, 'https://er.dzhmao.ru/?setlocality=8600000500000');
-                echo Html::a($imgHover, 'https://er.dzhmao.ru/?setlocality=8600000500000');
-                echo "<span>$text</span>";
+                echo Html::img('@web/images/icons/registration.svg', ['height' => $height]);
+                echo '<span>' . Html::a($text, 'https://er.dzhmao.ru/?setlocality=8600000500000') . '</span>';
             ?>
         </div>
-        <div class="col-md-2 text-center">
+        <div class="<?= $class ?>">
             <?php
                 $text = 'Вызов врача на дом';
-                $img = Html::img('@web/images/icons/doctor.svg', ['height' => 50]);
-                echo Html::a($img, '');
-                echo "<span>$text</span>";
+                echo Html::img('@web/images/icons/doctor.svg', ['height' => $height]);
+                echo '<span>' . Html::a($text, '') . '</span>';
             ?>
         </div>
-        <div class="col-md-2 text-center">
+        <div class="<?= $class ?>">
             <?php
                 $text = 'Регистрация обращения';
-                $img = Html::img('@web/images/icons/request.svg', ['height' => 50]);
-                echo Html::a($img, ['request/info']);
-                echo "<span>$text</span>";
+                echo Html::img('@web/images/icons/request.svg', ['height' => $height]);
+                echo '<span>' . Html::a($text, ['request/info']) . '</span>';
             ?>
         </div>
-        <div class="col-md-2 text-center">
+        <div class="<?= $class ?>">
             <?php
                 $text = 'Меню';
-                $img = Html::img('@web/images/icons/menu.svg', ['height' => 50]);
-                echo Html::a($img, ['menu/show']);
-                echo "<span>$text</span>";
+                echo Html::img('@web/images/icons/menu.svg', ['height' => $height]);
+                echo '<span>' . Html::a($text, ['menu/show']) . '</span>';
             ?>
         </div>
-        <div class="col-md-2 text-center">
+        <div class="<?= $class ?>">
             <?php
                 $text = null;
                 if (Yii::$app->user->isGuest) {
-                    $img = Html::img('@web/images/icons/login.svg', ['height' => 50]);
+                    $img = Html::img('@web/images/icons/login.svg', ['height' => $height]);
                     $url = Url::to(['auth/login']);
                     $text = 'Вход';
                 } else {
-                    $img = Html::img('@web/images/icons/logout.svg', ['height' => 50]);
+                    $img = Html::img('@web/images/icons/logout.svg', ['height' => $height]);
                     $url = Url::to(['auth/logout']);
                     $text = 'Выход';
                 }
-                echo Html::a($img, $url);
-                echo "<span>$text</span>";
+                echo $img;
+                echo '<span>' . Html::a($text, $url) . '</span>';
             ?>
         </div>
-        <div class="col-md-2 text-center">
+        <div class="<?= $class ?>">
             <?php
                 $text = 'Режим для слабовидящих';
-                $img = Html::img('@web/images/icons/eye.svg', ['height' => 50]);
-                echo Html::a($img, '');
-                echo "<span>$text</span>";
+                echo Html::img('@web/images/icons/eye.svg', ['height' => $height]);
+                echo '<span>' . Html::a($text, '') . '</span>';
             ?>
         </div>
     </div>
@@ -121,30 +119,31 @@ use yii\helpers\Url;
             background-color: transparent;
         }
         #headerButtons > div {
+            height: 100%;
             margin-top: 10px;
             padding: 0px;
-        }
-        #headerButtons > div > a > img {
-            position: absolute;
-            top: 0px;
+            
         }
         #headerButtons > div > span {
+            border: 1px solid black;
             position: absolute;
             left: 0px;
-            top: 20px;
+            text-align: center;
             display: none;
         }
     ');
     
     $this->registerJs('
-        $("#hb1").hover(
+        $("div.showText").hover(
             function(){
-                $("#hb1").addClass("hidden");
-                $("#hb1H").removeClass("hidden");
+                $(this).children("img").css("opacity", "0.2");
+                $(this).children("span").show();
             },
             function(){
-                $("#hb1").removeClass("hidden");
-                $("#hb1H").addClass("hidden");
+                $(this).children("img").css("opacity", "1.0");
+                $(this).children("span").hide();
+                
             }
         );
     ');
+        

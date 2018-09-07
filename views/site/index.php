@@ -36,7 +36,7 @@
 <?php
     $this->registerCss('
         #backImage {
-            background-image: url("images/backgrounds/siteIndex.jpg");
+            //background-image: url("images/backgrounds/siteIndex.jpg");
         }
         .jumbotron > img {
             position: absolute;
