@@ -8,7 +8,7 @@ use yii\helpers\Url;
 <header class="container">
 
     <?php
-        $height = 40;
+        $height = 45;
     ?>
     
     <!-- Логотип -->
@@ -22,7 +22,7 @@ use yii\helpers\Url;
     
     
     <!-- Поиск -->
-    <div class="col-md-1 col-md-offset-1" style="margin-top: 16px;">
+    <div class="col-md-1 col-md-offset-1" style="margin-top: 10px;">
         <?php
             $img = Html::img('@web/images/icons/search.svg', ['height' => $height, 'class' => 'scale']);
             echo Html::a($img, '');
@@ -33,11 +33,7 @@ use yii\helpers\Url;
     
     <!-- Телефон -->
     <div class="col-md-3" style='margin-top: 16px;'>
-        <?php
-            $img = Html::img('@web/images/icons/call.svg', ['height' => $height, 'class' => 'scale']);
-            echo Html::a($img, '');
-        ?>
-        <span class="xx-large bold black" style="line-height: 1; margin-left: 10px;">5-45-30</span>
+        <span class="bold black" style="font-size: 2em; line-height: 1; margin-left: 10px;">8 (34672) 5-45-30</span>
     </div>
 
     
