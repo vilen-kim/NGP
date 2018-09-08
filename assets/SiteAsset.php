@@ -16,6 +16,7 @@ class SiteAsset extends AssetBundle {
         'js/news.js',
         'js/css3-animate-it.js',
         'js/site.js',
+        'js/parallax.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
