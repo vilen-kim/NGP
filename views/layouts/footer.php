@@ -2,7 +2,7 @@
     use yii\helpers\Html;
 ?>
 
-<footer class="container row center-block white">
+<footer class="container row center-block">
 
     <div class="col-md-3">
         <div class="mediumGrayBold">Наименование</div>
@@ -10,9 +10,9 @@
     </div>
     <div class="col-md-2">
         <div class="mediumGrayBold">О поликлинике</div>
-        <div><?= Html::a('Контакты', ['site/show', 'id' => 16], ['class' => 'white']) ?></div>
-        <div><?= Html::a('Режим и график работы', ['site/show', 'id' => 17], ['class' => 'white']) ?></div>
-        <div><?= Html::a('Цены на платные услуги', ['site/show', 'id' => 29], ['class' => 'white']) ?></div>
+        <div><?= Html::a('Контакты', ['site/show', 'id' => 16]) ?></div>
+        <div><?= Html::a('Режим и график работы', ['site/show', 'id' => 17]) ?></div>
+        <div><?= Html::a('Цены на платные услуги', ['site/show', 'id' => 29]) ?></div>
     </div>
     <div class="col-md-2">
         <div class="mediumGrayBold">Пациентам</div>
@@ -42,14 +42,6 @@
 
 <?php
     $this->registerCss('
-        #footerHolder {
-            position: absolute;
-            bottom: 0px;
-            left: 0px;
-            height: 100px;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.7);
-        }
         footer {
             height: 100%;
             padding: 10px;

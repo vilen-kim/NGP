@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 ?>
 
-<header class="container row center-block">
+<header class="container">
 
     <?php
         $height = 40;
@@ -14,7 +14,7 @@ use yii\helpers\Url;
     <!-- Логотип -->
     <div class="col-md-1">
         <?php
-            $img = Html::img('@web/images/logo.png', ['height' => 68, 'class' => 'scale']);
+            $img = Html::img('@web/images/logo_green.gif', ['height' => 68, 'class' => 'scale']);
             echo Html::a($img, ['site/index']);
         ?>
     </div>
@@ -22,18 +22,17 @@ use yii\helpers\Url;
     
     
     <!-- Поиск -->
-    <div class="col-md-2 col-md-offset-1" style="margin-top: 16px;">
+    <div class="col-md-1 col-md-offset-1" style="margin-top: 16px;">
         <?php
             $img = Html::img('@web/images/icons/search.svg', ['height' => $height, 'class' => 'scale']);
             echo Html::a($img, '');
-            echo Html::textInput('text', '', ['class' => 'textInput', 'id' => 'headerSearch', 'size' => 10]);
         ?>
     </div>
     
     
     
     <!-- Телефон -->
-    <div class="col-md-2" style='margin-top: 16px;'>
+    <div class="col-md-3" style='margin-top: 16px;'>
         <?php
             $img = Html::img('@web/images/icons/call.svg', ['height' => $height, 'class' => 'scale']);
             echo Html::a($img, '');
@@ -52,28 +51,28 @@ use yii\helpers\Url;
             <?php
                 $text = 'Электронная регистратура';
                 echo Html::img('@web/images/icons/registration.svg', ['height' => $height]);
-                echo '<span>' . Html::a($text, 'https://er.dzhmao.ru/?setlocality=8600000500000') . '</span>';
+                echo Html::a("<span>$text</span>", 'https://er.dzhmao.ru/?setlocality=8600000500000');
             ?>
         </div>
         <div class="<?= $class ?>">
             <?php
                 $text = 'Вызов врача на дом';
                 echo Html::img('@web/images/icons/doctor.svg', ['height' => $height]);
-                echo '<span>' . Html::a($text, '') . '</span>';
+                echo '' . Html::a("<span>$text</span>", '') . '';
             ?>
         </div>
         <div class="<?= $class ?>">
             <?php
                 $text = 'Регистрация обращения';
                 echo Html::img('@web/images/icons/request.svg', ['height' => $height]);
-                echo '<span>' . Html::a($text, ['request/info']) . '</span>';
+                echo '' . Html::a("<span>$text</span>", ['request/info']) . '';
             ?>
         </div>
         <div class="<?= $class ?>">
             <?php
                 $text = 'Меню';
                 echo Html::img('@web/images/icons/menu.svg', ['height' => $height]);
-                echo '<span>' . Html::a($text, ['menu/show']) . '</span>';
+                echo '' . Html::a("<span>$text</span>", ['menu/show']) . '';
             ?>
         </div>
         <div class="<?= $class ?>">
@@ -89,14 +88,14 @@ use yii\helpers\Url;
                     $text = 'Выход';
                 }
                 echo $img;
-                echo '<span>' . Html::a($text, $url) . '</span>';
+                echo '' . Html::a("<span>$text</span>", $url) . '';
             ?>
         </div>
         <div class="<?= $class ?>">
             <?php
                 $text = 'Режим для слабовидящих';
                 echo Html::img('@web/images/icons/eye.svg', ['height' => $height]);
-                echo '<span>' . Html::a($text, '') . '</span>';
+                echo '' . Html::a("<span>$text</span>", '') . '';
             ?>
         </div>
     </div>
@@ -104,12 +103,6 @@ use yii\helpers\Url;
 
 <?php
     $this->registerCss('
-        #headerHolder {
-            height: 82px;
-            width: 100%;
-            margin: 0px;
-            background: rgba(255, 255, 255, 0.3);
-        }
         header {
             height: 100%;
             padding-top: 5px;
@@ -124,9 +117,10 @@ use yii\helpers\Url;
             padding: 0px;
             
         }
-        #headerButtons > div > span {
-            border: 1px solid black;
+        #headerButtons > div > a {
             position: absolute;
+            width: 100%;
+            height: 100%;
             left: 0px;
             text-align: center;
             display: none;
@@ -137,11 +131,11 @@ use yii\helpers\Url;
         $("div.showText").hover(
             function(){
                 $(this).children("img").css("opacity", "0.2");
-                $(this).children("span").show();
+                $(this).children("a").show();
             },
             function(){
                 $(this).children("img").css("opacity", "1.0");
-                $(this).children("span").hide();
+                $(this).children("a").hide();
                 
             }
         );

@@ -1,54 +1,51 @@
 <?php
     use yii\helpers\Html;
     app\assets\SiteAsset::register($this);
-    $this->title = 'Няганская городская поликлиника';
+    $this->title = 'Последние новости';
 ?>
 
-<div class="row">
-
-    <div class="jumbotron col-md-5" style='padding: 0px;'>
-        <?php
-            foreach($news as $new){
-                echo Html::img($new->image, ['width' => '100%']);
-            }
-        ?>
-    </div>
+<div id="site-index" class="container">
     
-    <div class="col-md-6 col-md-offset-1">
-        <div id="newsHeader">
+    <h1 class="title"><?= $this->title ?></h1>
+    
+    <?php for ($i = 0; $i < count($news); $i++){ ?>
+        <div class="col-md-10 col-md-offset-1 row animatedParent animateOnce">
+            <div class="col-md-5 animated fadeInLeft">
+                <?php
+                    if ($i % 2 == 1) {
+                        echo Html::img($news[$i]->image);
+                    } else {
+                        $url = Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]);
+                        echo "<p>$url</p>";
+                    }
+                ?>
+            </div>
+            <div class="col-md-5 col-md-offset-2 animated fadeInRight">
+                <?php
+                    if ($i % 2 == 1) {
+                        $url = Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]);
+                        echo "<p>$url</p>";
+                    } else {
+                        echo Html::img($news[$i]->image);
+                    }
+                ?>
+            </div>
         </div>
-    </div>
+    <?php } ?>
     
-    <div class="col-md-12 text-center" id="newsNavigation">
-        <?php
-            $height = 20;
-            $selectImage = Html::img('@web/images/icons/select_circle.svg', ['height' => $height]);
-            $unselectImage = Html::img('@web/images/icons/unselect_circle.svg', ['height' => $height]);
-            echo Html::a($selectImage, '');
-            for ($i = 0; $i < 4; $i++){
-                echo Html::a($unselectImage, '');
-            }
-        ?>
-    </div>
-
 </div>
 
 <?php
     $this->registerCss('
-        #backImage {
-            //background-image: url("images/backgrounds/siteIndex.jpg");
+        #site-index > div.row {
+            margin-bottom: 100px;
         }
-        .jumbotron > img {
-            position: absolute;
-            top: 0px;
+        #site-index > div.row img {
+            width: 100%;
         }
-        #newsHeader {
-            margin-top: 100px;
-            letter-spacing: 2px;
-            line-height: 1.3;
-        }
-        #newsNavigation img {
-            margin-right: 10px;
-            margin-top: -10px;
+        #site-index > div.row p {
+            font-size: x-large;
+            font-weight: bold;
+            margin-top: 40px;
         }
     ');

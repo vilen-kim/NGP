@@ -6,7 +6,8 @@
 
 
 <?php $this->beginPage() ?>
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
 <html lang="<?= Yii::$app->language ?>">
     <head>
         <meta charset="<?= Yii::$app->charset ?>">
@@ -18,26 +19,19 @@
         <?php $this->head() ?>
     </head>
     <body>
-        <div id="backImage">
-        <div id="backImageOver">
-            
-            <?php $this->beginBody() ?>
-            
-            <div class="container-fluid" id="headerHolder">
-                <?= $this->render('./header') ?>
-            </div>
-            <div class="container" style="margin-top: 50px; margin-bottom: 50px">
-                <?= $content ?>
-            </div>
-            <div class="container-fluid" id="footerHolder">
+        <?php $this->beginBody() ?>
+
+        <div id="headerHolder">
+            <?= $this->render('./header') ?>
+        </div>
+        <div id="bottomHolder">
+            <?= $content ?>
+            <div id="footerHolder">
                 <?= $this->render('./footer') ?>
             </div>
-            
-            <?php $this->endBody() ?>
-            
         </div>
-        </div>
-            
+
+        <?php $this->endBody() ?>
     </body>
 </html>
 <?php $this->endPage();

@@ -21,14 +21,13 @@ class SiteController extends \yii\web\Controller {
 
 
     public function actionIndex() {
-        $lastNewsID = Pages::find()->select('id')->where(['in', 'category_id', [2, 3, 4]])->limit(5)->all();
-        $lastNews = null;
-        foreach ($lastNewsID as $lastID){
-            $lastNews[] = new News($lastID->id, 600);
+        $lastID = Pages::find()->select('id')->where(['in', 'category_id', [2, 3, 4]])->orderBy(['id' => SORT_DESC])->limit(5)->all();
+        $items = null;
+        foreach ($lastID as $id){
+            $news[] = new News($id->id, 600);
         }
         return $this->render('index', [
-            'news' => $lastNews,
-            'count' => count($lastNews),
+            'news' => $news,
         ]);
     }
 
