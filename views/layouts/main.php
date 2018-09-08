@@ -21,14 +21,14 @@
     <body>
         <?php $this->beginBody() ?>
 
-        <div id="headerHolder">
-            <?= $this->render('./header') ?>
-        </div>
         <div id="bottomHolder">
             <?= $content ?>
             <div id="footerHolder">
                 <?= $this->render('./footer') ?>
             </div>
+        </div>
+        <div id="headerHolder">
+            <?= $this->render('./header') ?>
         </div>
 
         <?php $this->endBody() ?>
