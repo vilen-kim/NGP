@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Pages;
 use app\components\News;
+use app\components\MenuItems;
 use yii\web\NotFoundHttpException;
 
 class SiteController extends \yii\web\Controller {
@@ -54,6 +55,15 @@ class SiteController extends \yii\web\Controller {
     public function actionShow($id) {
         return $this->render('show', [
             'model' => $this->findModel($id),
+        ]);
+    }
+    
+    
+    
+    public function actionMenu() {
+        $menu = new MenuItems();
+        return $this->render('menu', [
+            'menu' => $menu,
         ]);
     }
 

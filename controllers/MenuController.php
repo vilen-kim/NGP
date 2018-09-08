@@ -45,29 +45,29 @@ class MenuController extends Controller {
         $array = [];
         $cnt = 0;
         $parents = Menu::find()->where(['parent_id' => 0])->orderBy('position')->all();
-        if (count($parents)){
+        if (count($parents)) {
             foreach ($parents as $par) {
-                $array[$cnt] =  "<span data-id='$par->id'>$par->caption</span>" .
-                                Html::a("<span class='glyphicon glyphicon-trash pull-right'></span>", ['menu/delete', 'id' => $par->id], [
-                                    'data'=> [
-                                        'method' => 'post',
-                                        'confirm' => 'Вы уверены что хотите удалить это меню? Все подменю также будут удалены.',
-                                    ]
-                                ]) .
-                                Html::a("<span class='glyphicon glyphicon-pencil pull-right' style='margin-right: 5px;'></span>", ['menu/update', 'id' => $par->id]);
+                $array[$cnt] = "<span data-id='$par->id'>$par->caption</span>" .
+                Html::a("<span class='glyphicon glyphicon-trash pull-right'></span>", ['menu/delete', 'id' => $par->id], [
+                    'data' => [
+                        'method' => 'post',
+                        'confirm' => 'Вы уверены что хотите удалить это меню? Все подменю также будут удалены.',
+                    ]
+                ]) .
+                Html::a("<span class='glyphicon glyphicon-pencil pull-right' style='margin-right: 5px;'></span>", ['menu/update', 'id' => $par->id]);
 
                 $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
                 $elements = [];
                 if (count($subMenu)) {
                     foreach ($subMenu as $sub) {
-                        $elements[] =   "<span data-id='$sub->id'>$sub->caption</span>" .
-                                        Html::a("<span class='glyphicon glyphicon-trash pull-right'></span>", ['menu/delete', 'id' => $sub->id], [
-                                            'data'=> [
-                                                'method' => 'post',
-                                                'confirm' => 'Вы уверены что хотите удалить это подменю?',
-                                            ]
-                                        ]) .
-                                        Html::a("<span class='glyphicon glyphicon-pencil pull-right' style='margin-right: 5px;'></span>", ['menu/update', 'id' => $sub->id]);
+                        $elements[] = "<span data-id='$sub->id'>$sub->caption</span>" .
+                        Html::a("<span class='glyphicon glyphicon-trash pull-right'></span>", ['menu/delete', 'id' => $sub->id], [
+                            'data' => [
+                                'method' => 'post',
+                                'confirm' => 'Вы уверены что хотите удалить это подменю?',
+                            ]
+                        ]) .
+                        Html::a("<span class='glyphicon glyphicon-pencil pull-right' style='margin-right: 5px;'></span>", ['menu/update', 'id' => $sub->id]);
                     }
                 }
                 $array[$cnt] .= Sortable::widget([
@@ -185,9 +185,9 @@ class MenuController extends Controller {
 
 
     public function actionDelete($id) {
-        if ($model = $this->findModel($id)){
+        if ($model = $this->findModel($id)) {
             $subMenu = Menu::find()->where(['parent_id' => $model->id])->all();
-            foreach($subMenu as $menu){
+            foreach ($subMenu as $menu) {
                 $menu->delete();
             }
             if ($model->delete()) {

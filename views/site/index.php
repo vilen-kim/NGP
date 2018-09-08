@@ -44,6 +44,10 @@
         #parallaxWhite {
             background: rgba(255, 255, 255, 0.7);
         }
+        h1.title {
+            margin-top: 50px;
+            margin-bottom: 100px;
+        }
         #site-index > div.row {
             margin-bottom: 100px;
         }

@@ -72,7 +72,7 @@ use yii\helpers\Url;
             <?php
                 $text = 'Меню';
                 echo Html::img('@web/images/icons/menu.svg', ['height' => $height]);
-                echo '' . Html::a("<span>$text</span>", ['menu/show']) . '';
+                echo '' . Html::a("<span>$text</span>", ['site/menu']) . '';
             ?>
         </div>
         <div class="<?= $class ?>">
