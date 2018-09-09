@@ -11,7 +11,7 @@
     
     // Ссылки на якорные заголовки меню
     $style = "margin-bottom: 30px; padding: 2px; position: sticky; top: 0; z-index: 1; background: #333";
-    echo "<div class='col-md-6 col-md-offset-6 text-center' style='$style'>";
+    echo "<div class='col-md-12 text-center' style='$style'>";
     for ($i = 0; $i < count($items); $i++){
         echo Html::a($items[$i]['label'], "#$i", ['style' => 'color: white']) . '&nbsp&nbsp&nbsp&nbsp';
     }

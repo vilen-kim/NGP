@@ -79,8 +79,17 @@ app\assets\HeaderAsset::register($this);
         </div>
         <div class="<?= $class ?>">
             <?php
-            $text = 'Меню';
-            echo Html::img("@web/images/$iconPath/menu.svg", ['height' => $height]);
+            if (Yii::$app->user->can('editor')){
+                $img = Html::img("@web/images/$iconPath/menu3.svg", ['height' => $height]);
+                $text = 'Меню, ЛК, Админ.';
+            } else if (Yii::$app->user->can('user')){
+                $img = Html::img("@web/images/$iconPath/menu2.svg", ['height' => $height]);
+                $text = 'Меню, ЛК';
+            } else {
+                $img = Html::img("@web/images/$iconPath/menu1.svg", ['height' => $height]);
+                $text = 'Меню';
+            }
+            echo $img;
             echo Html::a("<span>$text</span>", ['site/menu']);
             ?>
         </div>

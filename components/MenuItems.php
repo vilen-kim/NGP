@@ -1,6 +1,7 @@
 <?php
 namespace app\components;
 
+use Yii;
 use yii\base\BaseObject;
 use app\models\Menu;
 
@@ -12,6 +13,24 @@ class MenuItems extends BaseObject
     {
         $array = null;
         $num = 0;
+        
+        if (Yii::$app->user->can('user')){
+            $array[$num] = [
+                'label' => 'Личный кабинет',
+                'url' => ['kabinet/index'],
+                'items' => null,
+            ];
+            $num++;
+        }
+        
+        if (Yii::$app->user->can('editor')){
+            $array[$num] = [
+                'label' => 'Панель администрирования',
+                'url' => ['admin/index'],
+                'items' => null,
+            ];
+            $num++;
+        }
         
         $parents = Menu::find()->where(['parent_id' => 0])->orderBy('position')->all();
         foreach ($parents as $par) {
