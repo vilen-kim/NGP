@@ -22,7 +22,7 @@ class MenuItems extends BaseObject
                 'items' => null,
             ];
             
-            if ($par->caption == 'Новости'){
+            if ($par->caption == 'Архивные новости'){
                 $array[$num]['url'] = ['site/news'];
             }
             
