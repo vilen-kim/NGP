@@ -9,16 +9,16 @@
         <div class="smallGray">Бюджетное учреждение Ханты-Мансийского автономного округа - Югры "Няганская городская поликлиника"</div>
     </div>
     <div class="col-md-2">
-        <div class="mediumGrayBold">О поликлинике</div>
+        <h3>О поликлинике</h3>
         <div><?= Html::a('Контакты', ['site/show', 'id' => 16]) ?></div>
         <div><?= Html::a('Режим и график работы', ['site/show', 'id' => 17]) ?></div>
         <div><?= Html::a('Цены на платные услуги', ['site/show', 'id' => 29]) ?></div>
     </div>
     <div class="col-md-2">
-        <div class="mediumGrayBold">Пациентам</div>
+        <h3>Пациентам</h3>
     </div>
     <div class="col-md-2">
-        <div class="mediumGrayBold">Социальные сети</div>
+        <h3>Социальные сети</h3>
         <div style="margin-top: 10px">
             <?php $height = 30; ?>
             <?= Html::a(Html::img('@web/images/icons/vk.svg', ['height' => $height]), 'https://vk.com/id433055831', ['title' => 'ВКонтакте', 'style' => 'margin-right: 5px;']) ?>
@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div class="mediumGrayBold">Важная информация</div>
+        <h3>Важная информация</h3>
         <div class="smallGray">
             Телефон единой службы спасения:
             <span class="mediumGrayBold">112</span>
@@ -45,5 +45,8 @@
         footer {
             height: 100%;
             padding: 10px;
+        }
+        h3 {
+            margin: 0;
         }
     ');
