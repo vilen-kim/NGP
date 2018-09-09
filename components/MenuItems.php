@@ -21,7 +21,11 @@ class MenuItems extends BaseObject
                 'linkOptions' => ['style' => 'color: rgb(51,51,51)'],
                 'items' => null,
             ];
-
+            
+            if ($par->caption == 'Новости'){
+                $array[$num]['url'] = ['site/news'];
+            }
+            
             $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
             foreach ($subMenu as $sub) {
                 $array[$num]['items'][] = [

@@ -24,7 +24,7 @@ class SiteController extends \yii\web\Controller {
     public function actionIndex() {
         $lastID = Pages::find()->select('id')->where(['in', 'category_id', [2, 3, 4]])->orderBy(['id' => SORT_DESC])->limit(5)->all();
         $items = null;
-        foreach ($lastID as $id){
+        foreach ($lastID as $id) {
             $news[] = new News($id->id, 600);
         }
         return $this->render('index', [
@@ -57,13 +57,22 @@ class SiteController extends \yii\web\Controller {
             'model' => $this->findModel($id),
         ]);
     }
-    
-    
-    
+
+
+
     public function actionMenu() {
         $menu = new MenuItems();
         return $this->render('menu', [
             'menu' => $menu,
+        ]);
+    }
+
+
+
+    public function actionNews() {
+        $news = Pages::find()->select(['id', 'caption'])->where(['in', 'category_id', [2, 3, 4]])->orderBy(['id' => SORT_DESC])->asArray()->all();
+        return $this->render('news', [
+            'news' => $news,
         ]);
     }
 
