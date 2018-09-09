@@ -5,7 +5,7 @@
 <footer class="container row center-block">
 
     <div class="col-md-3">
-        <div class="mediumGrayBold">Наименование</div>
+        <h3>Наименование</h3>
         <div class="smallGray">Бюджетное учреждение Ханты-Мансийского автономного округа - Югры "Няганская городская поликлиника"</div>
     </div>
     <div class="col-md-2">

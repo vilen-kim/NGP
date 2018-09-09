@@ -8,7 +8,7 @@ app\assets\AuthAsset::register($this);
 $this->title = 'Вход в личный кабинет';
 ?>
 
-<h3 class="page-header text-center"><?= $this->title ?></h3>
+<h1 class="title"><?= $this->title ?></h1>
 
 <div class="row">
     <div class="col-md-offset-3 col-md-6 border">

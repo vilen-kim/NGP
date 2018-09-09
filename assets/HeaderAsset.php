@@ -4,17 +4,15 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-class AppAsset extends AssetBundle {
+class HeaderAsset extends AssetBundle {
 
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/all.css',
-        'css/layout.css',
-        'css/text.css',
-        'css/hover.css',
+        'css/header.css',
     ];
     public $js = [
+        'js/header.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

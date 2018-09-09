@@ -1,0 +1,35 @@
+#headerHolder {
+    height: 82px;
+    width: 100%;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+}
+header {
+    height: 100%;
+}
+#headerSearchInput {
+    position: absolute;
+    margin-top: 6px;
+    margin-left: 10px;
+    font-size: large;
+    border: 1px solid gray;
+    border-radius: 2px;
+    background: white;
+    z-index: 1;
+    display: none;
+    
+}
+#headerButtons > div {
+    height: 100%;
+    padding: 0px;
+}
+.showText {
+    text-align: center;
+}
+.showText > a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: none;
+}

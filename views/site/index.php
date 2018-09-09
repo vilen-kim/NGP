@@ -18,7 +18,7 @@
                             echo Html::img($news[$i]->image);
                         } else {
                             $url = Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]);
-                            echo "<p>$url</p>";
+                            echo "<h2 class='caption'>$url</h2>";
                         }
                     ?>
                 </div>
@@ -26,7 +26,7 @@
                     <?php
                         if ($i % 2 == 1) {
                             $url = Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]);
-                            echo "<p>$url</p>";
+                            echo "<h2 class='caption'>$url</h2>";
                         } else {
                             echo Html::img($news[$i]->image);
                         }
@@ -44,20 +44,14 @@
         #parallaxWhite {
             background: rgba(255, 255, 255, 0.7);
         }
-        h1.title {
-            margin-top: 50px;
-            margin-bottom: 100px;
+        #site-index {
+            padding-top: 50px;
         }
         #site-index > div.row {
             margin-bottom: 100px;
         }
         #site-index > div.row img {
             width: 100%;
-        }
-        #site-index > div.row p {
-            font-size: x-large;
-            font-weight: bold;
-            margin-top: 40px;
         }
         #bottomHolder {
             padding-top: 82px;
