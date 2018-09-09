@@ -1,6 +1,6 @@
 <?php
     use yii\helpers\Html;
-    $this->title = 'Новости';
+    $this->title = 'Архивные новости';
 ?>
 
 <h1><?= $this->title ?></h1>
