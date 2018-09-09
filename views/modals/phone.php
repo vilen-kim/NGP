@@ -8,6 +8,7 @@
         'size' => Modal::SIZE_DEFAULT,
         'clientOptions' => [
             'show' => false,
+            
         ],
     ]);
 ?>

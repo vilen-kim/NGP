@@ -1,6 +1,10 @@
 <?php
     use yii\helpers\Html;
-    app\assets\AppAsset::register($this);
+    if (Yii::$app->session->get('eye')){
+        app\assets\EyeAsset::register($this);
+    } else {
+        app\assets\AppAsset::register($this);
+    }
 ?>
 
 

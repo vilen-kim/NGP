@@ -4,13 +4,12 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-class AppAsset extends AssetBundle {
+class EyeAsset extends AssetBundle {
     
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/all.css',
-        'css/hover.css',
+        'css/eye.css',
     ];
     public $js = [
     ];

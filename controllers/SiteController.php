@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Pages;
 use app\components\News;
 use app\components\MenuItems;
@@ -74,6 +75,24 @@ class SiteController extends \yii\web\Controller {
         return $this->render('news', [
             'news' => $news,
         ]);
+    }
+
+
+
+    public function actionEyeOn() {
+        $session = Yii::$app->session;
+        $session->open();
+        $session->set('eye', True);
+        return $this->redirect(['site/index']);
+    }
+
+
+
+    public function actionEyeOff() {
+        $session = Yii::$app->session;
+        $session->open();
+        $session->set('eye', False);
+        return $this->redirect(['site/index']);
     }
 
 

@@ -9,6 +9,8 @@ app\assets\HeaderAsset::register($this);
 <header class="container">
 
     <?php
+    $eye = Yii::$app->session->get('eye');
+    $iconPath = ($eye) ? 'icons/eye' : 'icons';
     $height = 45;
     $marginTop = (82 - $height) / 2 . 'px';
     echo $this->render("../modals/phone.php");
@@ -29,9 +31,13 @@ app\assets\HeaderAsset::register($this);
     <div class="col-md-1 col-md-offset-1 showText" style="margin-top: <?= $marginTop ?>;">
         <?php
         $text = 'Показать/скрыть поиск';
-        echo Html::img('@web/images/icons/search.svg', ['height' => $height]);
+        echo Html::img("@web/images/$iconPath/search.svg", ['height' => $height]);
         echo Html::a("<span>$text</span>", '', ['id' => 'headerSearch']);
-        echo Html::textInput('text', '', ['id' => 'headerSearchInput', 'size' => 30]);
+        if ($eye){
+            echo Html::textInput('text', '', ['id' => 'headerSearchInput', 'size' => 30, 'style' => 'background: rgb(50, 50, 50)']);
+        } else {
+            echo Html::textInput('text', '', ['id' => 'headerSearchInput', 'size' => 30]);
+        }
         ?>
     </div>
 
@@ -52,28 +58,29 @@ app\assets\HeaderAsset::register($this);
         <div class="<?= $class ?>">
             <?php
             $text = 'Электронная регистратура';
-            echo Html::img('@web/images/icons/registration.svg', ['height' => $height]);
+            echo Html::img("@web/images/$iconPath/registration.svg", ['height' => $height]);
             echo Html::a("<span>$text</span>", 'https://er.dzhmao.ru/?setlocality=8600000500000');
             ?>
         </div>
         <div class="<?= $class ?>">
             <?php
             $text = 'Вызов врача на дом';
-            echo Html::img('@web/images/icons/doctor.svg', ['height' => $height]);
+            
+            echo Html::img("@web/images/$iconPath/doctor.svg", ['height' => $height]);
             echo Html::a("<span>$text</span>", '');
             ?>
         </div>
         <div class="<?= $class ?>">
             <?php
             $text = 'Регистрация обращения';
-            echo Html::img('@web/images/icons/request.svg', ['height' => $height]);
+            echo Html::img("@web/images/$iconPath/request.svg", ['height' => $height]);
             echo Html::a("<span>$text</span>", ['request/info']);
             ?>
         </div>
         <div class="<?= $class ?>">
             <?php
             $text = 'Меню';
-            echo Html::img('@web/images/icons/menu.svg', ['height' => $height]);
+            echo Html::img("@web/images/$iconPath/menu.svg", ['height' => $height]);
             echo Html::a("<span>$text</span>", ['site/menu']);
             ?>
         </div>
@@ -81,11 +88,11 @@ app\assets\HeaderAsset::register($this);
             <?php
             $text = null;
             if (Yii::$app->user->isGuest) {
-                $img = Html::img('@web/images/icons/login.svg', ['height' => $height]);
+                $img = Html::img("@web/images/$iconPath/login.svg", ['height' => $height]);
                 $url = Url::to(['auth/login']);
                 $text = 'Вход';
             } else {
-                $img = Html::img('@web/images/icons/logout.svg', ['height' => $height]);
+                $img = Html::img("@web/images/$iconPath/logout.svg", ['height' => $height]);
                 $url = Url::to(['auth/logout']);
                 $text = 'Выход';
             }
@@ -95,9 +102,16 @@ app\assets\HeaderAsset::register($this);
         </div>
         <div class="<?= $class ?>">
             <?php
-            $text = 'Режим для слабовидящих';
-            echo Html::img('@web/images/icons/eye.svg', ['height' => $height]);
-            echo Html::a("<span>$text</span>", '');
+            $img = Html::img("@web/images/$iconPath/eye.svg", ['height' => $height]);
+            if (!$eye){
+                $url = Url::to(['site/eye-on']);
+                $text = 'Режим для слабовидящих';
+            } else {
+                $url = Url::to(['site/eye-off']);
+                $text = 'Обычный режим';
+            }
+            echo $img;
+            echo Html::a("<span>$text</span>", $url);
             ?>
         </div>
     </div>

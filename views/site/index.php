@@ -4,8 +4,10 @@
     $this->title = 'Последние новости';
 ?>
 
-<div class="parallax-window" data-parallax="scroll" data-image-src="/images/backgrounds/parallax.jpg">
-<div id="parallaxWhite">
+<?php if (!Yii::$app->session->get('eye')){ ?>
+    <div class="parallax-window" data-parallax="scroll" data-image-src="/images/backgrounds/parallax.jpg">
+    <div id="parallaxWhite">
+<?php } ?>
     <div id="site-index" class="container">
 
         <h1 class="title"><?= $this->title ?></h1>
@@ -36,8 +38,10 @@
         <?php } ?>
 
     </div>
-</div>
-</div>
+<?php if (!Yii::$app->session->get('eye')){ ?>
+    </div>
+    </div>
+<?php } ?>
 
 <?php
     $this->registerCss('
