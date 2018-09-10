@@ -20,6 +20,9 @@
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
+        
+        <div><img src="https://mc.yandex.ru/watch/50276533" style="position:absolute; left:-9999px;" alt="" /></div>
+        
     </head>
     <body>
         <?php $this->beginBody() ?>
