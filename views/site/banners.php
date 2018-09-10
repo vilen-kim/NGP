@@ -4,7 +4,7 @@ $this->title = 'Баннеры';
 
 <h1><?= $this->title ?></h1>
 
-<div class="container text-center">
+<div id="site-banners" class="container text-center">
     
     <div class="row">
         <div class="col-md-3" style="margin-top: 20px;">	
@@ -114,7 +114,7 @@ $this->title = 'Баннеры';
 
 <?php
     $this->registerCss('
-        .row > div img {
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+        #site-banners .row > div img {
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
         }
     ');
