@@ -1,15 +1,15 @@
 <?php
-
-use yii\helpers\Html;
-
-$this->title = $name;
+    use yii\helpers\Html;
+    app\assets\ErrorAsset::register($this);
+    $this->title = $name;
 ?>
-<h3 class="page-header text-center"><?= $this->title ?></h3>
 
-<div class="site-error">
+<div id="site-error" class="container">
+    
+    <h1><?= $this->title ?></h1>
 
     <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
+        <h3><?= nl2br(Html::encode($message)) ?></h3>
     </div>
 
 </div>

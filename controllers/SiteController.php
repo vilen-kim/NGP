@@ -79,6 +79,12 @@ class SiteController extends \yii\web\Controller {
 
 
 
+    public function actionBanners() {
+        return $this->render('banners');
+    }
+
+
+
     public function actionEyeOn() {
         $session = Yii::$app->session;
         $session->open();

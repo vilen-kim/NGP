@@ -8,57 +8,42 @@
     <div class="parallax-window" data-parallax="scroll" data-image-src="/images/backgrounds/parallax.jpg">
     <div id="parallaxWhite">
 <?php } ?>
+        
     <div id="site-index" class="container">
-
-        <h1 class="title"><?= $this->title ?></h1>
+        
+        <h1><?= $this->title ?></h1>
 
         <?php for ($i = 0; $i < count($news); $i++){ ?>
             <div class="col-md-10 col-md-offset-1 row animatedParent animateOnce">
+                
                 <div class="col-md-5 animated fadeInLeft">
                     <?php
                         if ($i % 2 == 1) {
                             echo Html::img($news[$i]->image);
                         } else {
                             $url = Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]);
-                            echo "<h2 class='caption'>$url</h2>";
+                            echo "<h2>$url</h2>";
                         }
                     ?>
                 </div>
+                
                 <div class="col-md-5 col-md-offset-2 animated fadeInRight">
                     <?php
                         if ($i % 2 == 1) {
                             $url = Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]);
-                            echo "<h2 class='caption'>$url</h2>";
+                            echo "<h2>$url</h2>";
                         } else {
                             echo Html::img($news[$i]->image);
                         }
                     ?>
                 </div>
+                
             </div>
         <?php } ?>
 
     </div>
+        
 <?php if (!Yii::$app->session->get('eye')){ ?>
     </div>
     </div>
 <?php } ?>
-
-<?php
-    $this->registerCss('
-        #parallaxWhite {
-            background: rgba(255, 255, 255, 0.7);
-        }
-        #site-index {
-            padding-top: 50px;
-        }
-        #site-index > div.row {
-            margin-bottom: 100px;
-        }
-        #site-index > div.row img {
-            width: 100%;
-        }
-        #bottomHolder {
-            padding-top: 82px;
-            padding-bottom: 100px;
-        }
-    ');

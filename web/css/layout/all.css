@@ -10,17 +10,9 @@ html, body {
     position: absolute;
     top: 0;
     min-height: 100%;
-    padding-top: 132px;
-    padding-bottom: 150px;
+    padding-top: 132px;     /* header 82 + отступ 50 */
+    padding-bottom: 150px;  /* footer 100 + отступ 50 */
     width: 100%;
-}
-
-#footerHolder {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
-    background: rgba(0, 0, 0, 0.4);
 }
 
 img {
@@ -36,13 +28,16 @@ h1 {
     letter-spacing: 2px;
     font-weight: bold;
     text-align: center;
+    margin-top: 0;
     margin-bottom: 50px;
 }
+
 h2 {
     letter-spacing: 1px;
     font-size: x-large;
     font-weight: bold;
 }
+
 h3 {
     font-size: large;
     font-weight: bold;

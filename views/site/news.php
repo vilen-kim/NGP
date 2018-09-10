@@ -10,7 +10,7 @@
     $i = 1;
     foreach($news as $new){
         $text = str_replace(["<p>", "</p>"], "", $new['caption']);
-        echo Html::a("<h4 style='margin: 0'>$i. $text</h4>", ['site/show', 'id' => $new['id']]) . '<br>';
+        echo Html::a("$i. $text", ['site/show', 'id' => $new['id']]) . '<br>';
         $i++;
     }
 ?>

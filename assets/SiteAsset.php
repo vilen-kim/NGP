@@ -9,7 +9,8 @@ class SiteAsset extends AssetBundle {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/animations.css',
+        'css/site/index.css',
+        'css/site/animations.css',
     ];
     public $js = [
         'js/css3-animate-it.js',

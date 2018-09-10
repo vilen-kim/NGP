@@ -1,9 +1,6 @@
 <?php
-
-use yii\helpers\Html;
-use yii\helpers\Url;
-
-app\assets\HeaderAsset::register($this);
+    use yii\helpers\Html;
+    use yii\helpers\Url;
 ?>
 
 <header class="container">

@@ -4,15 +4,14 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-class HeaderAsset extends AssetBundle {
+class ErrorAsset extends AssetBundle {
 
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/header.css',
+        'css/site/error.css',
     ];
     public $js = [
-        'js/header.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
