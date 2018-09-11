@@ -1,55 +1,65 @@
 <?php
-
-use yii\helpers\Html;
-use yii\helpers\Url;
-
-app\assets\AdminAsset::register($this);
-$this->title = 'Панель управления';
-$this->params['breadcrumbs'][] = $this->title;
+    use yii\helpers\Html;
+    app\assets\AdminAsset::register($this);
+    $this->title = 'Панель управления';
 ?>
 
-<h3 class="page-header text-center"><?= $this->title ?></h3>
+<h1><?= $this->title ?></h1>
 
-<div class="admin-index row">
+<div class="container">
 
     <?php
+    $height = 80;
     $array = [
         'user' => [
-            'count' => '<span class="badge">' . $count['users'] . '</span>',
-            'url' => Yii::$app->user->can('admin') ? Url::to(['auth/index']) : '',
             'caption' => 'Пользователи',
-            'options' => Yii::$app->user->can('admin') ? ['class' => 'btn btn-default changeBack'] : ['class' => 'btn btn-default', 'disabled' => '', 'onClick' => 'return false;'],
+            'img' => '/images/icons/admin/users.svg',
+            'count' => '<span class="badge">' . $count['users'] . '</span>',
+            'url' => Yii::$app->user->can('admin') ? ['auth/index'] : '',
+            'options' => Yii::$app->user->can('admin') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
         ],
         'menu' => [
-            'count' => '<span class="badge">' . $count['menu'] . '</span>',
-            'url' => Yii::$app->user->can('manager') ? Url::to(['menu/index']) : '',
             'caption' => 'Меню',
-            'options' => Yii::$app->user->can('manager') ? ['class' => 'btn btn-default changeBack'] : ['class' => 'btn btn-default', 'disabled' => '', 'onClick' => 'return false;'],
+            'img' => '/images/icons/admin/menu3.svg',
+            'count' => '<span class="badge">' . $count['menu'] . '</span>',
+            'url' => Yii::$app->user->can('manager') ? ['menu/index'] : '',
+            'options' => Yii::$app->user->can('manager') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
         ],
         'pages' => [
-            'count' => '<span class="badge">' . $count['pages'] . '</span>',
-            'url' => Yii::$app->user->can('editor') ? Url::to(['pages/index']) : '',
             'caption' => 'Страницы',
-            'options' => Yii::$app->user->can('editor') ? ['class' => 'btn btn-default changeBack'] : ['class' => 'btn btn-default', 'disabled' => '', 'onClick' => 'return false;'],
+            'img' => '/images/icons/admin/pages.svg',
+            'count' => '<span class="badge">' . $count['pages'] . '</span>',
+            'url' => Yii::$app->user->can('editor') ? ['pages/index'] : '',
+            'options' => Yii::$app->user->can('editor') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
         ],
         'requests' => [
-            'count' => '<span class="badge">' . $count['requests'] . '</span>',
-            'url' => Yii::$app->user->can('manager') ? Url::to(['request/index']) : '',
             'caption' => 'Обращения',
-            'options' => Yii::$app->user->can('manager') ? ['class' => 'btn btn-default changeBack'] : ['class' => 'btn btn-default', 'disabled' => '', 'onClick' => 'return false;'],
+            'img' => '/images/icons/admin/request.svg',
+            'count' => '<span class="badge">' . $count['requests'] . '</span>',
+            'url' => Yii::$app->user->can('manager') ? ['request/index'] : '',
+            'options' => Yii::$app->user->can('manager') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
         ],
         'wall' => [
+            'caption' => 'Записи из ВК',
+            'img' => '/images/icons/admin/news.svg',
             'count' => '<span class="badge">' . $count['wall'] . '</span>',
-            'url' => Yii::$app->user->can('editor') ? Url::to(['admin/get-wall']) : '',
-            'caption' => 'Получить записи со стены в ВК',
-            'options' => Yii::$app->user->can('editor') ? ['class' => 'btn btn-default changeBack'] : ['class' => 'btn btn-default', 'disabled' => '', 'onClick' => 'return false;'],
+            'url' => Yii::$app->user->can('editor') ? ['admin/get-wall'] : '',
+            'options' => Yii::$app->user->can('editor') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
         ],
-        
+        'banners' => [
+            'caption' => 'Баннеры',
+            'img' => '/images/icons/admin/banners.svg',
+            'count' => '<span class="badge">' . $count['banners'] . '</span>',
+            'url' => Yii::$app->user->can('manager') ? ['banners/index'] : '',
+            'options' => Yii::$app->user->can('manager') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
+        ],
     ];
-
+    
     foreach ($array as $arr) {
-        echo '<div class="col-md-4">';
-        echo Html::a($arr['caption'] . ' ' . $arr['count'], $arr['url'], $arr['options']);
+        echo '<div class="col-md-2 text-center showText">';
+            echo Html::img($arr['img'], ['height' => $height]);
+            $text = $arr['caption'];
+            echo Html::a("<span style='font-size: large'>$text</span>", $arr['url']);
         echo '</div>';
     }
     ?>

@@ -3,7 +3,7 @@
     use yii\helpers\Url;
 ?>
 
-<header class="container">
+<header class="container" id="header">
 
     <?php
     $eye = Yii::$app->session->get('eye');

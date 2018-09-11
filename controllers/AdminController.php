@@ -10,6 +10,7 @@ use app\models\Auth;
 use app\models\Pages;
 use app\models\Menu;
 use app\models\Request;
+use app\models\Banners;
 
 class AdminController extends \yii\web\Controller {
 
@@ -52,6 +53,7 @@ class AdminController extends \yii\web\Controller {
         $count['menu'] = Menu::find()->count();
         $count['pages'] = Pages::find()->count();
         $count['requests'] = Request::find()->count();
+        $count['banners'] = Banners::find()->count();
         $count['wall'] = Pages::find()->where(['is not', 'vk_id', null])->count();
         return $this->render('index', ['count' => $count]);
     }
