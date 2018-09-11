@@ -39,7 +39,7 @@ $config = [
                 'class' => Swift_SmtpTransport::class,
                 'host' => 'smtp.timeweb.ru',
                 'username' => 'noreply@nyagangp.ru',
-                'password' => "U'csng7QK;R5p{ke",
+                'password' => "zaNk5kDp",
                 'port' => '465',
                 'encryption' => 'ssl',
             ],

@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
-    'noreplyEmail' => 'noreply@aus86.ru',
+    'adminEmail' => 'admin@nyagangp.ru',
+    'noreplyEmail' => 'noreply@nyagangp.ru',
     'siteCaption' => 'Няганская городская поликлиника',
     
     'ckeditorClientOptions' => [
