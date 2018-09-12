@@ -26,6 +26,10 @@ a {
 a.btn {
     text-decoration: none;
 }
+a.dot {
+    border-bottom: 1px dashed #333;
+    text-decoration: none;
+}
 
 h1 {
     letter-spacing: 2px;

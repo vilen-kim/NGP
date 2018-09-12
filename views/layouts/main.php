@@ -1,9 +1,6 @@
 <?php
     use yii\helpers\Html;
     app\assets\AppAsset::register($this);
-    if (Yii::$app->session->get('eye')){
-        app\assets\EyeAsset::register($this);
-    }
 ?>
 
 
@@ -31,6 +28,11 @@
                     echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
                 } ?>
             </div>
+            <?php
+                if (Yii::$app->session->get('eye')){
+                    echo $this->render('./eyePanel');
+                }
+            ?>
             <?= $content ?>
             <div id="footerHolder">
                 <?= $this->render('./footer') ?>

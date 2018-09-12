@@ -105,6 +105,7 @@ class AuthController extends Controller {
                 Yii::$app->session->setFlash('success', 'Ваша учетная запись была успешно зарегистрирована.<br>Инструкция по ее активации отправлена Вам на электронную почту.');
                 return $this->redirect('login');
             } else {
+                var_dump($auth);
                 Yii::$app->session->setFlash('danger', 'При активации учетной записи произошла ошибка. Попробуйте позже.');
             }
         }

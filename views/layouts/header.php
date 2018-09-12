@@ -7,7 +7,6 @@
 
     <?php
     $eye = Yii::$app->session->get('eye');
-    $iconPath = ($eye) ? 'icons/eye' : 'icons';
     $height = 45;
     $marginTop = (82 - $height) / 2 . 'px';
     echo $this->render("../modals/phone.php");
@@ -24,38 +23,24 @@
 
 
 
-    <!-- Поиск -->
-    <div class="col-md-1 col-md-offset-1 showText" style="margin-top: <?= $marginTop ?>;">
-        <?php
-        $text = 'Показать/скрыть поиск';
-        echo Html::img("@web/images/$iconPath/search.svg", ['height' => $height]);
-        echo Html::a("<span>$text</span>", '', ['id' => 'headerSearch']);
-        if ($eye){
-            echo Html::textInput('text', '', ['id' => 'headerSearchInput', 'size' => 30, 'style' => 'background: rgb(50, 50, 50)']);
-        } else {
-            echo Html::textInput('text', '', ['id' => 'headerSearchInput', 'size' => 30]);
-        }
-        ?>
-    </div>
-
-
-
     <!-- Телефон -->
-    <div class="col-md-3" style='margin-top: 24px;'>
-            <?= Html::a('<h2 style="margin-top: 0">8 (34672) 5-45-30</h2>', '', ['id' => 'headerPhone']) ?>
+    <div class="col-md-3 col-md-offset-1" style='margin-top: 24px;'>
+        <h2 style="margin-top: 0">
+            <?= Html::a('8 (34672) 5-45-30', '', ['id' => 'headerPhone', 'class' => 'dot']) ?>
+        </h2>
     </div>
 
 
 
     <!-- Кнопки основных действий -->
-    <div class="col-md-6 row" id="headerButtons" style="margin-top: <?= $marginTop ?>">
+    <div class="col-md-6 col-md-offset-1 row" id="headerButtons" style="margin-top: <?= $marginTop ?>">
         <?php
         $class = "col-md-2 showText";
         ?>
         <div class="<?= $class ?>">
             <?php
             $text = 'Электронная регистратура';
-            echo Html::img("@web/images/$iconPath/registration.svg", ['height' => $height]);
+            echo Html::img("@web/images/icons/registration.svg", ['height' => $height]);
             echo Html::a("<span>$text</span>", 'https://er.dzhmao.ru/?setlocality=8600000500000');
             ?>
         </div>
@@ -63,27 +48,27 @@
             <?php
             $text = 'Вызов врача на дом';
             
-            echo Html::img("@web/images/$iconPath/doctor.svg", ['height' => $height]);
+            echo Html::img("@web/images/icons/doctor.svg", ['height' => $height]);
             echo Html::a("<span>$text</span>", '');
             ?>
         </div>
         <div class="<?= $class ?>">
             <?php
             $text = 'Регистрация обращения';
-            echo Html::img("@web/images/$iconPath/request.svg", ['height' => $height]);
+            echo Html::img("@web/images/icons/request.svg", ['height' => $height]);
             echo Html::a("<span>$text</span>", ['request/info']);
             ?>
         </div>
         <div class="<?= $class ?>">
             <?php
             if (Yii::$app->user->can('editor')){
-                $img = Html::img("@web/images/$iconPath/menu3.svg", ['height' => $height]);
+                $img = Html::img("@web/images/icons/menu3.svg", ['height' => $height]);
                 $text = 'Меню, ЛК, Админ.';
             } else if (Yii::$app->user->can('user')){
-                $img = Html::img("@web/images/$iconPath/menu2.svg", ['height' => $height]);
+                $img = Html::img("@web/images/icons/menu2.svg", ['height' => $height]);
                 $text = 'Меню, ЛК';
             } else {
-                $img = Html::img("@web/images/$iconPath/menu1.svg", ['height' => $height]);
+                $img = Html::img("@web/images/icons/menu1.svg", ['height' => $height]);
                 $text = 'Меню';
             }
             echo $img;
@@ -94,11 +79,11 @@
             <?php
             $text = null;
             if (Yii::$app->user->isGuest) {
-                $img = Html::img("@web/images/$iconPath/login.svg", ['height' => $height]);
+                $img = Html::img("@web/images/icons/login.svg", ['height' => $height]);
                 $url = Url::to(['auth/login']);
                 $text = 'Вход';
             } else {
-                $img = Html::img("@web/images/$iconPath/logout.svg", ['height' => $height]);
+                $img = Html::img("@web/images/icons/logout.svg", ['height' => $height]);
                 $url = Url::to(['auth/logout']);
                 $text = 'Выход';
             }
@@ -108,16 +93,17 @@
         </div>
         <div class="<?= $class ?>">
             <?php
-            $img = Html::img("@web/images/$iconPath/eye.svg", ['height' => $height]);
             if (!$eye){
-                $url = Url::to(['site/eye-on']);
                 $text = 'Режим для слабовидящих';
+                $class = 'toOn';
+                $img = Html::img("@web/images/icons/eyeOn.svg", ['height' => $height]);
             } else {
-                $url = Url::to(['site/eye-off']);
                 $text = 'Обычный режим';
+                $class = 'toOff';
+                $img = Html::img("@web/images/icons/eyeOff.svg", ['height' => $height]);
             }
             echo $img;
-            echo Html::a("<span>$text</span>", $url);
+            echo Html::a("<span>$text</span>", '', ['class' => $class, 'id' => 'headerEye']);
             ?>
         </div>
     </div>
