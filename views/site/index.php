@@ -5,7 +5,7 @@
 ?>
 
 <?php if (!Yii::$app->session->get('eye')){ ?>
-    <div class="parallax-window" data-parallax="scroll" data-image-src="/images/backgrounds/parallax.jpg">
+    <div class = "parallax-window" data-parallax = "scroll" data-image-src = "/images/backgrounds/parallax.jpg" data-natural-width = 1920 data-natural-height = 1080 data-speed = 0.2>
     <div id="parallaxWhite">
 <?php } ?>
         

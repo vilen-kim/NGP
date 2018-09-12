@@ -25,10 +25,10 @@
         <h3>Социальные сети</h3>
         <div id="footerSocial">
             <?php $height = 30; ?>
-            <?= Html::a(Html::img('@web/images/icons/vk.svg', ['height' => $height]), 'https://vk.com/id433055831', ['title' => 'ВКонтакте', 'style' => 'margin-right: 5px;']) ?>
-            <?= Html::a(Html::img('@web/images/icons/odnoklassniki.svg', ['height' => $height]), 'https://ok.ru/profile/571730537307', ['title' => 'Одноклассники', 'style' => 'margin-right: 5px;']) ?>
-            <?= Html::a(Html::img('@web/images/icons/facebook.svg', ['height' => $height]), 'https://www.facebook.com/БУ-Няганская-городская-поликлиника-2189851657908954', ['title' => 'Facebook', 'style' => 'margin-right: 5px;']) ?>
-            <?= Html::a(Html::img('@web/images/icons/twitter.svg', ['height' => $height]), 'https://twitter.com/profilngp1', ['title' => 'Twitter']) ?>
+            <?= Html::a(Html::img('@web/images/icons/social/vk.svg', ['height' => $height]), 'https://vk.com/id433055831', ['title' => 'ВКонтакте', 'style' => 'margin-right: 5px;']) ?>
+            <?= Html::a(Html::img('@web/images/icons/social/odnoklassniki.svg', ['height' => $height]), 'https://ok.ru/profile/571730537307', ['title' => 'Одноклассники', 'style' => 'margin-right: 5px;']) ?>
+            <?= Html::a(Html::img('@web/images/icons/social/facebook.svg', ['height' => $height]), 'https://www.facebook.com/БУ-Няганская-городская-поликлиника-2189851657908954', ['title' => 'Facebook', 'style' => 'margin-right: 5px;']) ?>
+            <?= Html::a(Html::img('@web/images/icons/social/twitter.svg', ['height' => $height]), 'https://twitter.com/profilngp1', ['title' => 'Twitter']) ?>
         </div>
     </div>
     
