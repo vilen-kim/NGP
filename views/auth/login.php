@@ -1,36 +1,36 @@
 <?php
-
-use yii\widgets\ActiveForm;
-use yii\helpers\Html;
-use yii\helpers\Url;
-
-app\assets\AuthAsset::register($this);
-$this->title = 'Вход в личный кабинет';
+    use yii\widgets\ActiveForm;
+    use yii\helpers\Html;
+    app\assets\AuthAsset::register($this);
+    $this->title = 'Вход в личный кабинет';
 ?>
 
-<h1 class="title"><?= $this->title ?></h1>
+<h1><?= $this->title ?></h1>
 
-<div class="row">
-    <div class="col-md-offset-3 col-md-6 border">
+<div class="container">
+    <div class="col-md-offset-3 col-md-6">
 
         <?php
-        $form = ActiveForm::begin(['id' => 'login-form']);
-        echo $form->field($model, 'email', ['errorOptions' => ['encode' => false, 'class' => 'help-block']]);
-        echo $form->field($model, 'password', ['errorOptions' => ['encode' => false, 'class' => 'help-block']])->passwordInput();
-        echo $form->field($model, 'rememberMe')->checkbox();
+            $form = ActiveForm::begin(['id' => 'login-form']);
+            $errorOptions = ['errorOptions' => ['encode' => false, 'class' => 'help-block']];
+            echo $form->field($model, 'email', $errorOptions)->textInput(['placeholder' => 'Электронная почта'])->label(false);
+            echo $form->field($model, 'password', $errorOptions)->passwordInput(['placeholder' => 'Пароль'])->label(false);
+            echo $form->field($model, 'rememberMe')->checkbox();
         ?>
+        
         <div class="row">
-            <div class="col-lg-4">
-                <?= Html::submitButton('Войти', ['class' => 'btn scale', 'style' => 'background: #ffda44; color: black']) ?>
+            <div class="col-md-4">
+                <?= Html::submitButton('Войти', ['class' => 'btn btn-primary']) ?>
             </div>
-            <div class="col-lg-4" align="center">
-                <?= Html::a('Зарегистрироваться', Url::to(['auth/register']), ['id' => 'aRegister', 'style' => 'color: green']) ?>
+            <div class="col-md-4" align="center" style="padding-top: 6px;">
+                <?= Html::a('Зарегистрироваться', ['auth/register'], ['id' => 'aRegister', 'style' => 'color: green']) ?>
             </div>
-            <div class="col-lg-4" align="right">
-                <?= Html::a('Забыли пароль', Url::to(['auth/forgot-pass']), ['id' => 'aForgotPass', 'style' => 'color: red']) ?>
+            <div class="col-md-4" align="right" style="padding-top: 6px;">
+                <?= Html::a('Забыли пароль', ['auth/forgot-pass'], ['id' => 'aForgotPass', 'style' => 'color: red']) ?>
             </div>
         </div>
-        <?php ActiveForm::end(); ?>
+        
+            <?php ActiveForm::end(); ?>
 
     </div>
 </div>

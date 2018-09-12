@@ -28,6 +28,11 @@
         <?php $this->beginBody() ?>
 
         <div id="bottomHolder">
+            <div style="position: absolute; top: 83px; left: 0">
+                <?php foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+                    echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
+                } ?>
+            </div>
             <?= $content ?>
             <div id="footerHolder">
                 <?= $this->render('./footer') ?>

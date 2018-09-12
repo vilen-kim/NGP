@@ -1,20 +1,15 @@
 <?php
-
-use yii\widgets\DetailView;
-
-app\assets\AuthAsset::register($this);
-if (Yii::$app->user->can('admin')){
+    use yii\widgets\DetailView;
+    app\assets\AuthAsset::register($this);
     $this->title = $model->fio;
-    $this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-    $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['auth/index']];
-    $this->params['breadcrumbs'][] = $this->title;
-}
 ?>
 
-<div class="row auth-view">
+<h1><?= $this->title ?></h1>
+
+<div class="container">
     <div class="col-md-8 col-md-offset-2">
 
-        <h4 class="text-center"><b>Учетная запись:</b></h4>
+        <h2 align="center" style="margin-top: 0">Учетная запись</h2>
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
@@ -26,7 +21,7 @@ if (Yii::$app->user->can('admin')){
             ],
         ]) ?>
         
-        <h4 class="text-center"><b>Профиль:</b></h4>
+        <h2 align="center">Профиль</h2>
         <?= DetailView::widget([
             'model' => $model->profile,
             'attributes' => [
@@ -41,7 +36,7 @@ if (Yii::$app->user->can('admin')){
         ]) ?>
         
         <?php if (isset($model->executive)){ ?>
-        <h4 class="text-center"><b>Должностное лицо:</b></h4>
+        <h2 align="center">Должностное лицо</h2>
         <?= DetailView::widget([
             'model' => $model->executive,
             'attributes' => [
@@ -54,3 +49,10 @@ if (Yii::$app->user->can('admin')){
 
     </div>
 </div>
+
+<?php
+    $this->registerCss('
+        table.detail-view th {
+            width: 30%;
+        }
+    ');

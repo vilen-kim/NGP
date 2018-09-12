@@ -1,43 +1,49 @@
 <?php
-
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use himiklab\yii2\recaptcha\ReCaptcha;
-
-app\assets\AuthAsset::register($this);
-$this->title = $model->lastname . ' ' . $model->firstname . ' ' . $model->middlename;
-$this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['auth/index']];
-$this->params['breadcrumbs'][] = $this->title;
+    use yii\helpers\Html;
+    use yii\widgets\ActiveForm;
+    app\assets\AuthAsset::register($this);
+    $this->title = $model->lastname . ' ' . $model->firstname . ' ' . $model->middlename;
 ?>
 
-<div class="row">
+<h1><?= $this->title ?></h1>
+
+<div class="container">
     <div class="col-md-6 col-md-offset-3">
 
-        <?php $form = ActiveForm::begin(['id' => 'update-form']); ?>
+        <?php $form = ActiveForm::begin(); ?>
         
-        <h4 class="text-center"><b>Учетная запись:</b></h4>
-        <?= $form->field($model, 'email')->textInput(['readOnly' => true]) ?>
-        <?= $form->field($model, 'password')->passwordInput() ?>
-        <?= $form->field($model, 'passwordRepeat')->passwordInput() ?>
-        <?= $form->field($model, 'role')->dropDownList($roles) ?>
+        <h2 class="text-center" style="margin-top: 0">Учетная запись</h2>
+        <?php
+            echo $form->field($model, 'email')->textInput(['readOnly' => true])->label(false);
+            echo $form->field($model, 'password')->passwordInput(['placeholder' => 'Пароль (если хотите поменять)'])->label(false);
+            echo $form->field($model, 'passwordRepeat')->passwordInput(['placeholder' => 'Повторите пароль'])->label(false);
+            echo $form->field($model, 'role')->dropDownList($roles)->label(false);
+        ?>
         
-        <h4 class="text-center"><b>Профиль:</b></h4>
-        <?= $form->field($model, 'lastname') ?>
-        <?= $form->field($model, 'firstname') ?>
-        <?= $form->field($model, 'middlename') ?>
+        <h2 class="text-center">Профиль</h2>
+        <?php
+            echo $form->field($model, 'lastname')->textInput(['placeholder' => 'Фамилия'])->label(false);
+            echo $form->field($model, 'firstname')->textInput(['placeholder' => 'Имя'])->label(false);
+            echo $form->field($model, 'middlename')->textInput(['placeholder' => 'Отчество'])->label(false);
+        ?>
         
-        <h4 class="text-center"><b>Должностное лицо:</b></h4>
-        <?= $form->field($model, 'executive')->checkbox() ?>
-        <?= $form->field($model, 'position') ?>
-        <?= $form->field($model, 'kab') ?>
-        <?= $form->field($model, 'priem') ?>
+        <h2 class="text-center">Должностное лицо</h2>
+        <?php
+            echo $form->field($model, 'executive')->checkbox();
+            echo $form->field($model, 'position')->textInput(['placeholder' => 'Должность'])->label(false);
+            echo $form->field($model, 'kab')->textInput(['placeholder' => 'Кабинет'])->label(false);
+            echo $form->field($model, 'priem')->textInput(['placeholder' => 'Время приема'])->label(false);
+        ?>
         
-        <?= Html::submitButton('Изменить', ['class' => 'btn btn-default changeBack']) ?>
+        <div class="text-center">
+            <?= Html::submitButton('Изменить', ['class' => 'btn btn-primary']) ?>
+        </div>
+        
         <?php ActiveForm::end(); ?>
 
     </div>
-    <div class="col-md-3">
+    
+    <div class="col-md-3" style="padding-top: 92px;">
         Требования к паролю:
         <ul>
             <li><span id="length" class='text-danger'>Длина не менее 6 символов</span></li>
@@ -45,6 +51,5 @@ $this->params['breadcrumbs'][] = $this->title;
             <li><span id="small" class='text-danger'>Строчные латинские буквы</span></li>
             <li><span id="number" class='text-danger'>Цифры</span></li>
         </ul>
-        Для большей безопасности рекомендуем в пароле использовать символы.
     </div>
 </div>

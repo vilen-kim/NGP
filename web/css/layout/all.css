@@ -23,6 +23,9 @@ a {
     color: #333;
     text-decoration: underline;
 }
+a.btn {
+    text-decoration: none;
+}
 
 h1 {
     letter-spacing: 2px;
