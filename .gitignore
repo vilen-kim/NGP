@@ -36,3 +36,4 @@ tests/_support/_generated
 /web/files/*
 /config/vk.php
 /web/pdf/
+public_html
