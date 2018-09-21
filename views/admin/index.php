@@ -50,7 +50,7 @@
             'caption' => 'Баннеры',
             'img' => '/images/icons/admin/banners.svg',
             'count' => '<span class="badge">' . $count['banners'] . '</span>',
-            'url' => Yii::$app->user->can('manager') ? ['banners/index'] : '',
+            'url' => Yii::$app->user->can('manager') ? ['banner/index'] : '',
             'options' => Yii::$app->user->can('manager') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
         ],
     ];
