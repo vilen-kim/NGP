@@ -62,7 +62,7 @@ class BannerController extends Controller
             $model->main = $post['main'];
             if ($newImage = $model->upload()) {
                 $banner = new Banners;
-                $banner->image = $newImage;
+                $banner->image = '/' . $newImage;
                 $banner->url = $model->url;
                 $banner->main = $model->main;
                 if ($banner->save()){
@@ -94,7 +94,7 @@ class BannerController extends Controller
             $model->image = UploadedFile::getInstance($model, 'image');
             if ($newImage = $model->upload()) {
                 unlink(Yii::$app->basePath . '/web/' . $banner->image);
-                $banner->image = $newImage;
+                $banner->image = '/' . $newImage;
             }
             $banner->url = $post['url'];
             $banner->main = $post['main'];

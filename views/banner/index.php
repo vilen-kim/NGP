@@ -18,7 +18,7 @@
                     'label' => 'Изображение',
                     'format' => 'html',
                     'value' => function ($model) {
-                        return Html::img(Yii::$app->request->BaseUrl . '/' . $model->image, ['width' => '200px']);
+                        return Html::img($model->image, ['width' => '100px']);
                     }
                 ],
                 'url:url',
