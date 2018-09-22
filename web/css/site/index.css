@@ -14,6 +14,10 @@
     width: 100%;
 }
 
+#site-index > div.banners {
+	margin-bottom: 20px;
+}
+
 #bottomHolder {
     padding-top: 82px;
     padding-bottom: 100px;
