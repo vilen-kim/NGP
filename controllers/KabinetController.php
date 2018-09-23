@@ -8,9 +8,13 @@ use yii\widgets\DetailView;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use app\models\Auth;
 use app\models\Request;
 use app\models\RequestUser;
 use app\models\RequestExecutive;
+use app\models\Pages;
+use app\models\Menu;
+use app\models\Banners;
 
 class KabinetController extends \yii\web\Controller {
 
@@ -48,6 +52,20 @@ class KabinetController extends \yii\web\Controller {
 
 
     public function actionIndex() {
+        $user_id = Yii::$app->user->id;
+        $auth = Auth::findOne($user_id);
+        $fio = $auth->fio;
+        $role = $auth->description;
+
+        return $this->render('index', [
+            'fio' => $fio,
+            'role' => $role,
+        ]);
+    }
+
+
+
+    public function actionRequest() {
         $user_id = Yii::$app->user->id;
         $isExecutive = RequestExecutive::findOne(['auth_id' => $user_id]);
         if (!$isExecutive) {
@@ -87,7 +105,7 @@ class KabinetController extends \yii\web\Controller {
             $detailView = $this->actionGetRequestsFromMe();
         }
 
-        return $this->render('index', [
+        return $this->render('request', [
             'countFromMe' => $countFromMe,
             'countToMe' => $countToMe,
             'user_id' => $user_id,

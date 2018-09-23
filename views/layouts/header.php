@@ -15,7 +15,7 @@
     <!-- Логотип -->
     <div class="col-md-1 showText" style="margin-top: 7px">
         <?php
-        $text = 'Главная';
+        $text = 'Няганская городская поликлиника';
         echo Html::img('@web/images/logo_green.gif', ['height' => 68]);
         echo Html::a("<span>$text</span>", ['site/index']);
         ?>
@@ -47,9 +47,8 @@
         <div class="<?= $class ?>">
             <?php
             $text = 'Вызов врача на дом';
-            
             echo Html::img("@web/images/icons/doctor.svg", ['height' => $height]);
-            echo Html::a("<span>$text</span>", '');
+            echo Html::a("<span>$text</span>", ['site/call-doctor']);
             ?>
         </div>
         <div class="<?= $class ?>">
@@ -63,14 +62,12 @@
             <?php
             if (Yii::$app->user->can('editor')){
                 $img = Html::img("@web/images/icons/menu3.svg", ['height' => $height]);
-                $text = 'Меню, ЛК, Админ.';
             } else if (Yii::$app->user->can('user')){
                 $img = Html::img("@web/images/icons/menu2.svg", ['height' => $height]);
-                $text = 'Меню, ЛК';
             } else {
                 $img = Html::img("@web/images/icons/menu1.svg", ['height' => $height]);
-                $text = 'Меню';
             }
+            $text = 'Меню';
             echo $img;
             echo Html::a("<span>$text</span>", ['site/menu']);
             ?>

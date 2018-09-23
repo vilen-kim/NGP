@@ -6,13 +6,9 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
-use app\models\Auth;
 use app\models\Pages;
-use app\models\Menu;
-use app\models\Request;
-use app\models\Banners;
 
-class AdminController extends \yii\web\Controller {
+class VkController extends \yii\web\Controller {
 
 
 
@@ -23,7 +19,7 @@ class AdminController extends \yii\web\Controller {
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['admin', 'manager', 'editor'],
+                        'roles' => ['editor'],
                     ],
                 ],
             ],
@@ -43,19 +39,6 @@ class AdminController extends \yii\web\Controller {
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
-    }
-
-
-
-    public function actionIndex() {
-        $count = null;
-        $count['users'] = Auth::find()->count();
-        $count['menu'] = Menu::find()->count();
-        $count['pages'] = Pages::find()->count();
-        $count['requests'] = Request::find()->count();
-        $count['banners'] = Banners::find()->count();
-        $count['wall'] = Pages::find()->where(['is not', 'vk_id', null])->count();
-        return $this->render('index', ['count' => $count]);
     }
 
 
@@ -128,6 +111,6 @@ class AdminController extends \yii\web\Controller {
         } else if ($haveErrors && !$count) {
             Yii::$app->session->setFlash('danger', "В процессе загрузки были ошибки. Записи не загружены.");
         }
-        return $this->redirect(['admin/index']);
+        return $this->redirect(['kabinet/index']);
     }
 }

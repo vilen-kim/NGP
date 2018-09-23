@@ -3,8 +3,10 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Auth;
 use app\models\Pages;
 use app\models\Banners;
+use app\models\CallDoctor;
 use app\components\News;
 use app\components\MenuItems;
 use yii\web\NotFoundHttpException;
@@ -103,6 +105,35 @@ class SiteController extends \yii\web\Controller {
         $session->open();
         $session->remove('eye');
         return true;
+    }
+
+
+
+    public function actionCallDoctor() {
+        $model = new CallDoctor;
+        if (!Yii::$app->user->isGuest){
+            $model->auth_id = Yii::$app->user->id;
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Ваша заявка была отправлена на рассмотрение.');
+            } else {
+                Yii::$app->session->setFlash('danger', 'При отправке заявки возникла ошибка. Пожалуйста, повторите позже.');
+            }
+            return $this->redirect(['site/index']);
+        }
+
+        if (!Yii::$app->user->isGuest){
+            $auth = Auth::findOne(Yii::$app->user->id);
+            $model->auth_id = $auth->id;
+            $model->fio = $auth->fio;
+            $model->phone = $auth->profile->phone;
+            $model->email = $auth->email;
+        }
+        return $this->render('call-doctor', [
+            'model' => $model,
+        ]);
     }
 
 
