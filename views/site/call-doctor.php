@@ -14,12 +14,13 @@ $this->title = 'Вызов врача на дом';
             $form = ActiveForm::begin();
             echo $form->field($model, 'fio')->textInput(['placeholder' => 'ФИО'])->label(false);
             echo $form->field($model, 'phone')->textInput(['placeholder' => 'Номер телефона'])->label(false);
+            echo $form->field($model, 'address')->textInput(['placeholder' => 'Адрес'])->label(false);
             echo $form->field($model, 'email')->textInput(['placeholder' => 'Электронная почта'])->label(false);
             echo $form->field($model, 'text')->textarea(['placeholder' => 'Опишите самочувствие'])->label(false);
         ?>
         
         <div align="center">
-            <?= Html::submitButton('Отправить заявку', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Отправить заявку', ['class' => 'btn btn-008080']) ?>
         </div>
             
         <?php ActiveForm::end() ?>

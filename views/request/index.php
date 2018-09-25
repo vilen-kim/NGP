@@ -1,17 +1,15 @@
 <?php
-
-use yii\helpers\Html;
-use yii\grid\GridView;
-use app\models\RequestUser;
-
-$this->title = 'Обращения';
-$this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = $this->title;
+    use yii\helpers\Html;
+    use yii\grid\GridView;
+    use app\models\RequestUser;
+    $this->title = 'Обращения';
+    $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h3 class="page-header text-center"><?= $this->title ?></h3>
+<h1><?= $this->title ?></h1>
 
-<div>
+<div class="container">
     <?php
     echo GridView::widget([
         'dataProvider' => $dataProvider,

@@ -2,6 +2,9 @@
 	use yii\helpers\Html;
 	use yii\widgets\ActiveForm;
 	$this->title = 'Добавить баннер';
+	$this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+	$this->params['breadcrumbs'][] = ['label' => 'Баннеры', 'url' => ['banner/index']];
+	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1><?= $this->title ?></h1>
@@ -17,7 +20,7 @@
 	   	?>
 	   	
     	<div align="center">
-    		<?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']) ?>
+    		<?= Html::submitButton('Добавить', ['class' => 'btn btn-008080']) ?>
     	</div>
     		
     	<?php ActiveForm::end() ?>

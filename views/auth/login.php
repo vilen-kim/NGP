@@ -20,7 +20,7 @@
         
         <div class="row">
             <div class="col-md-4">
-                <?= Html::submitButton('Войти', ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton('Войти', ['class' => 'btn btn-008080']) ?>
             </div>
             <div class="col-md-4" align="center" style="padding-top: 6px;">
                 <?= Html::a('Зарегистрироваться', ['auth/register'], ['id' => 'aRegister', 'style' => 'color: green']) ?>

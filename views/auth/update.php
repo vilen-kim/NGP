@@ -36,7 +36,7 @@
         ?>
         
         <div class="text-center">
-            <?= Html::submitButton('Изменить', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Изменить', ['class' => 'btn btn-008080']) ?>
         </div>
         
         <?php ActiveForm::end(); ?>

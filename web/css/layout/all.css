@@ -49,3 +49,8 @@ h3 {
     font-size: large;
     font-weight: bold;
 }
+
+.btn-008080 {
+    background: #008080;
+    color: white;
+}

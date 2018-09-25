@@ -3,10 +3,10 @@ use yii\helpers\Html;
 app\assets\KabinetAsset::register($this);
 $this->title = 'Личный кабинет';
 $height = 70;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1 style="margin-bottom: 10px;"><?= $this->title ?></h1>
-<h2 align="center" style="margin-bottom: 50px;"><?= $fio ?><br><?= $role ?></h2>
+<h1 style="margin-bottom: 70px;"><?= $this->title ?></h1>
 
 <div class="kabinet-index container">
 

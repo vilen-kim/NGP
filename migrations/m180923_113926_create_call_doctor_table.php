@@ -17,6 +17,7 @@ class m180923_113926_create_call_doctor_table extends Migration
             'auth_id' => $this->integer(),
             'fio' => $this->string()->notNull(),
             'phone' => $this->string()->notNull(),
+            'address' => $this->string(),
             'email' => $this->string(),
             'text' => $this->text()->notNull(),
             'doctor_id' => $this->integer(),

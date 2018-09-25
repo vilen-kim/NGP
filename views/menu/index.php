@@ -1,22 +1,19 @@
 <?php
-
-use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\jui\Sortable;
-
-app\assets\MenuAsset::register($this);
-
-$this->title = 'Меню';
-$this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = $this->title;
+    use yii\helpers\Html;
+    use yii\helpers\Url;
+    use yii\jui\Sortable;
+    app\assets\MenuAsset::register($this);
+    $this->title = 'Меню';
+    $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h3 class="page-header text-center"><?= $this->title ?></h3>
+<h1><?= $this->title ?></h1>
 
-<?= Html::a('Создать элемент меню', Url::to(['menu/create']), ['class' => 'btn btn-default changeBack', 'style' => 'margin-bottom: 20px;']) ?>
-<?= Html::a('Сохранить порядок меню', '', ['id' => 'menuSave', 'class' => 'btn btn-default changeBack', 'style' => 'margin: 0px 0px 20px 20px;']) ?>
+<div class="container">
+    <?= Html::a('Создать элемент меню', ['menu/create'], ['class' => 'btn btn-008080', 'style' => 'margin-bottom: 20px;']) ?>
+    <?= Html::a('Сохранить порядок меню', '', ['id' => 'menuSave', 'class' => 'btn btn-008080', 'style' => 'margin: 0px 0px 20px 20px;']) ?>
 
-<div class="row">
     <div class="col-md-8 col-md-offset-2">
 
         <?= Sortable::widget([

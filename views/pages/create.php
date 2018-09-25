@@ -1,19 +1,17 @@
 <?php
-
-use yii\widgets\ActiveForm;
-use yii\helpers\Html;
-use app\components\Editor;
-app\assets\CKEditorAsset::register($this);
-
-$this->title = 'Создание новой страницы';
-$this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = ['label' => 'Страницы', 'url' => ['pages/index']];
-$this->params['breadcrumbs'][] = $this->title;
+    use yii\widgets\ActiveForm;
+    use yii\helpers\Html;
+    use app\components\Editor;
+    app\assets\CKEditorAsset::register($this);
+    $this->title = 'Создание новой страницы';
+    $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Страницы', 'url' => ['pages/index']];
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h3 class="page-header text-center"><?= $this->title ?></h3>
+<h1><?= $this->title ?></h1>
 
-<div>
+<div class="container">
 
     <?php
     $form = ActiveForm::begin();
@@ -24,7 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'preset' => 'full',
         'clientOptions' => Yii::$app->params['ckeditorClientOptions'],
     ]);
-    echo Html::submitButton('Создать', ['class' => 'btn btn-default changeBack']);
+    echo Html::beginTag('div', ['align' => 'center']);
+        echo Html::submitButton('Создать', ['class' => 'btn btn-008080']);
+    echo Html::endTag('div');
     ActiveForm::end();
     ?>
 

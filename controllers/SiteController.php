@@ -117,6 +117,7 @@ class SiteController extends \yii\web\Controller {
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
+                $model->sendEmail();
                 Yii::$app->session->setFlash('success', 'Ваша заявка была отправлена на рассмотрение.');
             } else {
                 Yii::$app->session->setFlash('danger', 'При отправке заявки возникла ошибка. Пожалуйста, повторите позже.');
@@ -129,6 +130,7 @@ class SiteController extends \yii\web\Controller {
             $model->auth_id = $auth->id;
             $model->fio = $auth->fio;
             $model->phone = $auth->profile->phone;
+            $model->address = $auth->profile->address;
             $model->email = $auth->email;
         }
         return $this->render('call-doctor', [

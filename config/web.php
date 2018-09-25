@@ -37,11 +37,14 @@ $config = [
             'class' => yii\swiftmailer\Mailer::class,
             'transport' => [
                 'class' => Swift_SmtpTransport::class,
-                'host' => 'smtp.timeweb.ru',
-                'username' => 'noreply@nyagangp.ru',
-                'password' => "zaNk5kDp",
+                'host' => 'smtp.yandex.com',
+                'username' => 'nrp@nyagangp.ru',
+                'password' => 'zaNk5kDp',
                 'port' => '465',
                 'encryption' => 'ssl',
+            ],
+            'messageConfig' => [
+               'from' => 'nrp@nyagangp.ru',
             ],
         ],
         'reCaptcha' => [
