@@ -4,6 +4,9 @@
     use himiklab\yii2\recaptcha\ReCaptcha;
     app\assets\AuthAsset::register($this);
     $this->title = 'Создание нового пользователя';
+    $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['auth/index']];
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1><?= $this->title ?></h1>
@@ -40,7 +43,7 @@
             <?= $form->field($model, 'reCaptcha')->widget(ReCaptcha::className())->label(false) ?>
         </div>
         <div class="col-md-12" align="center">
-            <?= Html::submitButton('Регистрация', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Регистрация', ['class' => 'btn btn-008080']) ?>
         </div>
         
         <?php ActiveForm::end(); ?>

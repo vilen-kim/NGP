@@ -155,11 +155,7 @@ class AuthController extends Controller {
     public function actionLogin() {
         $model = new LoginForm;
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            if (Yii::$app->user->can('editor')) {
-                return $this->redirect(["admin/index"]);
-            } else {
-                return $this->redirect(["kabinet/index"]);
-            }
+            return $this->redirect(["kabinet/index"]);
         }
         return $this->render('login', ['model' => $model]);
     }

@@ -1,5 +1,6 @@
 <?php
     use yii\helpers\Html;
+    use yii\widgets\Breadcrumbs;
     app\assets\AppAsset::register($this);
 ?>
 
@@ -23,16 +24,21 @@
         <?php $this->beginBody() ?>
 
         <div id="bottomHolder">
-            <div style="position: absolute; top: 83px; left: 0">
-                <?php foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-                    echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
-                } ?>
+            <div style="position: absolute; top: 83px; left: 0; width: 100%;" class="container">
+                <?php
+                    echo Breadcrumbs::widget([
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    ]);
+                    
+                    foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+                        echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
+                    };
+
+                    if (Yii::$app->session->get('eye')){
+                        echo $this->render('./eyePanel');
+                    }
+                ?>
             </div>
-            <?php
-                if (Yii::$app->session->get('eye')){
-                    echo $this->render('./eyePanel');
-                }
-            ?>
             <?= $content ?>
             <div id="footerHolder">
                 <?= $this->render('./footer') ?>

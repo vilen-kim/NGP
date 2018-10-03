@@ -1,20 +1,17 @@
 <?php
-
-use yii\widgets\ActiveForm;
-use yii\helpers\Html;
-use yii\jui\AutoComplete;
-use yii\web\JsExpression;
-
-app\assets\MenuAsset::register($this);
-
-$this->title = $model->caption;
-$this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = ['label' => 'Меню', 'url' => ['menu/index']];
-$this->params['breadcrumbs'][] = $this->title;
+    use yii\widgets\ActiveForm;
+    use yii\helpers\Html;
+    use yii\jui\AutoComplete;
+    use yii\web\JsExpression;
+    app\assets\MenuAsset::register($this);
+    $this->title = $model->caption;
+    $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Меню', 'url' => ['menu/index']];
 ?>
 
-<h3 class="page-header text-center"><?= $this->title ?></h3>
-<div class="row">
+<h1><?= $this->title ?></h1>
+
+<div class="container">
     <div class="col-md-6 col-md-offset-3 border">
 
         <?php
@@ -56,7 +53,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::checkbox('emptyPage', (!$model->page_id), ['style' => 'margin-left: 5px', 'id' => 'emptyPage']) ?>
         </div>
         <?= $form->field($model, 'anchor')->dropDownList($anchors, ['id' => 'anchor']) ?>
-        <?= Html::submitButton('Изменить', ['class' => 'btn btn-default changeBack']) ?>
+
+        <div align="center">
+            <?= Html::submitButton('Изменить', ['class' => 'btn btn-008080']) ?>
+        </div>
+        
         <?php ActiveForm::end(); ?>
 
     </div>

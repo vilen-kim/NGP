@@ -40,7 +40,7 @@ class ActivateForm extends Model {
             $auth->generatePasswordResetToken();
             if ($auth->save()) {
                 $res = Yii::$app->mailer->compose(['html' => $html], ['auth' => $auth])
-                    ->setFrom(Yii::$app->params['noreplyEmail'])
+                    //->setFrom(Yii::$app->params['noreplyEmail'])
                     ->setTo($this->email)
                     ->setSubject("Активация учетной записи на сайте " . Yii::$app->params['siteCaption'])
                     ->send();

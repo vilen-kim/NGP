@@ -19,7 +19,7 @@ $("#menuSave").on('click', function(){
     var arr = [];
     var menuPos = 1;
     var subMenuPos = 1;
-    $("div.col-md-6 > ul.ui-sortable span[data-id]").each(function(){
+    $("div.col-md-8 > ul.ui-sortable span[data-id]").each(function(){
         var id = $(this).attr('data-id');
         var subMenu = $(this).parents('ul.subMenu');
         if (subMenu.length){
@@ -55,3 +55,12 @@ $("#emptyPage").on("click", function(){
     }
     console.log($("#page_id").val());
 })
+
+
+$("ul.ui-sortable span[data-id]").hover(
+function(){
+    alert("hello");
+},
+function(){
+
+});

@@ -29,7 +29,7 @@
             Обработка персональных данных осуществляется в соответствии с <?= Html::a('"Политикой оператора в отношении обработки персональных данных"', ['site/show', 'id' => 12]) ?>.
         </div>
         <div class="col-md-12 text-center">
-            <?= Html::submitButton('Регистрация', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Регистрация', ['class' => 'btn btn-008080']) ?>
         </div>
         <?php ActiveForm::end(); ?>
 

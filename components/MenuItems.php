@@ -23,15 +23,6 @@ class MenuItems extends BaseObject
             $num++;
         }
         
-        if (Yii::$app->user->can('editor')){
-            $array[$num] = [
-                'label' => 'Панель администрирования',
-                'url' => ['admin/index'],
-                'items' => null,
-            ];
-            $num++;
-        }
-        
         $parents = Menu::find()->where(['parent_id' => 0])->orderBy('position')->all();
         foreach ($parents as $par) {
             $array[$num] = [

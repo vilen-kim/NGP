@@ -1,22 +1,22 @@
 <?php
-
-use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\widgets\Pjax;
-
-app\assets\PageAsset::register($this);
-
-$this->title = 'Страницы';
-$this->params['breadcrumbs'][] = ['label' => 'Панель управления', 'url' => ['admin/index']];
-$this->params['breadcrumbs'][] = $this->title;
+    use yii\helpers\Html;
+    use yii\helpers\Url;
+    use yii\grid\GridView;
+    use yii\widgets\Pjax;
+    app\assets\PageAsset::register($this);
+    $this->title = 'Страницы';
+    $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h3 class="page-header text-center"><?= $this->title ?></h3>
+<h1><?= $this->title ?></h1>
 
-<div>
+<div class="container">
+    <div style="margin-bottom: 40px">
+        <?= Html::a('Создать страницу', Url::to(['pages/create']), ['class' => 'btn btn-008080']) ?>
+    </div>
+
     <?php
-    echo Html::a('Создать страницу', Url::to(['pages/create']), ['class' => 'btn btn-default changeBack', 'style' => 'margin-bottom: 20px;']);
     Pjax::begin();
     echo GridView::widget([
         'dataProvider' => $dataProvider,

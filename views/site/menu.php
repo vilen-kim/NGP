@@ -3,7 +3,7 @@
     $this->title = 'Меню';
 ?>
 
-<h1 class="title"><?= $this->title ?></h1>
+<h1><?= $this->title ?></h1>
 
 <div class="row" style="padding: 0 100px">
 <?php

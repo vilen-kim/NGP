@@ -18,7 +18,7 @@
         <?= $form->field($model, 'email')->textInput(['placeholder' => 'Электронная почта'])->label(false) ?>
         
         <div class="col-md-12 text-center">
-            <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Отправить', ['class' => 'btn btn-008080']) ?>
         </div>
             
         <?php ActiveForm::end(); ?>
