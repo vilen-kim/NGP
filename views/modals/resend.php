@@ -5,10 +5,16 @@ use yii\helpers\Html;
 
 Modal::begin([
     'id' => 'modalResend',
-    'header' => "<h4>На кого перенаправляем</h4>",
+    'header' => "<h2>На кого перенаправляем</h2>",
     'size' => Modal::SIZE_DEFAULT,
     'clientOptions' => [
         'show' => false,
+    ],
+    'headerOptions' => [
+        'style' => [
+            'background' => '#008080',
+            'color' => 'white',
+        ],
     ],
 ]);
 ?>

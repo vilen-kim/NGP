@@ -32,12 +32,12 @@ class RequestController extends \yii\web\Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'view'],
                         'allow' => true,
                         'roles' => ['manager'],
                     ],
                     [
-                        'actions' => ['active', 'view', 'answer', 'delete', 'resend', 'un-share'],
+                        'actions' => ['activate', 'answer', 'delete', 'resend', 'un-share'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -103,19 +103,27 @@ class RequestController extends \yii\web\Controller {
             $authors .= '<br>';
         }
         return $this->render('view', [
-            'model' => $model,
-            'authors' => $authors,
+            'model'  => $model,
+            'authors'=> $authors,
         ]);
     }
 
 
 
+    /**
+     * Удаление неактивного обращения у текущего пользователя
+     * @param $id int - ид обращения
+     */
     public function actionDelete($id) {
-        $model = RequestUser::findOne(['request_id' => $id, 'auth_id' => Yii::$app->user->id, 'active' => RequestUser::STATUS_INACTIVE]);
+        $model = RequestUser::findOne([
+            'request_id'=> $id,
+            'auth_id'   => Yii::$app->user->id,
+            'active'    => RequestUser::STATUS_INACTIVE,
+        ]);
         if ($model && $model->delete()) {
             Yii::$app->session->setFlash('success', 'Обращение было успешно удалено');
         }
-        $this->redirect(['kabinet/index']);
+        $this->redirect(['kabinet/request']);
     }
 
 
@@ -161,8 +169,13 @@ class RequestController extends \yii\web\Controller {
 
     public function actionAnswer($id) {
         $request = $this->findModel($id);
+        $user_id = Yii::$app->user->id;
+        if (!RequestExecutive::findOne(['auth_id' => $user_id]) || $request->request_auth_id != $user_id){
+            throw new \yii\web\ForbiddenHttpException('У вас нет права отвечать на обращения.');
+            Yii::$app->end;
+        }
+        
         $answer = new AnswerForm;
-
         if ($answer->load(Yii::$app->request->post()) && $answer->createAnswer($request)) {
             foreach ($request->requestUsers as $user) {
                 if ($user->active == RequestUser::STATUS_ACTIVE) {
@@ -170,7 +183,7 @@ class RequestController extends \yii\web\Controller {
                 }
             }
             Yii::$app->session->setFlash('success', 'Ваш ответ на обращение успешно сохранен.');
-            return $this->redirect(['kabinet/index']);
+            return $this->redirect(['kabinet/request']);
         }
 
         $authors = null;
@@ -181,33 +194,40 @@ class RequestController extends \yii\web\Controller {
             }
             $authors .= '<br>';
         }
-        $user_id = Yii::$app->user->id;
-        if (RequestExecutive::findOne(['auth_id' => $user_id]) && $request->request_auth_id == $user_id) {
-            return $this->render('answer', [
-                'request' => $request,
-                'answer' => $answer,
-                'authors' => $authors,
-            ]);
-        } else {
-            throw new \yii\web\ForbiddenHttpException('У вас нет прав доступа.');
-        }
+
+        return $this->render('answer', [
+            'request' => $request,
+            'answer' => $answer,
+            'authors' => $authors,
+        ]);
     }
 
 
 
+    /**
+     * Отображение обращения на странице общего просмотра
+     * @param  $id int - идентификатор обращения
+     * @param  $date date - на какую дату отображать обращения
+     */
     public function actionShare($id = false, $date = false) {
-        if ($id && RequestExecutive::findOne(['auth_id' => Yii::$app->user->id])) {
-            $model = Request::findOne(['id' => $id, 'answer_auth_id' => Yii::$app->user->id, 'share' => null]);
+        $user_id = Yii::$app->user->id;
+        if ($id && RequestExecutive::findOne(['auth_id' => $user_id])) {
+            $model = Request::findOne([
+                'id'            => $id,
+                'answer_auth_id'=> $user_id,
+                'share'         => null
+            ]);
             if ($model->answer_text) {
-                $model->share = true;
-                if ($model->save()) {
+                try {
                     $this->createPdf($model);
-                    Yii::$app->session->setFlash('success', 'Обращение успешно расшарено.');
-                } else {
-                    Yii::$app->session->setFlash('danger', 'Произошла ошибка. Попробуйте позже.');
+                    $model->share = true;
+                    $model->save();
+                } catch (Exception $e) {
+                    Yii::$app->session->setFlash('danger', 'Произошла ошибка. Попробуйте позже.');   
                 }
+                Yii::$app->session->setFlash('success', 'Обращение успешно расшарено.');
             }
-            return $this->redirect(['kabinet/index']);
+            return $this->redirect(['kabinet/request', 'type' => 1]);
         }
 
         $array = [];
@@ -226,8 +246,9 @@ class RequestController extends \yii\web\Controller {
         $pages = new Pagination(['totalCount' => $totalCount, 'pageSize' => 10]);
         $pages->pageSizeParam = false;
         $model = $query->offset($pages->offset)->limit($pages->limit)->all();
+        $cnt = 1;
         foreach ($model as $element) {
-            $i = Html::tag('i', 'Вопрос от ' . Yii::$app->formatter->asDate($element->request_created_at));
+            $i = Html::tag('i', $cnt++ . '. Вопрос от ' . Yii::$app->formatter->asDate($element->request_created_at));
             $pHeader = Html::tag('p', $i, ['class' => 'small', 'style' => 'font-weight: bold']);
             $pContent = Html::tag('p', Html::encode($element->request_text), ['class' => 'text-justify']);
             $div11 = Html::tag('div', $pHeader . $pContent, ['class' => 'col-md-11']);
@@ -255,19 +276,27 @@ class RequestController extends \yii\web\Controller {
 
 
 
+    /**
+     * Снятие обращения со страницы общего просмотра
+     * @param  $id int - идентификатор обращения
+     */
     public function actionUnShare($id) {
-        if ($id && RequestExecutive::findOne(['auth_id' => Yii::$app->user->id])) {
-            $model = Request::findOne(['id' => $id, 'answer_auth_id' => Yii::$app->user->id, 'share' => true]);
+        $user_id = Yii::$app->user->id;
+        if ($id && RequestExecutive::findOne(['auth_id' => $user_id])) {
+            $model = Request::findOne([
+                'id'            => $id,
+                'answer_auth_id'=> $user_id,
+                'share'         => true,
+            ]);
             $model->share = null;
             if ($model->save()) {
                 system("rm -rf pdf/$id.pdf");
                 Yii::$app->session->setFlash('success', 'Обращение снято с общего просмотра.');
             } else {
-                var_dump($model->errors);
                 Yii::$app->session->setFlash('danger', 'Произошла ошибка. Попробуйте позже.');
             }
         }
-        return $this->redirect(['kabinet/index']);
+        return $this->redirect(['kabinet/request', 'type' => 1]);
     }
 
 
@@ -291,11 +320,15 @@ class RequestController extends \yii\web\Controller {
                 'title' => 'Ответы на обращения, затрагивающие интересы неопределенного круга лиц',
             ],
         ]);
+
         return $pdf->render();
     }
 
 
 
+    /**
+     * Перенаправление обращения другому должностному лицу
+     */
     public function actionResend() {
         $auth_id = Yii::$app->request->post('auth_id');
         $request_id = Yii::$app->request->post('request_id');
@@ -313,7 +346,7 @@ class RequestController extends \yii\web\Controller {
                 }
             }
         }
-        $this->redirect(['kabinet/index']);
+        $this->redirect(['kabinet/request']);
     }
 
 
@@ -372,7 +405,7 @@ class RequestController extends \yii\web\Controller {
 
 
 
-    public function actionActive($id) {
+    public function actionActivate($id) {
         $model = RequestUser::findOne(['auth_id' => Yii::$app->user->id, 'request_id' => $id]);
         if ($model) {
             $model->active = RequestUser::STATUS_ACTIVE;
@@ -385,7 +418,7 @@ class RequestController extends \yii\web\Controller {
                 Yii::$app->session->setFlash('danger', 'Произошла ошибка. Пожалуйста, попробуйте позже.');
             }
         }
-        return $this->redirect(['kabinet/index']);
+        return $this->redirect(['kabinet/request']);
     }
 
 

@@ -2,13 +2,15 @@
     use yii\helpers\Html;
     use yii\grid\GridView;
     $this->title = 'Баннеры';
+    $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1><?= $this->title ?></h1>
 
-<div style="padding: 10px;">
+<div class="container">
     <?php
-        echo Html::a('Добавить баннер', ['banner/create'], ['class' => 'btn btn-primary', 'style' => 'margin-bottom: 10px']);
+        echo Html::a('Добавить баннер', ['banner/create'], ['class' => 'btn btn-008080', 'style' => 'margin-bottom: 10px']);
 
         echo GridView::widget([
             'dataProvider' => $dataProvider,

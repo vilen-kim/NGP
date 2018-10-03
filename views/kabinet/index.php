@@ -1,51 +1,85 @@
 <?php
-
 use yii\helpers\Html;
-
 app\assets\KabinetAsset::register($this);
-
-
 $this->title = 'Личный кабинет';
+$height = 70;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h3 class="page-header text-center"><?= $this->title ?></h3>
+<h1 style="margin-bottom: 70px;"><?= $this->title ?></h1>
 
-<div class="row kabinet-index">
-    <div class="col-md-3">
-        <p><?= Html::a('Создать обращение', ['request/write'], ['class' => 'btn btn-default changeBack']) ?></p>
-        <p><?= Html::a('Мой профиль', ['auth/view', 'id' => Yii::$app->user->id], ['class' => 'btn btn-default changeBack']) ?></p>
+<div class="kabinet-index container">
+
+
+
+    <!-- Этот блок видят все пользователи -->
+    <div class="col-md-2 text-center showText">
+        <?php
+        echo Html::img("@web/images/icons/kabinet/request.svg", ['height' => $height]);
+        $text = 'Работа с обращениями';
+        echo Html::a("<span style='font-size: large'>$text</span>", ['kabinet/request']);
+        ?>
     </div>
-    <div class="col-md-9">
-        <div class="text-center">
-            <?php
-                $fromMe = ($countFromMe['inactive']) ? "<span class='badge' title='Неактивные' style='background: orange; color: black; margin-left: 5px;'>{$countFromMe['inactive']}</span>" : '';
-                $fromMe .= ($countFromMe['no_answer']) ? "<span class='badge' title='Ожидает ответа' style='background: lightblue; color: black; margin-left: 5px;'>{$countFromMe['no_answer']}</span>" : '';
-                $fromMe .= ($countFromMe['answer']) ? "<span class='badge' title='Завершенные' style='background: lightgreen; color: black; margin-left: 5px;'>{$countFromMe['answer']}</span>" : '';
-                $toMe = ($countToMe['no_answer']) ? "<span class='badge' title='Ожидает ответа' style='background: lightblue; color: black; margin-left: 5px;'>{$countToMe['no_answer']}</span>" : '';
-                $toMe .= ($countToMe['answer']) ? "<span class='badge' title='Завершенные' style='background: lightgreen; color: black; margin-left: 5px;'>{$countToMe['answer']}</span>" : '';
-                if ($isExecutive) {
-                    echo Html::radioList('requestType', $type, [
-                        'fromMe' => "Мои обращения" . $fromMe,
-                        'toMe' => "Принятые обращения" . $toMe,
-                    ], [
-                        'encode' => false,
-                        'itemOptions' => ['style' => 'margin-left: 10px;']
-                    ]);
-                } else {
-                    echo "<h4>Мои обращения $fromMe</h4>";
-                }
-            ?>
-        </div>
-        <div id="requests">
-            <?php
-                if (!$detailView){
-                    echo 'У Вас пока нет обращений.';
-                } else {
-                    echo $detailView;
-                }
-            ?>
-        </div>
+    <div class="col-md-2 text-center showText">
+        <?php
+        echo Html::img("@web/images/icons/kabinet/profile.svg", ['height' => $height]);
+        $text = 'Профиль пользователя';
+        echo Html::a("<span style='font-size: large'>$text</span>", ['kabinet/profile']);
+        ?>
     </div>
+    <!---->
+
+
+
+    <?php
+    if (Yii::$app->user->can('editor')){
+        $array = [
+            'pages' => [
+                'caption' => 'Страницы',
+                'img' => '/images/icons/kabinet/adminPages.svg',
+                'url' => Yii::$app->user->can('editor') ? ['pages/index'] : '',
+                'options' => Yii::$app->user->can('editor') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
+            ],
+            'wall' => [
+                'caption' => 'Записи из ВК',
+                'img' => '/images/icons/kabinet/adminNews.svg',
+                'url' => Yii::$app->user->can('editor') ? ['vk/get-wall'] : '',
+                'options' => Yii::$app->user->can('editor') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
+            ],
+            'menu' => [
+                'caption' => 'Меню',
+                'img' => '/images/icons/kabinet/adminMenu.svg',
+                'url' => Yii::$app->user->can('manager') ? ['menu/index'] : '',
+                'options' => Yii::$app->user->can('manager') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
+            ],
+            'requests' => [
+                'caption' => 'Обращения',
+                'img' => '/images/icons/kabinet/adminRequest.svg',
+                'url' => Yii::$app->user->can('manager') ? ['request/index'] : '',
+                'options' => Yii::$app->user->can('manager') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
+            ],
+            'banners' => [
+                'caption' => 'Баннеры',
+                'img' => '/images/icons/kabinet/adminBanners.svg',
+                'url' => Yii::$app->user->can('manager') ? ['banner/index'] : '',
+                'options' => Yii::$app->user->can('manager') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
+            ],
+            'user' => [
+                'caption' => 'Пользователи',
+                'img' => '/images/icons/kabinet/adminUsers.svg',
+                'url' => Yii::$app->user->can('admin') ? ['auth/index'] : '',
+                'options' => Yii::$app->user->can('admin') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3'],
+            ],
+        ];
+
+        foreach ($array as $arr) {
+            echo '<div class="col-md-2 text-center showText">';
+            echo Html::img($arr['img'], ['height' => $height]);
+            $text = $arr['caption'];
+            echo Html::a("<span style='font-size: large'>$text</span>", $arr['url']);
+            echo '</div>';
+        }
+    }
+    ?>  
+
 </div>
-<div id="forModal"></div>

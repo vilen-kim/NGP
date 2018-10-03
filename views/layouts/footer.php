@@ -19,6 +19,7 @@
     <div class="col-md-2">
         <h3>Пациентам</h3>
         <div><?= Html::a('Баннеры', ['site/banners']) ?></div>
+        <div><?= Html::a('Медосмотры', ['site/show', 'id' => 309]) ?></div>
     </div>
     
     <div class="col-md-2">
@@ -40,6 +41,9 @@
         </div>
         <div>
             Контакт-центр: <b>8-800-100-86-03</b>
+        </div>
+        <div>
+            e-mail: <?= Html::mailto('priem@nyagangp.ru') ?>
         </div>
     </div>
     

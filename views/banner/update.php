@@ -18,7 +18,7 @@
 	   	?>
 	   	
     	<div align="center">
-    		<?= Html::submitButton('Обновить', ['class' => 'btn btn-primary']) ?>
+    		<?= Html::submitButton('Обновить', ['class' => 'btn btn-008080']) ?>
     	</div>
     		
     	<?php ActiveForm::end() ?>

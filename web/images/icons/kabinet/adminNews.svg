@@ -15,8 +15,8 @@
    y="0px"
    viewBox="0 0 116.196 116.196"
    xml:space="preserve"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="news.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="adminNews.svg"
    width="116.196"
    height="116.196"><metadata
      id="metadata44"><rdf:RDF><cc:Work
@@ -32,11 +32,11 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1280"
-     inkscape:window-height="733"
+     inkscape:window-height="743"
      id="namedview40"
      showgrid="false"
      inkscape:zoom="2.1034618"
-     inkscape:cx="-40.474371"
+     inkscape:cx="-89.933798"
      inkscape:cy="58.098"
      inkscape:window-x="0"
      inkscape:window-y="0"
@@ -47,7 +47,7 @@
      fit-margin-right="0"
      fit-margin-bottom="0" /><circle
      id="XMLID_11_"
-     style="fill:#008080;fill-opacity:0.78431373;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      cx="58.098"
      cy="58.098"
      r="56.098" /><path

@@ -26,3 +26,7 @@
 a:hover {
     color: red;
 }
+.btn-008080:hover {
+    background: #00aaaa;
+    color: #333;
+}

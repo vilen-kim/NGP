@@ -17,7 +17,7 @@
             echo $form->field($model, 'passwordRepeat')->passwordInput(['placeholder' => 'Повторите пароль'])->label(false);
         ?>
         <div class="col-md-12" align="center">
-            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-008080']) ?>
         </div>
         <?php ActiveForm::end(); ?>
         
