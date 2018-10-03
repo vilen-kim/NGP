@@ -37,3 +37,4 @@ tests/_support/_generated
 /config/vk.php
 /web/pdf/
 public_html
+/web/images/banners/*
