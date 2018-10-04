@@ -18,9 +18,7 @@ use app\models\RequestUser;
 use app\models\RequestSearch;
 use app\models\Auth;
 use kartik\mpdf\Pdf;
-use yii\data\Pagination;
-use DateTime;
-use DateInterval;
+
 
 class RequestController extends \yii\web\Controller {
 
@@ -37,24 +35,25 @@ class RequestController extends \yii\web\Controller {
                         'roles' => ['manager'],
                     ],
                     [
-                        'actions' => ['activate', 'answer', 'delete', 'resend', 'un-share'],
+                        'actions' => ['activate', 'answer', 'delete', 'resend', 'share', 'un-share'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                     [
                         'actions' => [
-                            'info',
-                            'share',
                             'get-executive',
                             'get-next-author',
                             'get-pdf',
-                            'write',
                             'create-request-and-authors'
                         ],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
                 ],
+                'denyCallback' => function($rule, $action){
+                    Yii::$app->session->setFlash('danger', "У вас нет доступа к странице $action->id");
+                    return $this->redirect(['kabinet/index']);
+                }
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -128,45 +127,6 @@ class RequestController extends \yii\web\Controller {
 
 
 
-    public function actionInfo() {
-        return $this->render('info');
-    }
-
-
-
-    public function actionWrite() {
-        $author = new AuthorForm;
-        $letter = new RequestForm;
-
-        $radioArray = [
-            'fio' => 'Фамилия, имя, отчество должностного лица',
-            'position' => 'Должность должностного лица',
-            'organization' => 'БУ ХМАО-Югры "Няганская городская поликлиника"',
-        ];
-        Yii::$app->session->remove('authors');
-        if (Yii::$app->user->can('user')) {
-            $auth = Auth::findIdentity(Yii::$app->user->id);
-            $author->email = $auth->email;
-            $author->lastname = $auth->profile->lastname;
-            $author->firstname = $auth->profile->firstname;
-            $author->middlename = $auth->profile->middlename;
-            $author->organization = $auth->profile->organization;
-            $author->phone = $auth->profile->phone;
-        }
-        $executiveArray = ArrayHelper::map(RequestExecutive::find()
-        ->joinWith(['auth.profile'])
-        ->orderBy('lastname')
-        ->all(), 'auth.id', 'fioPosition');
-        return $this->render('write', [
-            'executiveArray' => $executiveArray,
-            'model' => $author,
-            'letter' => $letter,
-            'radioArray' => $radioArray,
-        ]);
-    }
-
-
-
     public function actionAnswer($id) {
         $request = $this->findModel($id);
         $user_id = Yii::$app->user->id;
@@ -229,49 +189,6 @@ class RequestController extends \yii\web\Controller {
             }
             return $this->redirect(['kabinet/request', 'type' => 1]);
         }
-
-        $array = [];
-        $query = Request::find()->where(['share' => true])->orderBy(['request_created_at' => SORT_DESC]);
-        if ($date){
-            $date = DateTime::createFromFormat('d.m.Y', $date);
-            $date->setTime(0, 0, 0);
-            $unixDateStart = $date->getTimeStamp();
-            $date->add(new DateInterval('P1D'));
-            $date->sub(new DateInterval('PT1S'));
-            $unixDateEnd = $date->getTimeStamp();
-            $query->andWhere(['between', 'request_created_at', $unixDateStart, $unixDateEnd]);
-        }
-        $countQuery = clone $query;
-        $totalCount = $countQuery->count();
-        $pages = new Pagination(['totalCount' => $totalCount, 'pageSize' => 10]);
-        $pages->pageSizeParam = false;
-        $model = $query->offset($pages->offset)->limit($pages->limit)->all();
-        $cnt = 1;
-        foreach ($model as $element) {
-            $i = Html::tag('i', $cnt++ . '. Вопрос от ' . Yii::$app->formatter->asDate($element->request_created_at));
-            $pHeader = Html::tag('p', $i, ['class' => 'small', 'style' => 'font-weight: bold']);
-            $pContent = Html::tag('p', Html::encode($element->request_text), ['class' => 'text-justify']);
-            $div11 = Html::tag('div', $pHeader . $pContent, ['class' => 'col-md-11']);
-            $pdfLink = Html::a(Html::img('/images/pdf.svg', ['width' => '40px']), "/pdf/$element->id.pdf", ['class' => 'getPdf']);
-            $div1 = Html::tag('div', $pdfLink, ['class' => 'col-md-1 text-center']);
-            $divRow = Html::tag('div', $div11 . $div1, ['class' => 'row']);
-            $question = $divRow;
-
-            $i = Html::tag('i', 'Ответ от ' . Yii::$app->formatter->asDate($element->answer_created_at));
-            $pHeader = Html::tag('p', "$i", ['class' => 'small', 'style' => 'font-weight: bold']);
-            $pContent = Html::tag('p', Html::encode($element->answer_text), ['class' => 'text-justify']);
-            $answer = $pHeader . $pContent;
-
-            $array[] = [
-                'header' => $question,
-                'content' => $answer,
-            ];
-        }
-        return $this->render('share', [
-            'model' => $model,
-            'array' => $array,
-            'pages' => $pages,
-        ]);
     }
 
 

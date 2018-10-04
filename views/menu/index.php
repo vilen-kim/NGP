@@ -11,10 +11,13 @@
 <h1><?= $this->title ?></h1>
 
 <div class="container">
-    <?= Html::a('Создать элемент меню', ['menu/create'], ['class' => 'btn btn-008080', 'style' => 'margin-bottom: 20px;']) ?>
-    <?= Html::a('Сохранить порядок меню', '', ['id' => 'menuSave', 'class' => 'btn btn-008080', 'style' => 'margin: 0px 0px 20px 20px;']) ?>
-
     <div class="col-md-8 col-md-offset-2">
+
+        <div style="margin-bottom: 20px; text-align: center;">
+            <?= Html::a('Создать элемент меню', ['menu/create'], ['class' => 'btn btn-success', 'style' => 'margin-right: 10px;']) ?>
+            <?= Html::a('Сохранить порядок меню', '', ['id' => 'menuSave', 'class' => 'btn btn-primary']) ?>
+        </div>
+
 
         <?= Sortable::widget([
             'items' => $array,

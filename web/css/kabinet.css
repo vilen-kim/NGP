@@ -1,3 +1,6 @@
-.kabinet-index > div {
-	margin-bottom: 40px;
+.kabinet-index > div.row > div {
+	margin-bottom: 20px;
+}
+.kabinet-index h2 {
+	margin-bottom: 20px;
 }

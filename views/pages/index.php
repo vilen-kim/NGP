@@ -12,11 +12,9 @@
 <h1><?= $this->title ?></h1>
 
 <div class="container">
-    <div style="margin-bottom: 40px">
-        <?= Html::a('Создать страницу', Url::to(['pages/create']), ['class' => 'btn btn-008080']) ?>
-    </div>
-
     <?php
+    echo Html::a('Создать страницу', ['pages/create'], ['class' => 'btn btn-success', 'style' => 'margin-bottom: 10px']);
+
     Pjax::begin();
     echo GridView::widget([
         'dataProvider' => $dataProvider,

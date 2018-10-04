@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 $this->title = 'Баннеры';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1><?= $this->title ?></h1>

@@ -3,74 +3,122 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Html;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
-/**
- * This is the model class for table "call_doctor".
- *
- * @property int $id
- * @property int $auth_id
- * @property string $fio
- * @property string $phone
- * @property string $email
- * @property string $text
- * @property int $doctor_id
- * @property int $closed
- * @property string $comment
- */
 class CallDoctor extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+
+
     public static function tableName()
     {
         return 'call_doctor';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
+
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['dateRequest'],
+                ]
+            ]
+        ];
+    }
+
+
+
     public function rules()
     {
         return [
             [['auth_id', 'doctor_id', 'closed'], 'integer'],
-            [['fio', 'phone', 'text'], 'required', 'message' => 'Это обязательное поле'],
+            [['fio', 'phone', 'text'], 'required'],
             [['text', 'comment'], 'string'],
+            [['dateRequest', 'dateWorking'], 'safe'],
             [['fio', 'phone', 'email'], 'string', 'max' => 255],
+            [['address'], 'string', 'max' => 512],
+            [['auth_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['auth_id' => 'id']],
+            [['doctor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['doctor_id' => 'id']],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
+
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
             'auth_id' => 'Auth ID',
-            'fio' => 'Fio',
-            'phone' => 'Phone',
+            'fio' => 'ФИО',
+            'phone' => 'Телефон',
+            'address' => 'Адрес',
             'email' => 'Email',
-            'text' => 'Text',
+            'text' => 'Текст обращения',
             'doctor_id' => 'Doctor ID',
-            'closed' => 'Closed',
-            'comment' => 'Comment',
+            'closed' => 'Закрыто',
+            'comment' => 'Комментарий',
+            'dateRequest' => 'Дата заявки',
+            'dateWorking' => 'Дата закрытия заявки',
         ];
     }
 
 
 
-    public function sendEmail($html = 'callDoctor') {
-        $regs = AuthAssignment::findAll(['or', 'item_name' => 'registrator', 'item_name' => 'manager']);
-        if ($regs) {
-            foreach ($regs as $reg){
-                $email = $reg->auth->email;
-                Yii::$app->mailer->compose(['html' => $html], ['patient' => $this])
-                    //->setFrom(Yii::$app->params['noreplyEmail'])
-                    ->setTo($email)
-                    ->setSubject("Вызов врача на дом ($this->fio) " . Yii::$app->params['siteCaption'])
+    public function getAuth()
+    {
+        return $this->hasOne(Auth::className(), ['id' => 'auth_id']);
+    }
+
+
+
+    public function getDoctor()
+    {
+        return $this->hasOne(Auth::className(), ['id' => 'doctor_id']);
+    }
+
+
+
+    public function getPatient()
+    {
+        $patient = '';
+        $patient .= $this->fio ? $this->fio . '<br>' : '';
+        $patient .= $this->phone ? $this->phone . '<br>' : '';
+        $patient .= $this->address ? $this->address . '<br>' : '';
+        $patient .= $this->email ? Html::mailto($this->email) . '<br>' : '';
+        return $patient;
+    }
+
+
+
+    public function getRegistrator()
+    {
+        $registrator = '';
+        $registrator .= $this->dateWorking ? Yii::$app->formatter->asDate($this->dateWorking) . '<br>' : '';
+        $registrator .= $this->doctor ? Html::a($this->doctor->fio, ['auth/view', 'id' => $this->doctor->id]) . '<br>' : '';
+        $registrator .= $this->comment ? $this->comment . '<br>' : '';
+        return $registrator;
+    }
+
+
+
+    public function sendEmail() {
+        $res = Yii::$app->mailer->compose(['html' => 'callCenter'], ['model' => $this])
+            ->setTo(Yii::$app->params['callCenter'])
+            ->setSubject("Регистрация вызова врача на дом")
+            ->send();
+        if ($res){
+            if ($this->email){
+                $res = Yii::$app->mailer->compose(['html' => 'callPatient'], ['model' => $this])
+                    ->setTo($this->email)
+                    ->setSubject("Регистрация вызова врача на дом")
                     ->send();
             }
+            return true;
+        } else {
+            return false;
         }
     }
 }

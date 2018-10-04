@@ -2,6 +2,7 @@
     use yii\helpers\Html;
     app\assets\ErrorAsset::register($this);
     $this->title = $name;
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div id="site-error" class="container">

@@ -3,6 +3,9 @@
     use yii\widgets\ActiveForm;
     app\assets\AuthAsset::register($this);
     $this->title = $model->lastname . ' ' . $model->firstname . ' ' . $model->middlename;
+    $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['auth/index']];
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1><?= $this->title ?></h1>

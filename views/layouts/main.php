@@ -31,7 +31,13 @@
                     ]);
                     
                     foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-                        echo "<div class='alert alert-$key alert-dismissible'>$message</div>";
+                        echo Html::beginTag('div', ['class' => "alert alert-$key alert-dismissible"]);
+                            echo $message;
+                            $close = Html::tag('span', '', [
+                                'class' => 'glyphicon glyphicon-remove pull-right flash-close',
+                            ]);
+                            echo Html::a($close, '');
+                        echo html::endTag('div');
                     };
 
                     if (Yii::$app->session->get('eye')){
@@ -47,6 +53,7 @@
         <div id="headerHolder">
             <?= $this->render('./header') ?>
         </div>
+        <div id="forModal"></div>
 
         <?php $this->endBody() ?>
     </body>

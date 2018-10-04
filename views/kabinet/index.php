@@ -6,34 +6,42 @@ $height = 70;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1 style="margin-bottom: 70px;"><?= $this->title ?></h1>
-
 <div class="kabinet-index container">
 
 
 
     <!-- Этот блок видят все пользователи -->
-    <div class="col-md-2 text-center showText">
-        <?php
-        echo Html::img("@web/images/icons/kabinet/request.svg", ['height' => $height]);
-        $text = 'Работа с обращениями';
-        echo Html::a("<span style='font-size: large'>$text</span>", ['kabinet/request']);
-        ?>
-    </div>
-    <div class="col-md-2 text-center showText">
-        <?php
-        echo Html::img("@web/images/icons/kabinet/profile.svg", ['height' => $height]);
-        $text = 'Профиль пользователя';
-        echo Html::a("<span style='font-size: large'>$text</span>", ['kabinet/profile']);
-        ?>
+    <div class="row">
+        <h2 align="center">Пользователь</h2>
+        <div class="col-md-2 text-center showText">
+            <?php
+            echo Html::img("@web/images/icons/kabinet/request.svg", ['height' => $height]);
+            $text = 'Работа с обращениями';
+            echo Html::a("<span style='font-size: large'>$text</span>", ['kabinet/request']);
+            ?>
+        </div>
+        <div class="col-md-2 text-center showText">
+            <?php
+            echo Html::img("@web/images/icons/kabinet/profile.svg", ['height' => $height]);
+            $text = 'Профиль пользователя';
+            echo Html::a("<span style='font-size: large'>$text</span>", ['kabinet/profile']);
+            ?>
+        </div>
     </div>
     <!---->
 
 
-
     <?php
     if (Yii::$app->user->can('editor')){
+        echo Html::beginTag('div', ['class' => 'row']);
+        echo Html::tag('h2', 'Администрирование', ['align' => 'center']);
         $array = [
+            'callDoctor' => [
+                'caption' => 'Регистрация вызова врача',
+                'img' => '/images/icons/kabinet/adminDoctor.svg',
+                'url' => Yii::$app->user->can('registrator') ? ['call-doctor/index'] : '',
+                'options' => Yii::$app->user->can('registrator') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3']
+            ],
             'pages' => [
                 'caption' => 'Страницы',
                 'img' => '/images/icons/kabinet/adminPages.svg',
@@ -79,7 +87,8 @@ $this->params['breadcrumbs'][] = $this->title;
             echo Html::a("<span style='font-size: large'>$text</span>", $arr['url']);
             echo '</div>';
         }
+        echo Html::endTag('div');
     }
-    ?>  
+    ?> 
 
 </div>

@@ -2,6 +2,9 @@
 	use yii\helpers\Html;
 	use yii\widgets\ActiveForm;
 	$this->title = 'Редактировать баннер';
+	$this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['kabinet/index']];
+	$this->params['breadcrumbs'][] = ['label' => 'Баннеры', 'url' => ['banner/index']];
+	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1><?= $this->title ?></h1>
