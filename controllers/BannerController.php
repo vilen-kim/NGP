@@ -9,15 +9,29 @@ use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 
 
 class BannerController extends Controller
 {
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['manager'],
+                    ],
+                ],
+                'denyCallback' => function($rule, $action){
+                    Yii::$app->session->setFlash('danger', "У вас нет доступа к странице $action->id");
+                    return $this->redirect(['kabinet/index']);
+                }
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

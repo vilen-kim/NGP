@@ -109,18 +109,19 @@ class RegisterForm extends Model {
                 $this->role = ($this->role) ? $this->role : 'user';
                 $role = Yii::$app->authManager->getRole($this->role);
                 Yii::$app->authManager->assign($role, $auth->id);
-                $transaction->commit();
 
                 if (Yii::$app->user->can('admin')) {
                     Yii::$app->session->setFlash('success', 'Учетная запись была успешно зарегистрирована и активирована.');
+                    $transaction->commit();
                     return $auth;
                 } else {
                     $activate = new ActivateForm();
                     $activate->email = $auth->email;
                     if ($activate->sendEmail()) {
+                        $transaction->commit();
                         return $auth;
                     } else {
-                        return $auth;
+                        throw new Exception("Ошибка отправки электронной почты для активации.");
                     }
                 }
             } catch (\Exception $e) {

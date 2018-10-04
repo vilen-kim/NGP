@@ -10,7 +10,7 @@
 
 <div class="container">
     <?php
-        echo Html::a('Добавить баннер', ['banner/create'], ['class' => 'btn btn-008080', 'style' => 'margin-bottom: 10px']);
+        echo Html::a('Добавить баннер', ['banner/create'], ['class' => 'btn btn-success', 'style' => 'margin-bottom: 10px']);
 
         echo GridView::widget([
             'dataProvider' => $dataProvider,

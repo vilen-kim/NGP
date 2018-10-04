@@ -22,3 +22,9 @@ $("#headerPhone").on('click', function(){
     $("#modalPhone").modal();
     return false;
 });
+
+// Удаление flash-сообщений при нажатии на крестик
+$(".flash-close").on('click', function(){
+    $(this).parent().parent().hide("slow");
+    return false;
+})

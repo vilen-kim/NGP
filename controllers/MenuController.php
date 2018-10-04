@@ -29,6 +29,10 @@ class MenuController extends Controller {
                         'roles' => ['manager'],
                     ],
                 ],
+                'denyCallback' => function($rule, $action){
+                    Yii::$app->session->setFlash('danger', "У вас нет доступа к странице $action->id");
+                    return $this->redirect(['kabinet/index']);
+                }
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),

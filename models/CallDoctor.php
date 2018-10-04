@@ -11,11 +11,15 @@ use Yii;
  * @property int $auth_id
  * @property string $fio
  * @property string $phone
+ * @property string $address
  * @property string $email
  * @property string $text
  * @property int $doctor_id
  * @property int $closed
  * @property string $comment
+ *
+ * @property Auth $auth
+ * @property Auth $doctor
  */
 class CallDoctor extends \yii\db\ActiveRecord
 {
@@ -34,9 +38,12 @@ class CallDoctor extends \yii\db\ActiveRecord
     {
         return [
             [['auth_id', 'doctor_id', 'closed'], 'integer'],
-            [['fio', 'phone', 'text'], 'required', 'message' => 'Это обязательное поле'],
+            [['fio', 'phone', 'text'], 'required'],
             [['text', 'comment'], 'string'],
             [['fio', 'phone', 'email'], 'string', 'max' => 255],
+            [['address'], 'string', 'max' => 512],
+            [['auth_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['auth_id' => 'id']],
+            [['doctor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['doctor_id' => 'id']],
         ];
     }
 
@@ -48,29 +55,48 @@ class CallDoctor extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'auth_id' => 'Auth ID',
-            'fio' => 'Fio',
-            'phone' => 'Phone',
-            'email' => 'Email',
-            'text' => 'Text',
-            'doctor_id' => 'Doctor ID',
-            'closed' => 'Closed',
-            'comment' => 'Comment',
+            'fio' => 'ФИО',
+            'phone' => 'Номер телефона',
+            'address' => 'Адрес',
+            'email' => 'Электронная почта',
+            'text' => 'Описание',
+            'doctor_id' => 'Кто закрыл заявку',
+            'closed' => 'Статус заявки',
+            'comment' => 'Комментарий',
         ];
     }
 
 
 
-    public function sendEmail($html = 'callDoctor') {
-        $regs = AuthAssignment::findAll(['or', 'item_name' => 'registrator', 'item_name' => 'manager']);
-        if ($regs) {
-            foreach ($regs as $reg){
-                $email = $reg->auth->email;
-                Yii::$app->mailer->compose(['html' => $html], ['patient' => $this])
-                    //->setFrom(Yii::$app->params['noreplyEmail'])
-                    ->setTo($email)
-                    ->setSubject("Вызов врача на дом ($this->fio) " . Yii::$app->params['siteCaption'])
+    public function getAuth()
+    {
+        return $this->hasOne(Auth::className(), ['id' => 'auth_id']);
+    }
+
+
+
+    public function getDoctor()
+    {
+        return $this->hasOne(Auth::className(), ['id' => 'doctor_id']);
+    }
+
+
+
+    public function sendEmail() {
+        $res = Yii::$app->mailer->compose(['html' => 'callCenter'], ['model' => $this])
+            ->setTo(Yii::$app->params['callCenter'])
+            ->setSubject("Регистрация вызова врача на дом")
+            ->send();
+        if ($res){
+            if ($this->email){
+                $res = Yii::$app->mailer->compose(['html' => 'callPatient'], ['model' => $this])
+                    ->setTo($this->email)
+                    ->setSubject("Регистрация вызова врача на дом 2")
                     ->send();
             }
+            return true;
+        } else {
+            return false;
         }
     }
 }

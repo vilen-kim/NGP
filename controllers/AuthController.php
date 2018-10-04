@@ -27,21 +27,25 @@ class AuthController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'delete', 'update', 'index', 'view'],
+                        'actions' => ['index', 'view', 'create', 'delete', 'update', ],
                         'allow' => true,
-                        'roles' => ['admin'], // администратор
+                        'roles' => ['admin'],
                     ],
                     [
                         'actions' => ['login', 'register', 'activate', 'forgot-pass', 'new-password'],
                         'allow' => true,
-                        'roles' => ['?'], // гость
+                        'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'profile', 'view'],
+                        'actions' => ['logout'],
                         'allow' => true,
-                        'roles' => ['@'], // авторизованный пользователь
+                        'roles' => ['@'],
                     ],
                 ],
+                'denyCallback' => function($rule, $action){
+                    Yii::$app->session->setFlash('danger', "У вас нет доступа к странице $action->id");
+                    return $this->redirect(['kabinet/index']);
+                }
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -185,7 +189,8 @@ class AuthController extends Controller {
 
 
 
-    public function actionView($id) {
+    public function actionView($id = null) {
+        $id = ($id == null) ? Yii::$app->user->id : $id;
         if (Yii::$app->user->can('admin')){
             $model = $this->findModel($id);
         } else {

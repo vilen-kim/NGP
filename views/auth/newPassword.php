@@ -3,6 +3,7 @@
     use yii\helpers\Html;
     app\assets\AuthAsset::register($this);
     $this->title = 'Восстановление пароля';
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1><?= $this->title ?></h1>

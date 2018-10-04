@@ -109,7 +109,7 @@ class VkController extends \yii\web\Controller {
         } else if ($haveErrors && $count) {
             Yii::$app->session->setFlash('warning', "В процессе загрузки были ошибки. Загружено $count записей со стены в ВК.");
         } else if ($haveErrors && !$count) {
-            Yii::$app->session->setFlash('danger', "В процессе загрузки были ошибки. Записи не загружены.");
+            Yii::$app->session->setFlash('danger', "Новых записей нет.");
         }
         return $this->redirect(['kabinet/index']);
     }

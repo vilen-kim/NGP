@@ -34,6 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if (Yii::$app->user->can('editor')){
         $array = [
+            'callDoctor' => [
+                'caption' => 'Регистрация вызова врача',
+                'img' => '/images/icons/kabinet/adminDoctor.svg',
+                'url' => Yii::$app->user->can('registrator') ? ['kabinet/call-doctor'] : '',
+                'options' => Yii::$app->user->can('registrator') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3']
+            ],
             'pages' => [
                 'caption' => 'Страницы',
                 'img' => '/images/icons/kabinet/adminPages.svg',

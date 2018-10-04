@@ -34,9 +34,9 @@ class AuthorForm extends Model {
 
     public function attributeLabels() {
         return [
-            'email' => '* Электронная почта',
-            'firstname' => '* Имя',
-            'lastname' => '* Фамилия',
+            'email' => 'Электронная почта',
+            'firstname' => 'Имя',
+            'lastname' => 'Фамилия',
             'middlename' => 'Отчество',
             'organization' => 'Наименование организации (юридического лица)',
             'phone' => 'Номер телефона',

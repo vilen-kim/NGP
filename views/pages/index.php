@@ -13,7 +13,7 @@
 
 <div class="container">
     <div style="margin-bottom: 40px">
-        <?= Html::a('Создать страницу', Url::to(['pages/create']), ['class' => 'btn btn-008080']) ?>
+        <?= Html::a('Создать страницу', Url::to(['pages/create']), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php

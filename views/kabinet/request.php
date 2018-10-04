@@ -10,7 +10,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1><?= $this->title ?></h1>
 
 <div class="container">
-    <?= Html::a('Создать обращение', ['request/write'], ['class' => 'btn btn-008080', 'style' => 'margin-bottom: 10px']) ?>
+    <?= Html::a('Создать обращение', ['site/request'], [
+        'class' => 'btn btn-success',
+        'style' => 'margin-bottom: 10px; margin-right: 10px; padding: 16px 12px;'
+    ]) ?>
+    <?= Html::a('Ответы на обращения, затрагивающие<br>интересы неопределенного круга лиц', ['site/share'], ['class' => 'btn btn-primary', 'style' => 'margin-bottom: 10px']) ?>
     
     <div align="center" style="font-size: large; margin-top: 20px;">
         <?php

@@ -4,6 +4,7 @@
     use himiklab\yii2\recaptcha\ReCaptcha;
     app\assets\AuthAsset::register($this);
     $this->title = 'Регистрация';
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1><?= $this->title ?></h1>

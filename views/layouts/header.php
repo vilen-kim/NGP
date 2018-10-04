@@ -55,7 +55,7 @@
             <?php
             $text = 'Регистрация обращения';
             echo Html::img("@web/images/icons/request.svg", ['height' => $height]);
-            echo Html::a("<span>$text</span>", ['request/info']);
+            echo Html::a("<span>$text</span>", ['site/request']);
             ?>
         </div>
         <div class="<?= $class ?>">

@@ -28,10 +28,20 @@ class KabinetController extends \yii\web\Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
+                        'actions' => ['index', 'request', 'profile', 'get-modal-request-answer', 'get-modal-resend-request'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
+                    [
+                        'actions' => ['call-doctor'],
+                        'allow' => true,
+                        'roles' => ['registrator', 'manager'],
+                    ],
                 ],
+                'denyCallback' => function($rule, $action){
+                    Yii::$app->session->setFlash('danger', "У вас нет доступа к странице $action->id");
+                    return $this->redirect(['kabinet/index']);
+                }
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -273,6 +283,12 @@ class KabinetController extends \yii\web\Controller {
                 'model' => $model,
             ]);
         }
+    }
+
+
+
+    public function actionCallDoctor() {
+
     }
 
 
