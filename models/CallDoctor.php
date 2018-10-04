@@ -91,7 +91,7 @@ class CallDoctor extends \yii\db\ActiveRecord
             if ($this->email){
                 $res = Yii::$app->mailer->compose(['html' => 'callPatient'], ['model' => $this])
                     ->setTo($this->email)
-                    ->setSubject("Регистрация вызова врача на дом 2")
+                    ->setSubject("Регистрация вызова врача на дом")
                     ->send();
             }
             return true;
