@@ -53,6 +53,7 @@
         <div id="headerHolder">
             <?= $this->render('./header') ?>
         </div>
+        <div id="forModal"></div>
 
         <?php $this->endBody() ?>
     </body>

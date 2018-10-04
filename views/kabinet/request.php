@@ -32,5 +32,3 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => $columns,
   ]) ?>
 </div>
-
-<div id="forModal"></div>

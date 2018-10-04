@@ -3,43 +3,41 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Html;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
-/**
- * This is the model class for table "call_doctor".
- *
- * @property int $id
- * @property int $auth_id
- * @property string $fio
- * @property string $phone
- * @property string $address
- * @property string $email
- * @property string $text
- * @property int $doctor_id
- * @property int $closed
- * @property string $comment
- *
- * @property Auth $auth
- * @property Auth $doctor
- */
 class CallDoctor extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+
+
     public static function tableName()
     {
         return 'call_doctor';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
+
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['dateRequest'],
+                ]
+            ]
+        ];
+    }
+
+
+
     public function rules()
     {
         return [
             [['auth_id', 'doctor_id', 'closed'], 'integer'],
             [['fio', 'phone', 'text'], 'required'],
             [['text', 'comment'], 'string'],
+            [['dateRequest', 'dateWorking'], 'safe'],
             [['fio', 'phone', 'email'], 'string', 'max' => 255],
             [['address'], 'string', 'max' => 512],
             [['auth_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['auth_id' => 'id']],
@@ -47,22 +45,23 @@ class CallDoctor extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
+
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
             'auth_id' => 'Auth ID',
             'fio' => 'ФИО',
-            'phone' => 'Номер телефона',
+            'phone' => 'Телефон',
             'address' => 'Адрес',
-            'email' => 'Электронная почта',
-            'text' => 'Описание',
-            'doctor_id' => 'Кто закрыл заявку',
-            'closed' => 'Статус заявки',
+            'email' => 'Email',
+            'text' => 'Текст обращения',
+            'doctor_id' => 'Doctor ID',
+            'closed' => 'Закрыто',
             'comment' => 'Комментарий',
+            'dateRequest' => 'Дата заявки',
+            'dateWorking' => 'Дата закрытия заявки',
         ];
     }
 
@@ -78,6 +77,29 @@ class CallDoctor extends \yii\db\ActiveRecord
     public function getDoctor()
     {
         return $this->hasOne(Auth::className(), ['id' => 'doctor_id']);
+    }
+
+
+
+    public function getPatient()
+    {
+        $patient = '';
+        $patient .= $this->fio ? $this->fio . '<br>' : '';
+        $patient .= $this->phone ? $this->phone . '<br>' : '';
+        $patient .= $this->address ? $this->address . '<br>' : '';
+        $patient .= $this->email ? Html::mailto($this->email) . '<br>' : '';
+        return $patient;
+    }
+
+
+
+    public function getRegistrator()
+    {
+        $registrator = '';
+        $registrator .= $this->dateWorking ? Yii::$app->formatter->asDate($this->dateWorking) . '<br>' : '';
+        $registrator .= $this->doctor ? Html::a($this->doctor->fio, ['auth/view', 'id' => $this->doctor->id]) . '<br>' : '';
+        $registrator .= $this->comment ? $this->comment . '<br>' : '';
+        return $registrator;
     }
 
 

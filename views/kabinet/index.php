@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'callDoctor' => [
                 'caption' => 'Регистрация вызова врача',
                 'img' => '/images/icons/kabinet/adminDoctor.svg',
-                'url' => Yii::$app->user->can('registrator') ? ['kabinet/call-doctor'] : '',
+                'url' => Yii::$app->user->can('registrator') ? ['call-doctor/index'] : '',
                 'options' => Yii::$app->user->can('registrator') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3']
             ],
             'pages' => [

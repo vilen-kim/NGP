@@ -128,7 +128,7 @@ class SiteController extends \yii\web\Controller {
             $model->address = $auth->profile->address;
             $model->email = $auth->email;
         }
-        return $this->render('call-doctor', [
+        return $this->render('callDoctor', [
             'model' => $model,
         ]);
     }

@@ -16,7 +16,6 @@ use app\models\RequestExecutive;
 use app\models\Pages;
 use app\models\Menu;
 use app\models\Banners;
-use app\models\CallDoctor;
 use app\models\forms\ProfileForm;
 
 class KabinetController extends \yii\web\Controller {
@@ -284,18 +283,6 @@ class KabinetController extends \yii\web\Controller {
                 'model' => $model,
             ]);
         }
-    }
-
-
-
-    public function actionCallDoctor() {
-        $dataProvider = new ActiveDataProvider([
-            'query' => CallDoctor::find(),
-        ]);
-
-        return $this->render('callDoctor', [
-            'dataProvider' => $dataProvider,
-        ]);   
     }
 
 

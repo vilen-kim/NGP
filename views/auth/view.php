@@ -31,7 +31,7 @@
                 'lastname',
                 'firstname',
                 'middlename',
-                'birthdate',
+                'birthdate:date',
                 'address',
                 'phone',
                 'organization',
