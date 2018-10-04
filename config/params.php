@@ -3,7 +3,7 @@
 return [
     'adminEmail' => 'admin@nyagangp.ru',
     'noreplyEmail' => 'noreply@nyagangp.ru',
-    'callCenter' => 'vilen_kim@mail.ru',
+    'callCenter' => 'callcenter@nyagangp.ru',
     'siteCaption' => 'Няганская городская поликлиника',
     
     'ckeditorClientOptions' => [
