@@ -27,6 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
             echo Html::a("<span style='font-size: large'>$text</span>", ['kabinet/profile']);
             ?>
         </div>
+        <div class="col-md-2 text-center showText">
+            <?php
+            if (Yii::$app->user->can('registrator')){
+                echo Html::img("@web/images/icons/kabinet/doctor.svg", ['height' => $height]);
+                $text = 'Регистрация вызова врача';
+                echo Html::a("<span style='font-size: large'>$text</span>", ['call-doctor/index']);
+            }
+            ?>
+        </div>
     </div>
     <!---->
 
@@ -36,12 +45,6 @@ $this->params['breadcrumbs'][] = $this->title;
         echo Html::beginTag('div', ['class' => 'row']);
         echo Html::tag('h2', 'Администрирование', ['align' => 'center']);
         $array = [
-            'callDoctor' => [
-                'caption' => 'Регистрация вызова врача',
-                'img' => '/images/icons/kabinet/adminDoctor.svg',
-                'url' => Yii::$app->user->can('registrator') ? ['call-doctor/index'] : '',
-                'options' => Yii::$app->user->can('registrator') ? '' : ['onClick' => 'return false;', 'style' => 'opacity: 0.3']
-            ],
             'pages' => [
                 'caption' => 'Страницы',
                 'img' => '/images/icons/kabinet/adminPages.svg',
