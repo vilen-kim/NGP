@@ -12,6 +12,7 @@ class PageAsset extends AssetBundle {
     ];
     public $js = [
         'js/page.js',
+        'js/jquery.highlight.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
