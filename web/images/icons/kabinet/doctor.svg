@@ -35,13 +35,13 @@
      id="namedview45"
      showgrid="false"
      inkscape:zoom="0.92187681"
-     inkscape:cx="99.796406"
+     inkscape:cx="-83.525268"
      inkscape:cy="260.69056"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="Capa_1" /><path
-     style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none"
+     style="fill:#008080;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none"
      d="m 179.68,35.668 c 3.58691,9.368881 7.5732,19.790599 10.799,28.22 3.753,9.807 13.33,16.396 23.831,16.396 l 85.33,0 c 10.5,0 20.077,-6.589 23.8965,-16.567 l 5.5855,-14.595 5.148,-13.453 c 1.957,-5.114 1.566,-10.799 -1.071,-15.597 -2.637,-4.797 -7.226,-8.174 -12.591,-9.263 L 277.7,2.095 c -13.753,-2.794 -27.698,-2.794 -41.451,0 l -42.907,8.712 c -5.365,1.089 -9.955,4.465 -12.592,9.264 -2.637,4.799 -3.028,10.483 -1.07,15.597"
      id="path4162" /><g
      id="g3"
@@ -81,7 +81,7 @@
      style="stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none" /><g
      id="g43"
      style="stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none" /><path
-     style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     style="fill:#008080;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      d="m 73.637,361.026 c 1.409,-8.245 7.259,-14.869 15.267,-17.285 l 98.083,-29.595 c 0.642,-0.193 1.325,0.101 1.628,0.697 0,10e-4 0.002,0.003 0.002,0.004 l 46.829,92.518 c 1.232,2.435 2.849,4.582 4.755,6.382 4.194,3.962 9.792,6.249 15.796,6.249 3.821,0 7.477,-0.926 10.712,-2.621 4.159,-2.179 7.621,-5.628 9.84,-10.011 l 46.831,-92.521 c 0.302,-0.598 0.986,-0.895 1.629,-0.697 l 98.082,29.594 c 8.009,2.416 13.859,9.04 15.267,17.285 l 21.849,127.915 c 0.473,2.765 -0.759,4.721 -1.536,5.641 -0.777,0.92 -2.497,2.464 -5.302,2.464 l -46.314,0 -12.219,-71.532 c -0.695,-4.07 -4.555,-6.809 -8.628,-6.111 -4.07,0.695 -6.806,4.558 -6.111,8.628 l 11.789,69.014 -271.775,0 11.789,-69.014 c 0.695,-4.07 -2.041,-7.933 -6.111,-8.628 -4.068,-0.696 -7.933,2.04 -8.628,6.111 l -12.219,71.532 -46.315,0 c -2.805,0 -4.526,-1.544 -5.302,-2.464 -0.776,-0.92 -2.008,-2.877 -1.536,-5.641 z"
      id="path4198"
      inkscape:connector-curvature="0"
