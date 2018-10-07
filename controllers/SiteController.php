@@ -55,6 +55,12 @@ class SiteController extends \yii\web\Controller {
 
 
 
+    public function actionMobilePhone() {
+        return $this->render('mobilePhone');
+    }
+
+
+
     public function actionShow($id) {
         return $this->render('show', [
             'model' => $this->findModel($id),

@@ -4,25 +4,25 @@
 
 <footer class="container row center-block">
 
-    <div class="col-md-3">
+    <div class="col-sm-3">
         <h3>Наименование</h3>
         <div>Бюджетное учреждение Ханты-Мансийского автономного округа - Югры "Няганская городская поликлиника"</div>
     </div>
     
-    <div class="col-md-2">
+    <div class="col-sm-2">
         <h3>О поликлинике</h3>
         <div><?= Html::a('Контакты', ['site/show', 'id' => 16]) ?></div>
         <div><?= Html::a('Режим и график работы', ['site/show', 'id' => 17]) ?></div>
         <div><?= Html::a('Цены на платные услуги', ['site/show', 'id' => 29]) ?></div>
     </div>
     
-    <div class="col-md-2">
+    <div class="col-sm-2">
         <h3>Пациентам</h3>
         <div><?= Html::a('Баннеры', ['site/banners']) ?></div>
         <div><?= Html::a('Медосмотры', ['site/show', 'id' => 309]) ?></div>
     </div>
     
-    <div class="col-md-2">
+    <div class="col-sm-2">
         <h3>Социальные сети</h3>
         <div id="footerSocial">
             <?php $height = 30; ?>
@@ -33,7 +33,7 @@
         </div>
     </div>
     
-    <div class="col-md-3">
+    <div class="col-sm-3">
         <h3>Важная информация</h3>
         <div>
             Телефон единой службы спасения:

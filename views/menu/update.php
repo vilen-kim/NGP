@@ -12,7 +12,7 @@
 <h1><?= $this->title ?></h1>
 
 <div class="container">
-    <div class="col-md-6 col-md-offset-3 border">
+    <div class="col-sm-6 col-sm-offset-3 border">
 
         <?php
             $pageCaption = ($model->page_id) ? $model->page->caption : '';

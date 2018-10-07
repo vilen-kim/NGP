@@ -49,29 +49,34 @@ class MenuController extends Controller {
         $array = [];
         $cnt = 0;
         $parents = Menu::find()->where(['parent_id' => 0])->orderBy('position')->all();
+        if (!Yii::$app->mobileDetect->isMobile()){
+            $hidden = 'hidden';
+        } else {
+            $hidden = '';
+        }
         if (count($parents)) {
             foreach ($parents as $par) {
                 $array[$cnt] = "<span data-id='$par->id'>$par->caption</span>" .
-                Html::a("<span class='glyphicon glyphicon-trash pull-right hidden'></span>", ['menu/delete', 'id' => $par->id], [
+                Html::a(Html::tag('span', null, ['class' => "glyphicon glyphicon-trash pull-right $hidden"]), ['menu/delete', 'id' => $par->id], [
                     'data' => [
                         'method' => 'post',
                         'confirm' => 'Вы уверены что хотите удалить это меню? Все подменю также будут удалены.',
                     ]
                 ]) .
-                Html::a("<span class='glyphicon glyphicon-pencil pull-right hidden' style='margin-right: 5px;'></span>", ['menu/update', 'id' => $par->id]);
+                Html::a(Html::tag('span', null, ['class' => "glyphicon glyphicon-pencil pull-right $hidden", 'style' => 'margin-right: 5px']), ['menu/update', 'id' => $par->id]);
 
                 $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
                 $elements = [];
                 if (count($subMenu)) {
                     foreach ($subMenu as $sub) {
                         $elements[] = "<span data-id='$sub->id'>$sub->caption</span>" .
-                        Html::a("<span class='glyphicon glyphicon-trash pull-right hidden'></span>", ['menu/delete', 'id' => $sub->id], [
+                        Html::a(Html::tag('span', null, ['class' => "glyphicon glyphicon-trash pull-right $hidden"]), ['menu/delete', 'id' => $sub->id], [
                             'data' => [
                                 'method' => 'post',
                                 'confirm' => 'Вы уверены что хотите удалить это подменю?',
                             ]
                         ]) .
-                        Html::a("<span class='glyphicon glyphicon-pencil pull-right hidden' style='margin-right: 5px;'></span>", ['menu/update', 'id' => $sub->id]);
+                        Html::a(Html::tag('span', null, ['class' => "glyphicon glyphicon-pencil pull-right $hidden", 'style' => 'margin-right: 5px']), ['menu/update', 'id' => $sub->id]);
                     }
                 }
                 $array[$cnt] .= Sortable::widget([

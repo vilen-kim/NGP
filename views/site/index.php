@@ -1,67 +1,91 @@
 <?php
 use yii\helpers\Html;
-app\assets\SiteAsset::register($this);
+if (!Yii::$app->mobileDetect->isMobile()){
+    app\assets\SiteAsset::register($this);
+}
 $this->title = 'Последние новости';
 ?>
 
-<?php if (!Yii::$app->session->get('eye')){ ?>
-    <div class = "parallax-window" data-parallax = "scroll" data-image-src = "/images/backgrounds/parallax.jpg" data-natural-width = 1920 data-natural-height = 1080 data-speed = 0.2>
-    <div id="parallaxWhite">
-<?php } ?>
+<!-- Эффект параллакса (только на десктопах) -->
+<?php
+    if (!Yii::$app->mobileDetect->isMobile() && !Yii::$app->session->get('eye')){
+        echo Html::beginTag('div', [
+            'class'               => 'parallax-window',
+            'data-parallax'       => 'scroll',
+            'data-image-src'      => '/images/backgrounds/parallax.jpg',
+            'data-natural-width'  => 1920,
+            'data-natural-height' => 1080,
+            'data-speed'          => 0.2,
+        ]);
+        echo Html::beginTag('div', ['id' => 'parallaxWhite']);
+    }
+?>
         
-        <div id="site-index" class="container">
+<div id="site-index" class="container">
 
-            <h1><?= $this->title ?></h1>
+    <h1><?= $this->title ?></h1>
 
-            <?php for ($i = 0; $i < count($news); $i++){ ?>
-                <div class="col-md-10 col-md-offset-1 row animatedParent animateOnce">
+    <?php
 
-                    <div class="col-md-5 animated fadeInLeft">
-                        <?php
-                        if ($i % 2 == 1) {
-                            echo Html::img($news[$i]->image);
-                        } else {
-                            $url = Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]);
-                            echo "<h2>$url</h2>";
-                        }
-                        ?>
-                    </div>
+    // Десктоп
+    if (!Yii::$app->mobileDetect->isMobile()){
+        echo Html::beginTag('div', ['class' => 'news']);
+        for ($i = 0; $i < count($news); $i++){
+            if ($i % 2 == 1) {
+                $contentLeft = Html::img($news[$i]->image);
+                $contentRight = Html::tag('h2', Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]));
+            } else {
+                $contentLeft = Html::tag('h2', Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]));
+                $contentRight = Html::img($news[$i]->image);
+            }
+            $left = Html::tag('div', $contentLeft, ['class' => 'col-sm-5 animated fadeInLeft']);
+            $right = Html::tag('div', $contentRight, ['class' => 'col-sm-5 col-sm-offset-2 animated fadeInRight']);
+            echo Html::tag('div', $left . $right, ['class' => 'col-sm-10 col-sm-offset-1 row animatedParent animateOnce']);
+        }
+        echo Html::endTag('div');
 
-                    <div class="col-md-5 col-md-offset-2 animated fadeInRight">
-                        <?php
-                        if ($i % 2 == 1) {
-                            $url = Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]);
-                            echo "<h2>$url</h2>";
-                        } else {
-                            echo Html::img($news[$i]->image);
-                        }
-                        ?>
-                    </div>
+    // Мобильное устройство
+    } else {
+        for ($i = 0; $i < count($news); $i++){
+            $contentHeader = Html::tag('h2', Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]));
+            $contentImg = Html::img($news[$i]->image, ['width' => '100%']);
+            echo Html::tag('div', $contentHeader . $contentImg);
+        }
+    }
+    ?>
 
-                </div>
-            <?php } ?>
-
-            <?php
-                $divRow = false;
-                for ($i = 0; $i < count($banners); $i++){
-                    $banner = $banners[$i];
-                    $img = Html::img($banner->image, ['class' => 'scale', 'style' => 'box-shadow: 1px 1px 2px gray']);
-                    $url = $banner->url;
-                    $content = Html::tag('div', Html::a($img, $url), ['class' => 'col-md-2']);
-                    if ($i % 6 == 0){
-                        if ($divRow)
-                            echo Html::endTag('div');
-                        echo Html::beginTag('div', ['class' => ['col-md-12', 'row', 'banners']]);
-                        $divRow = true;
-                    }
-                    echo $content;
-                }
+    <?php
+    if (!Yii::$app->mobileDetect->isMobile()){
+        echo Html::beginTag('div', ['class' => 'banners']);
+        echo Html::beginTag('div', ['class' => 'row']);
+        for ($i = 0; $i < count($banners); $i++){
+            $banner = $banners[$i];
+            $img = Html::img($banner->image, ['class' => 'scale', 'style' => 'box-shadow: 1px 1px 2px gray', 'width' => '100%']);
+            $url = $banner->url;
+            echo Html::tag('div', Html::a($img, $url), ['class' => 'col-sm-2']);
+            if (($i+1) % 6 == 0) {
                 echo Html::endTag('div');
-            ?>
+                echo Html::beginTag('div', ['class' => 'row']);
+            }
+        }
+        echo Html::endTag('div');
+        echo Html::endTag('div');
+    } else {
+        echo Html::tag('h2', 'Баннеры', ['align' => 'center']);
+        for ($i = 0; $i < count($banners); $i++){
+            $banner = $banners[$i];
+            $img = Html::img($banner->image, ['style' => 'width: 200px; border: 1px solid gray']);
+            $url = $banner->url;
+            echo Html::tag('div', Html::a($img, $url), ['style' => 'margin-bottom: 10px; text-align: center']);
+        }
+    }
+    ?>
 
-        </div>
+</div>
         
-<?php if (!Yii::$app->session->get('eye')){ ?>
-    </div>
-    </div>
-<?php } ?>
+<?php
+    if (!Yii::$app->mobileDetect->isMobile() && !Yii::$app->session->get('eye')){
+        echo Html::endTag('div');
+        echo Html::endTag('div');
+    }
+?>

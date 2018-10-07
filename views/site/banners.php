@@ -9,21 +9,30 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container">
 
     <?php
-        $divRow = false;
+        if (!Yii::$app->mobileDetect->isMobile()){
+        echo Html::beginTag('div', ['class' => 'banners']);
+        echo Html::beginTag('div', ['class' => 'row', 'style' => 'margin-bottom: 20px']);
         for ($i = 0; $i < count($banners); $i++){
             $banner = $banners[$i];
             $img = Html::img($banner->image, ['class' => 'scale', 'style' => 'box-shadow: 1px 1px 2px gray', 'width' => '100%']);
             $url = $banner->url;
-            $content = Html::tag('div', Html::a($img, $url), ['class' => 'col-md-2', 'style' => 'margin-bottom: 20px;']);
-            if ($i % 6 == 0){
-                if ($divRow)
-                    echo Html::endTag('div');
-                echo Html::beginTag('div', ['class' => ['col-md-12', 'row', 'banners']]);
-                $divRow = true;
+            echo Html::tag('div', Html::a($img, $url), ['class' => 'col-sm-2']);
+            if (($i+1) % 6 == 0) {
+                echo Html::endTag('div');
+                echo Html::beginTag('div', ['class' => 'row', 'style' => 'margin-bottom: 20px']);
             }
-            echo $content;
         }
         echo Html::endTag('div');
+        echo Html::endTag('div');
+        } else {
+            echo Html::tag('h2', 'Баннеры', ['align' => 'center']);
+            for ($i = 0; $i < count($banners); $i++){
+                $banner = $banners[$i];
+                $img = Html::img($banner->image, ['style' => 'width: 200px; border: 1px solid gray']);
+                $url = $banner->url;
+                echo Html::tag('div', Html::a($img, $url), ['style' => 'margin-bottom: 10px; text-align: center']);
+            }
+        }
     ?>
 
 </div>

@@ -9,7 +9,7 @@
 <h1><?= $this->title ?></h1>
 
 <div class="container">
-    <div class="col-md-offset-3 col-md-6">
+    <div class="col-sm-offset-3 col-sm-6">
 
         <?php
             $form = ActiveForm::begin(['id' => 'login-form']);
@@ -20,13 +20,13 @@
         ?>
         
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-sm-4">
                 <?= Html::submitButton('Войти', ['class' => 'btn btn-008080']) ?>
             </div>
-            <div class="col-md-4" align="center" style="padding-top: 6px;">
+            <div class="col-sm-4" align="center" style="padding-top: 6px;">
                 <?= Html::a('Зарегистрироваться', ['auth/register'], ['id' => 'aRegister', 'style' => 'color: green']) ?>
             </div>
-            <div class="col-md-4" align="right" style="padding-top: 6px;">
+            <div class="col-sm-4" align="right" style="padding-top: 6px;">
                 <?= Html::a('Забыли пароль', ['auth/forgot-pass'], ['id' => 'aForgotPass', 'style' => 'color: red']) ?>
             </div>
         </div>

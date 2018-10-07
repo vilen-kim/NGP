@@ -71,6 +71,9 @@ $config = [
         ],
         'vk' => $vk,
         'pdf' => $pdf,
+        'mobileDetect' => [
+            'class' => '\skeeks\yii2\mobiledetect\MobileDetect'
+        ],
     ],
     'params' => $params,
 ];

@@ -10,7 +10,7 @@
 <h1><?= $this->title ?></h1>
 
 <div class="container">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-sm-6 col-sm-offset-3">
 
 		<?php
 			$form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);

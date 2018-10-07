@@ -2,7 +2,15 @@
 use yii\helpers\Html;
 app\assets\KabinetAsset::register($this);
 $this->title = 'Личный кабинет';
-$height = 70;
+if (!Yii::$app->mobileDetect->isMobile()){
+    $image = ['height' => 70];
+    $style = 'col-sm-2 text-center showText';
+    $div = 'row';
+} else {
+    $image = ['width' => 30, 'style' => 'margin: 0 10px 10px 0'];
+    $style = '';
+    $div = '';
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -11,26 +19,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <!-- Этот блок видят все пользователи -->
-    <div class="row">
+    <div class="<?= $div ?>">
         <h2 align="center">Пользователь</h2>
-        <div class="col-md-2 text-center showText">
+        <div class="<?= $style ?>">
             <?php
-            echo Html::img("@web/images/icons/kabinet/request.svg", ['height' => $height]);
+            echo Html::img("@web/images/icons/kabinet/request.svg", $image);
             $text = 'Работа с обращениями';
             echo Html::a("<span style='font-size: large'>$text</span>", ['kabinet/request']);
             ?>
         </div>
-        <div class="col-md-2 text-center showText">
+        <div class="<?= $style ?>">
             <?php
-            echo Html::img("@web/images/icons/kabinet/profile.svg", ['height' => $height]);
+            echo Html::img("@web/images/icons/kabinet/profile.svg", $image);
             $text = 'Профиль пользователя';
             echo Html::a("<span style='font-size: large'>$text</span>", ['kabinet/profile']);
             ?>
         </div>
-        <div class="col-md-2 text-center showText">
+        <div class="<?= $style ?>">
             <?php
             if (Yii::$app->user->can('registrator')){
-                echo Html::img("@web/images/icons/kabinet/doctor.svg", ['height' => $height]);
+                echo Html::img("@web/images/icons/kabinet/doctor.svg", $image);
                 $text = 'Регистрация вызова врача';
                 echo Html::a("<span style='font-size: large'>$text</span>", ['call-doctor/index']);
             }
@@ -42,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php
     if (Yii::$app->user->can('editor')){
-        echo Html::beginTag('div', ['class' => 'row']);
+        echo Html::beginTag('div', ['class' => $div]);
         echo Html::tag('h2', 'Администрирование', ['align' => 'center']);
         $array = [
             'pages' => [
@@ -84,11 +92,11 @@ $this->params['breadcrumbs'][] = $this->title;
         ];
 
         foreach ($array as $arr) {
-            echo '<div class="col-md-2 text-center showText">';
-            echo Html::img($arr['img'], ['height' => $height]);
-            $text = $arr['caption'];
-            echo Html::a("<span style='font-size: large'>$text</span>", $arr['url']);
-            echo '</div>';
+            echo Html::beginTag('div', ['class' => $style]);
+                echo Html::img($arr['img'], $image);
+                $text = $arr['caption'];
+                echo Html::a("<span style='font-size: large'>$text</span>", $arr['url']);
+            echo Html::endTag('div');
         }
         echo Html::endTag('div');
     }

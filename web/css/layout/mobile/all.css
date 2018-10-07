@@ -1,0 +1,61 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 12px;
+}
+
+#bottomHolder {
+    position: absolute;
+    top: 0;
+    min-height: 100%;
+    padding-top: 70px;
+    padding-bottom: 400px;
+    width: 100%;
+}
+
+img {
+    vertical-align: top;
+}
+
+a {
+    color: #333;
+    text-decoration: underline;
+}
+a.btn {
+    text-decoration: none;
+}
+a.dot {
+    border-bottom: 1px dashed #333;
+    text-decoration: none;
+}
+
+h1 {
+    letter-spacing: 2px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+h2 {
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-008080 {
+    background: #008080;
+    color: white;
+}
+.highlight {
+    background-color: #008080;
+    color: white;
+}

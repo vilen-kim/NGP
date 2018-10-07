@@ -11,7 +11,7 @@
 
 <h1><?= $this->title ?></h1>
 
-<div class="container col-md-8 col-md-offset-2">
+<div class="container col-sm-8 col-sm-offset-2">
     <p>
         <b>Дата обращения:</b> <?= Yii::$app->formatter->asDate($request->request_created_at) ?>
     </p>

@@ -6,37 +6,38 @@
 
 <h1><?= $this->title ?></h1>
 
-<div class="row" style="padding: 0 100px">
+<div class="container">
 <?php
     $items = $menu->array;
     
-    // Ссылки на якорные заголовки меню
-    $style = "margin-bottom: 30px; padding: 2px; position: sticky; top: 0; z-index: 1; background: #333";
-    echo "<div class='col-md-12 text-center' style='$style'>";
-    for ($i = 0; $i < count($items); $i++){
-        echo Html::a($items[$i]['label'], "#$i", ['style' => 'color: white']) . '&nbsp&nbsp&nbsp&nbsp';
+    // Ссылки на якорные заголовки меню (только десктоп)
+    if (!Yii::$app->mobileDetect->isMobile()){
+        $style = "margin-bottom: 30px; padding: 2px; position: sticky; top: 0; z-index: 1; background: #333";
+        echo Html::beginTag('div', ['class' => 'col-sm-12 text-center', 'style' => $style]);
+        for ($i = 0; $i < count($items); $i++){
+            echo Html::a($items[$i]['label'], "#$i", ['style' => 'color: white']) . '&nbsp&nbsp&nbsp&nbsp';
+        }
+        echo Html::endTag('div');
     }
-    echo '</div>';
     
     for ($i = 0; $i < count($items); $i++){
-        echo ($i %2 == 0) ? '<div class="col-md-6">' : '<div class="col-md-6 col-md-offset-6">';
+        $class = ($i %2 == 0) ? 'col-sm-6' : 'col-sm-6 col-sm-offset-6';
+        echo Html::beginTag('div', ['class' => $class]);
         
         $menuHeader = $items[$i];
-        echo '<h2 class="caption">';
-            echo Html::a('', '', ['name' => $i]);
-            echo ($menuHeader['url']) ? Html::a($menuHeader['label'], $menuHeader['url']) : $menuHeader['label'];
-        echo '</h2>';
+        $a = Html::a('', '', ['name' => $i]);
+        $header = ($menuHeader['url']) ? Html::a($menuHeader['label'], $menuHeader['url']) : $menuHeader['label'];
+        echo Html::tag('h2', $a . $header);
         
         if (is_array($menuHeader['items'])){
-            echo '<ul>';
+            echo Html::beginTag('ul');
             foreach($menuHeader['items'] as $subMenu){
-                echo '<li>';
-                    echo ($subMenu['url']) ? Html::a($subMenu['label'], $subMenu['url']) : $subMenu['label'];
-                echo '</li>';
+                $element = ($subMenu['url']) ? Html::a($subMenu['label'], $subMenu['url']) : $subMenu['label'];
+                echo Html::tag('li', $element);
             }
-            echo '</ul>';
+            echo Html::endTag('ul');
         }
-        echo '</div>';
+        echo Html::endTag('div');
     }
 ?>
 </div>

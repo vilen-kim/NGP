@@ -10,7 +10,7 @@
 <h1><?= $this->title ?></h1>
 
 <div class="container">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-sm-8 col-sm-offset-2">
 
         <h2 align="center" style="margin-top: 0">Учетная запись</h2>
         <?= DetailView::widget([

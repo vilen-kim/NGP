@@ -13,7 +13,7 @@
     ?>
 
     <!-- Логотип -->
-    <div class="col-md-1 showText" style="margin-top: 7px">
+    <div class="col-sm-1 showText" style="margin-top: 7px">
         <?php
         $text = 'Няганская городская поликлиника';
         echo Html::img('@web/images/logo_green.gif', ['height' => 68]);
@@ -24,7 +24,7 @@
 
 
     <!-- Телефон -->
-    <div class="col-md-3 col-md-offset-1" style='margin-top: 24px;'>
+    <div class="col-sm-3 col-sm-offset-1" style='margin-top: 24px;'>
         <h2 style="margin-top: 0">
             <?= Html::a('8 (34672) 5-45-30', '', ['id' => 'headerPhone', 'class' => 'dot']) ?>
         </h2>
@@ -33,9 +33,9 @@
 
 
     <!-- Кнопки основных действий -->
-    <div class="col-md-6 col-md-offset-1 row" id="headerButtons" style="margin-top: <?= $marginTop ?>">
+    <div class="col-sm-6 col-sm-offset-1 row" id="headerButtons" style="margin-top: <?= $marginTop ?>">
         <?php
-        $class = "col-md-2 showText";
+        $class = "col-sm-2 showText";
         ?>
         <div class="<?= $class ?>">
             <?php

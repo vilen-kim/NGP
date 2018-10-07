@@ -1,7 +1,11 @@
 <?php
     use yii\helpers\Html;
     use yii\widgets\Breadcrumbs;
-    app\assets\AppAsset::register($this);
+    if (!Yii::$app->mobileDetect->isMobile()){
+        app\assets\AppAsset::register($this);
+    } else {
+        app\assets\MobileAppAsset::register($this);
+    }
 ?>
 
 
@@ -26,9 +30,11 @@
         <div id="bottomHolder">
             <div style="position: absolute; top: 83px; left: 0; width: 100%;" class="container">
                 <?php
-                    echo Breadcrumbs::widget([
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                    ]);
+                    if (!Yii::$app->mobileDetect->isMobile()){
+                        echo Breadcrumbs::widget([
+                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                        ]);
+                    }
                     
                     foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
                         echo Html::beginTag('div', ['class' => "alert alert-$key alert-dismissible"]);
@@ -51,7 +57,13 @@
             </div>
         </div>
         <div id="headerHolder">
-            <?= $this->render('./header') ?>
+            <?php
+                if (!Yii::$app->mobileDetect->isMobile()){
+                    echo $this->render('./header');
+                } else {
+                    echo $this->render('./mobileHeader');
+                }
+            ?>
         </div>
         <div id="forModal"></div>
 

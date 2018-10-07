@@ -11,9 +11,16 @@
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="container" style="margin-top: -30px; margin-bottom: 20px;">
-    <div class="col-md-6"><?= Html::a('Ответы на обращения, затрагивающие<br>интересы неопределенного круга лиц', ['site/share'], ['class' => 'btn btn-primary']) ?></div>
-    <div class="col-md-6"><?php
+<?php
+    if (!Yii::$app->mobileDetect->isMobile()){
+        $style = 'margin-top: -30px; margin-bottom: 20px';
+    } else {
+        $style = 'margin-bottom: 20px';
+    }
+?>
+<div class="container" style="<?= $style ?>">
+    <div class="col-sm-6"><?= Html::a('Ответы на обращения, затрагивающие<br>интересы неопределенного круга лиц', ['site/share'], ['class' => 'btn btn-primary']) ?></div>
+    <div class="col-sm-6"><?php
         $pdf = Html::img('/images/icons/pdf.svg', ['class' => 'pull-left', 'height' => '30px', 'style' => 'margin: 5px;']);
         echo Html::a($pdf . ' Информация для ознакомления, желающим отправить обращение в форме электронного документа', '/documents/RequestInformation.pdf');
     ?></div>
@@ -23,7 +30,7 @@
 
 <div class="request-write container">
 
-    <div class="col-md-8 col-md-offset-2 border">        
+    <div class="col-sm-8 col-sm-offset-2 border">        
         <?php
 
             $mainForm = ActiveForm::begin([
@@ -43,11 +50,11 @@
         ?>
     </div>
 
-    <div class="col-md-12" align="center">
+    <div class="col-sm-12" align="center">
         <h2>Автор/соавторы обращения</h2>
     </div>
 
-    <div class="col-md-8 col-md-offset-2 border">
+    <div class="col-sm-8 col-sm-offset-2 border">
         <div id="curAuthor">
             <?php
             $form = ActiveForm::begin([
@@ -78,7 +85,7 @@
 
     </div>
 
-    <div class="col-md-8 col-md-offset-2 text-justify" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="col-sm-8 col-sm-offset-2 text-justify" style="margin-top: 20px; margin-bottom: 20px;">
         <p><i>
             Данное обращение будет сохранено в "Личном кабинете" у каждого автора/соавтора обращения.
             В случае отсутствия "Личного кабинета" он будет автоматически создан и автору/соавтору будет
