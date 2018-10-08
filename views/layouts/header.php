@@ -6,10 +6,9 @@
 <header class="container" id="header">
 
     <?php
-    $eye = Yii::$app->session->get('eye');
-    $height = 45;
-    $marginTop = (82 - $height) / 2 . 'px';
-    echo $this->render("../modals/phone.php");
+        $height = 45;
+        $marginTop = (82 - $height) / 2 . 'px';
+        echo $this->render("../modals/phone.php");
     ?>
 
     <!-- Логотип -->
@@ -24,7 +23,7 @@
 
 
     <!-- Телефон -->
-    <div class="col-sm-3 col-sm-offset-1" style='margin-top: 24px;'>
+    <div class="col-sm-4 col-sm-offset-1" style='margin-top: 24px;'>
         <h2 style="margin-top: 0">
             <?= Html::a('8 (34672) 5-45-30', '', ['id' => 'headerPhone', 'class' => 'dot']) ?>
         </h2>
@@ -33,7 +32,7 @@
 
 
     <!-- Кнопки основных действий -->
-    <div class="col-sm-6 col-sm-offset-1 row" id="headerButtons" style="margin-top: <?= $marginTop ?>">
+    <div class="col-sm-6 row" id="headerButtons" style="margin-top: <?= $marginTop ?>">
         <?php
         $class = "col-sm-2 showText";
         ?>
@@ -90,7 +89,7 @@
         </div>
         <div class="<?= $class ?>">
             <?php
-            if (!$eye){
+            if (!Yii::$app->session->get('eye')){
                 $text = 'Режим для слабовидящих';
                 $class = 'toOn';
                 $img = Html::img("@web/images/icons/eyeOn.svg", ['height' => $height]);
@@ -100,7 +99,7 @@
                 $img = Html::img("@web/images/icons/eyeOff.svg", ['height' => $height]);
             }
             echo $img;
-            echo Html::a("<span>$text</span>", '', ['class' => $class, 'id' => 'headerEye']);
+            echo Html::a(Html::tag('span', $text), '', ['class' => $class, 'id' => 'headerEye']);
             ?>
         </div>
     </div>

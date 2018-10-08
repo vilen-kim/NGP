@@ -13,6 +13,8 @@ $("#headerEye.toOn").click(function(){
     return false;
 });
 
+
+
 $("#headerEye.toOff").click(function(){
     $.ajax({
         url: '/site/eye-off',

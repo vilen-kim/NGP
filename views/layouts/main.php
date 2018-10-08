@@ -30,6 +30,7 @@
         <div id="bottomHolder">
             <div style="position: absolute; top: 83px; left: 0; width: 100%;" class="container">
                 <?php
+                    
                     if (!Yii::$app->mobileDetect->isMobile()){
                         echo Breadcrumbs::widget([
                             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
