@@ -8,8 +8,6 @@
     }
 ?>
 
-
-
 <?php $this->beginPage() ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
@@ -21,6 +19,7 @@
         <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"> 
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
+        <div><img src="https://mc.yandex.ru/watch/50670112" style="position:absolute; left:-9999px;" alt="" /></div>
         <?php $this->head() ?>
         
     </head>

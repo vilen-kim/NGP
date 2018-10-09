@@ -7,6 +7,20 @@
     <div class="col-sm-3">
         <h3>Наименование</h3>
         <div>Бюджетное учреждение Ханты-Мансийского автономного округа - Югры "Няганская городская поликлиника"</div>
+        <div style="margin-top: 10px;">
+            <?php
+                $url = 'https://metrika.yandex.ru/stat/?id=50670112&amp;from=informer';
+                $style = 'width: 88px; height: 31px; border: 0';
+                $src = 'https://informer.yandex.ru/informer/50670112/3_1_FFFFFFFF_EFEFEFFF_0_pageviews';
+                $img = Html::img($src, [
+                    'style'     => $style,
+                    'class'     => 'ym-advanced-informer',
+                    'data-cid'  => '50670112',
+                    'data-lang' => 'ru',
+                ]);
+                echo Html::a($img, $url);
+            ?>
+        </div>
     </div>
     
     <div class="col-sm-2">
