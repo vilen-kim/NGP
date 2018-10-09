@@ -13,7 +13,7 @@
         'brandLabel' => '8 (34672) 5-45-30',
         'brandUrl' => ['site/mobile-phone'],
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-default navbar-fixed-top',
         ],
     ]);
     echo Nav::widget([
