@@ -13,7 +13,6 @@
 "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
 <html lang="<?= Yii::$app->language ?>">
     <head>
-        <div><img src="https://mc.yandex.ru/watch/50670112" style="position:absolute; left:-9999px;" alt="" /></div>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
