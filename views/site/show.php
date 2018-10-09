@@ -32,7 +32,7 @@
     ?>
 </h1>
 
-<div class="container">
+<div id="site-show" class="container">
     
     <div class="text-justify">
         <?= $model->purified_text ?>

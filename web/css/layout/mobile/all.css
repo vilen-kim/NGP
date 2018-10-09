@@ -59,3 +59,7 @@ h3 {
     background-color: #008080;
     color: white;
 }
+
+#site-show img {
+    width: 100%;
+}
