@@ -27,7 +27,7 @@
         <?php $this->beginBody() ?>
 
         <div id="bottomHolder">
-            <div style="position: absolute; top: 83px; left: 0; width: 100%;" class="container">
+            <div style="position: absolute; top: 50px; left: 0; width: 100%;" class="container">
                 <?php
                     
                     if (!Yii::$app->mobileDetect->isMobile()){
@@ -57,13 +57,7 @@
             </div>
         </div>
         <div id="headerHolder">
-            <?php
-                if (!Yii::$app->mobileDetect->isMobile()){
-                    echo $this->render('./header');
-                } else {
-                    echo $this->render('./mobileHeader');
-                }
-            ?>
+            <?= $this->render('./header') ?>
         </div>
         <div id="forModal"></div>
 

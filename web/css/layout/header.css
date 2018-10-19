@@ -1,11 +1,13 @@
 #headerHolder {
-    height: 82px;
+    height: 50px;
     width: 100%;
     box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
 }
+
 header {
     height: 100%;
 }
+
 #headerSearchInput {
     position: absolute;
     margin-top: 6px;
@@ -18,13 +20,23 @@ header {
     display: none;
     
 }
+
+#headerPhone {
+    font-size: x-large;
+    font-weight: bold;
+    line-height: 42px;
+    margin-left: 40px;
+}
+
 #headerButtons > div {
     height: 100%;
     padding: 0px;
 }
+
 .showText {
     text-align: center;
 }
+
 .showText > a {
     position: absolute;
     width: 100%;
@@ -32,4 +44,30 @@ header {
     top: 0;
     left: 0;
     display: none;
+}
+
+nav.navbar {
+    background: lightgreen;
+    border: 0;
+}
+
+ul.navbar-nav a {
+    color: black !important;
+    text-decoration: none;
+    border: 0;
+    padding: 15px 12px;
+}
+
+ul.navbar-nav li {
+    padding: 0;
+    border: 0;
+}
+
+ul.navbar-nav li a:hover {
+    border-bottom: 1px solid black;
+}
+
+ul.navbar-nav li.active a {
+    background: white !important;
+    border: 0;
 }

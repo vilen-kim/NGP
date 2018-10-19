@@ -1,3 +1,7 @@
+:root {
+    --color: green; 
+}
+
 html, body {
     height: 100%;
     margin: 0;
@@ -10,7 +14,7 @@ html, body {
     position: absolute;
     top: 0;
     min-height: 100%;
-    padding-top: 160px;
+    padding-top: 130px;
     padding-bottom: 180px;
     width: 100%;
 }
