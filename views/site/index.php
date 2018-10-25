@@ -1,29 +1,67 @@
 <?php
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 if (!Yii::$app->mobileDetect->isMobile()){
     app\assets\SiteAsset::register($this);
 }
-$this->title = 'Последние новости';
+$this->title = 'Главная';
 ?>
 
 <!-- Эффект параллакса (только на десктопах) -->
 <?php
-    if (!Yii::$app->mobileDetect->isMobile() && !Yii::$app->session->get('eye')){
-        echo Html::beginTag('div', [
-            'class'               => 'parallax-window',
-            'data-parallax'       => 'scroll',
-            'data-image-src'      => '/images/backgrounds/parallax.jpg',
-            'data-natural-width'  => 1920,
-            'data-natural-height' => 1080,
-            'data-speed'          => 0.2,
-        ]);
-        echo Html::beginTag('div', ['id' => 'parallaxWhite']);
-    }
+    // if (!Yii::$app->mobileDetect->isMobile() && !Yii::$app->session->get('eye')){
+    //     echo Html::beginTag('div', [
+    //         'class'               => 'parallax-window',
+    //         'data-parallax'       => 'scroll',
+    //         'data-image-src'      => '/images/backgrounds/parallax.jpg',
+    //         'data-natural-width'  => 1920,
+    //         'data-natural-height' => 1080,
+    //         'data-speed'          => 0.2,
+    //     ]);
+    //     echo Html::beginTag('div', ['id' => 'parallaxWhite']);
+    // }
 ?>
+
+<div class="jumbotron">
+    Няганская городская поликлиника
+</div>
         
 <div id="site-index" class="container">
 
-    <h1><?= $this->title ?></h1>
+
+
+    <!-- Виджет вызова врача на дом -->
+    <div class="callDoctor">
+        <div class="col-sm-12" style="margin-bottom: 20px;">
+            <b>Показания для вызова врача-терапевта участкового:</b>
+            повышение температуры тела выше 38,2 &degС;
+            рвота, жидкий стул, боли в животе;
+            острая боль любой локализации;
+            болевой синдром у больных с ишемической болезнью сердца, состояние после пароксизмов нарушения ритма сердца, боли в сердце у больных с гипертонической болезнью и т.д.;
+            колебания артериального давления на фоне гипертонической болезни, атеросклероза, стрессовых состояний;
+            температура выше 38 &degC у парализованных больных и больных с хронической патологией.
+        </div>
+        <?php $form = ActiveForm::begin(['action' => ['site/call-doctor']]); ?>
+        <div class="col-sm-3">
+            <?= $form->field($model, 'fio')->textInput(['placeholder' => 'ФИО'])->label(false); ?>
+            <?= $form->field($model, 'phone')->textInput(['placeholder' => 'Номер телефона'])->label(false); ?>
+        </div>
+        <div class="col-sm-3">
+            <?= $form->field($model, 'address')->textInput(['placeholder' => 'Адрес'])->label(false); ?>
+            <?= $form->field($model, 'email')->textInput(['placeholder' => 'Электронная почта'])->label(false); ?>
+        </div>
+        <div class="col-sm-4">
+            <?= $form->field($model, 'text')->textarea(['placeholder' => 'Опишите самочувствие'])->label(false); ?>
+        </div>
+        <div class="col-sm-2" align="center">
+            <?= Html::submitButton('Отправить заявку', ['class' => 'btn btn-008080']) ?>
+        </div>
+        <?php ActiveForm::end() ?>
+    </div>
+
+
+
+    <h1>Последние новости</h1>
 
     <?php
 
@@ -84,8 +122,8 @@ $this->title = 'Последние новости';
 </div>
         
 <?php
-    if (!Yii::$app->mobileDetect->isMobile() && !Yii::$app->session->get('eye')){
-        echo Html::endTag('div');
-        echo Html::endTag('div');
-    }
+    // if (!Yii::$app->mobileDetect->isMobile() && !Yii::$app->session->get('eye')){
+    //     echo Html::endTag('div');
+    //     echo Html::endTag('div');
+    // }
 ?>

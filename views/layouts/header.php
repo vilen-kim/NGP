@@ -10,7 +10,7 @@
     <?php
     $img = Html::img('@web/images/logo_green.gif');
     NavBar::begin([
-        'brandLabel' => Html::img('@web/images/logo_green.gif', ['height' => '50px']),
+        'brandLabel' => Html::img('@web/images/logo.png', ['height' => '100px']),
         'brandUrl' => ['site/index'],
         'brandOptions' => ['style' => 'padding: 0'],
         'options' => [
@@ -25,11 +25,11 @@
         'items' => [
             ['label' => 'Главная', 'url' => ['site/index']],
             ['label' => 'Электронная регистратура', 'url' => 'https://er.dzhmao.ru/?setlocality=8600000500000'],
-            ['label' => 'Вызов врача на дом', 'url' => ['site/call-doctor']],
+            //['label' => 'Вызов врача на дом', 'url' => ['site/call-doctor']],
             ['label' => 'Регистрация обращения', 'url' => ['site/request']],
             ['label' => 'Меню', 'url' => ['site/menu']],
             [
-                'label' => Yii::$app->user->isGuest ? 'Вход' : 'Выход',
+                'label' => Yii::$app->user->isGuest ? 'Вход в личный кабинет' : 'Выход',
                 'url' => Yii::$app->user->isGuest ? ['auth/login'] : ['auth/logout']
             ],
         ],

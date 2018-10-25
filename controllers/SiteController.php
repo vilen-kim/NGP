@@ -35,6 +35,7 @@ class SiteController extends \yii\web\Controller {
 
 
     public function actionIndex() {
+        $model = new CallDoctor;
         $lastID = Pages::find()->select('id')->where(['in', 'category_id', [2, 3, 4]])->orderBy(['id' => SORT_DESC])->limit(5)->all();
         $items = null;
         foreach ($lastID as $id) {
@@ -44,6 +45,7 @@ class SiteController extends \yii\web\Controller {
         return $this->render('index', [
             'news' => $news,
             'banners' => $banners,
+            'model' => $model,
         ]);
     }
 
@@ -134,9 +136,7 @@ class SiteController extends \yii\web\Controller {
             $model->address = $auth->profile->address;
             $model->email = $auth->email;
         }
-        return $this->render('callDoctor', [
-            'model' => $model,
-        ]);
+        return $this->redirect(['site/index']);
     }
 
 

@@ -27,7 +27,7 @@
         <?php $this->beginBody() ?>
 
         <div id="bottomHolder">
-            <div style="position: absolute; top: 50px; left: 0; width: 100%;" class="container">
+            <div style="position: absolute; top: 100px; left: 0; width: 100%;" class="container">
                 <?php
                     
                     if (!Yii::$app->mobileDetect->isMobile()){
