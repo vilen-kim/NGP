@@ -3,3 +3,12 @@
     height: 1.5em;
     line-height: 1.2em;
 }
+
+ul.subMenu > div > a {
+	text-decoration: none;
+}
+
+ul.subMenu > div:hover {
+	border-bottom: 1px dotted black;
+	cursor: pointer;
+}

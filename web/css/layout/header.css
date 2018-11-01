@@ -1,11 +1,49 @@
 #headerHolder {
-    height: 82px;
+    height: 100px;
     width: 100%;
-    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
 }
+
 header {
     height: 100%;
 }
+
+nav.navbar {
+    --color: #28b44e;
+    --color2: #c6ffd6;
+    background: var(--color); /* Old browsers */
+    background: -moz-linear-gradient(top, var(--color) 0%, var(--color2) 60%, white 100%);
+    background: -webkit-linear-gradient(top, var(--color) 0%, var(--color2) 60%, white 100%);
+    background: linear-gradient(to bottom, var(--color) 0%, var(--color2) 60%, white 100%);
+    border: none;
+}
+
+ul.navbar-nav a {
+    color: black !important;
+    text-decoration: none;
+    font-size: 16px;
+    border: 0;
+    padding: 26px 12px 34px 12px;
+}
+
+ul.navbar-nav li#menu a {
+    color: red !important;
+    font-weight: bold;
+}
+
+ul.navbar-nav li a:hover {
+    border-bottom: 1px solid gray;
+}
+
+ul.navbar-nav li.active a {
+    background: white !important;
+    background: -moz-linear-gradient(top, white 0%, white 20%, transparent 100%) !important;
+    background: -webkit-linear-gradient(top, white 0%, white 20%, transparent 100%) !important;
+    background: linear-gradient(to bottom, white 0%, white 20%, transparent 100%) !important;
+    border: 0;
+}
+
+
+
 #headerSearchInput {
     position: absolute;
     margin-top: 6px;
@@ -18,13 +56,23 @@ header {
     display: none;
     
 }
+
+#headerPhone {
+    font-size: x-large;
+    font-weight: bold;
+    line-height: 68px;
+    margin-left: 40px;
+}
+
 #headerButtons > div {
     height: 100%;
     padding: 0px;
 }
+
 .showText {
     text-align: center;
 }
+
 .showText > a {
     position: absolute;
     width: 100%;
