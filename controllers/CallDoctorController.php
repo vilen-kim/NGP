@@ -85,6 +85,7 @@ class CallDoctorController extends Controller
         if ($callDoctor){
             $model = $this->findModel($callDoctor['id']);
             $model->comment .= '<br>' . $callDoctor['comment'];
+            $model->scenario = CallDoctor::SCENARIO_CLOSE;
             if ($model->save()){
                 Yii::$app->session->setFlash('success', "Комментарий был успешно добавлен.");
             } else {
