@@ -17,6 +17,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"> 
+        <link rel="icon" type="image/png" href="/icon96.png" sizes="96x96">
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <div><img src="https://mc.yandex.ru/watch/50670112" style="position:absolute; left:-9999px;" alt="" /></div>
@@ -27,7 +28,7 @@
         <?php $this->beginBody() ?>
 
         <div id="bottomHolder">
-            <div style="position: absolute; top: 100px; left: 0; width: 100%;" class="container">
+            <div style="position: absolute; top: 110px; left: 0; width: 100%;" class="container">
                 <?php
                     
                     if (!Yii::$app->mobileDetect->isMobile()){

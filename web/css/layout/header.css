@@ -20,8 +20,14 @@ nav.navbar {
 ul.navbar-nav a {
     color: black !important;
     text-decoration: none;
+    font-size: 16px;
     border: 0;
-    padding: 18px 12px;
+    padding: 26px 12px 34px 12px;
+}
+
+ul.navbar-nav li#menu a {
+    color: red !important;
+    font-weight: bold;
 }
 
 ul.navbar-nav li a:hover {
@@ -54,7 +60,7 @@ ul.navbar-nav li.active a {
 #headerPhone {
     font-size: x-large;
     font-weight: bold;
-    line-height: 62px;
+    line-height: 68px;
     margin-left: 40px;
 }
 

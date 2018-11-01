@@ -126,6 +126,7 @@ class SiteController extends \yii\web\Controller {
             } else {
                 Yii::$app->session->setFlash('danger', 'При отправке заявки возникла ошибка. Пожалуйста, повторите позже.');
             }
+            return $this->redirect(['site/index']);
         }
 
         if (!Yii::$app->user->isGuest){
@@ -136,7 +137,11 @@ class SiteController extends \yii\web\Controller {
             $model->address = $auth->profile->address;
             $model->email = $auth->email;
         }
-        return $this->redirect(['site/index']);
+
+        return $this->render('callDoctor', [
+            'model' => $model,
+        ]);
+        
     }
 
 

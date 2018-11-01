@@ -9,8 +9,9 @@
 
     <?php
     $img = Html::img('@web/images/logo_green.gif');
+    $height = (Yii::$app->mobileDetect->isMobile()) ? '50px' : '110px';
     NavBar::begin([
-        'brandLabel' => Html::img('@web/images/logo.png', ['height' => '100px']),
+        'brandLabel' => Html::img('@web/images/logo.png', ['height' => $height]),
         'brandUrl' => ['site/index'],
         'brandOptions' => ['style' => 'padding: 0'],
         'options' => [
@@ -24,10 +25,10 @@
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Главная', 'url' => ['site/index']],
+            ['label' => 'Меню', 'url' => ['site/menu'], 'options' => ['id' => 'menu']],
             ['label' => 'Электронная регистратура', 'url' => 'https://er.dzhmao.ru/?setlocality=8600000500000'],
-            //['label' => 'Вызов врача на дом', 'url' => ['site/call-doctor']],
+            ['label' => 'Вызов врача на дом', 'url' => ['site/call-doctor'], 'visible' => (!Yii::$app->mobileDetect->isMobile()) ? false : true],
             ['label' => 'Регистрация обращения', 'url' => ['site/request']],
-            ['label' => 'Меню', 'url' => ['site/menu']],
             [
                 'label' => Yii::$app->user->isGuest ? 'Вход в личный кабинет' : 'Выход',
                 'url' => Yii::$app->user->isGuest ? ['auth/login'] : ['auth/logout']
