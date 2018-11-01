@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use himiklab\yii2\recaptcha\ReCaptcha;
 $this->title = 'Вызов врача на дом';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -30,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             echo $form->field($model, 'address')->textInput(['placeholder' => 'Адрес'])->label(false);
             echo $form->field($model, 'email')->textInput(['placeholder' => 'Электронная почта'])->label(false);
             echo $form->field($model, 'text')->textarea(['placeholder' => 'Опишите самочувствие'])->label(false);
+            echo $form->field($model, 'reCaptcha')->widget(ReCaptcha::className())->label(false);
         ?>
         
         <div align="center">
