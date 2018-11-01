@@ -57,10 +57,7 @@ $("#emptyPage").on("click", function(){
 })
 
 
-$("ul.ui-sortable span[data-id]").hover(
-function(){
-    alert("hello");
-},
-function(){
-
+$("ul.subMenu > div").on("click", function(){
+    var id = $(this).children("span").data("id");
+    console.log(id);
 });
