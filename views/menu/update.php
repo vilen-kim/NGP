@@ -12,6 +12,17 @@
 <h1><?= $this->title ?></h1>
 
 <div class="container">
+    
+    <div style="margin-bottom: 20px">
+        <?= Html::a('Удалить элемент меню', ['menu/delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'method' => 'post',
+                'confirm' => 'Вы уверены что хотите удалить это меню? Все подменю также будут удалены.',
+            ]
+        ]) ?>
+    </div>
+
     <div class="col-sm-6 col-sm-offset-3 border">
 
         <?php
