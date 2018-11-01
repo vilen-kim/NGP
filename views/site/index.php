@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use himiklab\yii2\recaptcha\ReCaptcha;
 if (!Yii::$app->mobileDetect->isMobile()){
     app\assets\SiteAsset::register($this);
 }
@@ -34,7 +35,7 @@ $this->title = 'Няганская городская поликлиника';
     <!-- Виджет вызова врача на дом (только десктоп) -->
     <?php if (!Yii::$app->mobileDetect->isMobile()){ ?>
         <div class="callDoctor">
-            <div class="col-sm-12" style="margin-bottom: 20px;">
+            <div class="col-sm-12 text-justify" style="margin-bottom: 20px;">
                 <b>Показания для вызова врача-терапевта участкового:</b>
                 повышение температуры тела выше 38,2 &degС;
                 рвота, жидкий стул, боли в животе;
@@ -43,20 +44,36 @@ $this->title = 'Няганская городская поликлиника';
                 колебания артериального давления на фоне гипертонической болезни, атеросклероза, стрессовых состояний;
                 температура выше 38 &degC у парализованных больных и больных с хронической патологией.
             </div>
-            <?php $form = ActiveForm::begin(['action' => ['site/call-doctor']]); ?>
-            <div class="col-sm-3">
-                <?= $form->field($model, 'fio')->textInput(['placeholder' => 'ФИО'])->label(false); ?>
-                <?= $form->field($model, 'phone')->textInput(['placeholder' => 'Номер телефона'])->label(false); ?>
+            <?php $form = ActiveForm::begin([
+                'action' => ['site/call-doctor'],
+                'fieldConfig' => [
+                    'template' => "{input}",
+                ],
+            ]); ?>
+            <div class="col-sm-12">
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'fio')->textInput(['placeholder' => 'ФИО'])->label(false); ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'phone')->textInput(['placeholder' => 'Номер телефона'])->label(false); ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'address')->textInput(['placeholder' => 'Адрес'])->label(false); ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'email')->textInput(['placeholder' => 'Электронная почта'])->label(false); ?>
+                </div>
             </div>
-            <div class="col-sm-3">
-                <?= $form->field($model, 'address')->textInput(['placeholder' => 'Адрес'])->label(false); ?>
-                <?= $form->field($model, 'email')->textInput(['placeholder' => 'Электронная почта'])->label(false); ?>
-            </div>
-            <div class="col-sm-4">
-                <?= $form->field($model, 'text')->textarea(['placeholder' => 'Опишите самочувствие'])->label(false); ?>
-            </div>
-            <div class="col-sm-2" align="center">
-                <?= Html::submitButton('Отправить заявку', ['class' => 'btn btn-008080']) ?>
+            <div class="col-sm-12">
+                <div class="col-sm-6">
+                    <?= $form->field($model, 'text')->textarea(['placeholder' => 'Опишите самочувствие'])->label(false); ?>
+                </div>
+                <div class="col-sm-4">
+                    <?= $form->field($model, 'reCaptcha')->widget(ReCaptcha::className())->label(false); ?>
+                </div>
+                <div class="col-sm-2" align="center">
+                    <?= Html::submitButton('Отправить заявку', ['class' => 'btn btn-008080']) ?>
+                </div>
             </div>
             <?php ActiveForm::end() ?>
         </div>

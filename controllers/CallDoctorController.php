@@ -55,6 +55,7 @@ class CallDoctorController extends Controller
     public function actionWorking($id){
         $model = $this->findModel($id);
         if ($model){
+            $model->scenario = CallDoctor::SCENARIO_CLOSE;
             $model->touch('dateWorking');
             $model->doctor_id = Yii::$app->user->id;
             $model->closed = true;

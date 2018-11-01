@@ -5,11 +5,14 @@ namespace app\models;
 use Yii;
 use yii\helpers\Html;
 use yii\behaviors\TimestampBehavior;
+use himiklab\yii2\recaptcha\ReCaptchaValidator;
 use yii\db\ActiveRecord;
 
 class CallDoctor extends \yii\db\ActiveRecord
 {
 
+    public $reCaptcha;
+    const SCENARIO_CLOSE = 'close';
 
     public static function tableName()
     {
@@ -42,6 +45,9 @@ class CallDoctor extends \yii\db\ActiveRecord
             [['address'], 'string', 'max' => 512],
             [['auth_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['auth_id' => 'id']],
             [['doctor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auth::className(), 'targetAttribute' => ['doctor_id' => 'id']],
+            [['reCaptcha'], ReCaptchaValidator::className(), 'secret' => Yii::$app->reCaptcha->secret,
+                'uncheckedMessage' => 'Подтвердите, что Вы не бот.', 'except' => self::SCENARIO_CLOSE,
+            ],
         ];
     }
 
