@@ -17,11 +17,15 @@
 
 .callDoctor {
 	margin-top: -80px;
-	height: 210px;
+	height: 255px;
 	padding: 10px;
 	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 	background: rgba(40, 180, 78, 0.7);
 	border-radius: 4px;
+}
+
+.callDoctor .has-error > *::placeholder {
+	color: #700;
 }
 
 #site-index > div.news > div.row {
