@@ -36,6 +36,14 @@ class SiteController extends \yii\web\Controller {
 
     public function actionIndex() {
         $model = new CallDoctor;
+        if (!Yii::$app->user->isGuest){
+            $auth = Auth::findOne(Yii::$app->user->id);
+            $model->auth_id = $auth->id;
+            $model->fio = $auth->fio;
+            $model->phone = $auth->profile->phone;
+            $model->address = $auth->profile->address;
+            $model->email = $auth->email;
+        }
         $lastID = Pages::find()->select('id')->where(['in', 'category_id', [2, 3, 4]])->orderBy(['id' => SORT_DESC])->limit(5)->all();
         $items = null;
         foreach ($lastID as $id) {
