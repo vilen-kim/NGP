@@ -102,7 +102,7 @@ class CallDoctor extends \yii\db\ActiveRecord
     public function getRegistrator()
     {
         $registrator = '';
-        $registrator .= $this->dateWorking ? Yii::$app->formatter->asDate($this->dateWorking) . '<br>' : '';
+        $registrator .= $this->dateWorking ? Yii::$app->formatter->asDateTime($this->dateWorking) . '<br>' : '';
         $registrator .= $this->doctor ? Html::a($this->doctor->fio, ['auth/view', 'id' => $this->doctor->id]) . '<br>' : '';
         $registrator .= $this->comment ? $this->comment . '<br>' : '';
         return $registrator;
