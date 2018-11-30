@@ -38,12 +38,12 @@
                 'id' => 'letter-form',
             ]);
                 echo Html::label('Кому Вы направляете обращение', 'executive_id', ['class' => 'control-label']);
-                echo Html::radioList('typeExecutive', 'fio', $radioArray, [
+                echo Html::radioList('typeExecutive', 'organization', $radioArray, [
                     'item' => function($index, $label, $name, $checked, $value) {
                         return '<div class="radio"><label>' . Html::radio($name, $checked, ['value' => $value]) . $label . '</label></div>';
                     },
                 ]);
-                echo $mainForm->field($letter, 'request_auth_id')->dropDownList($executiveArray, ['id' => 'executive_id']);
+                echo $mainForm->field($letter, 'request_auth_id')->dropDownList($executiveArray, ['id' => 'executive_id', 'disabled' => true]);
                 echo $mainForm->field($letter, 'request_text')->textarea(['rows' => 6]);
                 echo $mainForm->field($letter, 'reCaptcha')->widget(ReCaptcha::className())->label(false);
             ActiveForm::end();

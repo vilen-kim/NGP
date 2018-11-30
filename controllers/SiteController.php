@@ -206,9 +206,9 @@ class SiteController extends \yii\web\Controller {
         $letter = new RequestForm;
 
         $radioArray = [
+            'organization' => 'БУ ХМАО-Югры "Няганская городская поликлиника"',
             'fio' => 'Фамилия, имя, отчество должностного лица',
             'position' => 'Должность должностного лица',
-            'organization' => 'БУ ХМАО-Югры "Няганская городская поликлиника"',
         ];
         Yii::$app->session->remove('authors');
         if (Yii::$app->user->can('user')) {

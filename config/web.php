@@ -15,6 +15,7 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'language' => 'ru-RU',
+    'timeZone' => 'UTC',
     'components' => [
         'request' => [
             'cookieValidationKey' => 'BcTcGa8D7GXFw119IC42bFNTURoUsOY-',
@@ -46,6 +47,7 @@ $config = [
             'messageConfig' => [
                'from' => 'noreply@nyagangp.ru',
             ],
+            // 'useFileTransport' => true,
         ],
         'reCaptcha' => [
             'name' => 'reCaptcha',
@@ -62,6 +64,13 @@ $config = [
                     'maxLogFiles' => 10
                 ],
             ],
+        ],
+        'formatter' => [
+               'class' => 'yii\i18n\Formatter',
+               'timeZone' => 'Etc/GMT-5',
+               'dateFormat' => 'php:d.m.Y',
+               'datetimeFormat' => 'php:d.m.Y H:i:s',
+               'timeFormat' => 'H:i:s', 
         ],
         'db' => $db,
         'baseUrl' => '',

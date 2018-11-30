@@ -25,10 +25,10 @@
                     }
                 ],
                 [
-                    'label' => 'Дата заявки',
+                    'label' => 'Время заявки',
                     'attribute' => 'dateRequest',
-                    'format' => 'date',
-                    'headerOptions' => ['style' => 'width: 110px;'],
+                    'format' => 'datetime',
+                    'headerOptions' => ['style' => 'width: 120px;'],
                 ],
                 'patient:raw:Пациент',
                 [

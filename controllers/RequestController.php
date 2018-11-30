@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
+use yii\base\Exception;
 use app\models\forms\AuthorForm;
 use app\models\forms\AnswerForm;
 use app\models\forms\RequestForm;
@@ -353,6 +354,8 @@ class RequestController extends \yii\web\Controller {
     public function actionCreateRequestAndAuthors() {
         $author = new AuthorForm;
         $request = new RequestForm;
+        $priemAuth = Auth::findByEmail(Yii::$app->params['priemEmail']);
+        $priemID = $priemAuth->id;
 
         if ($request->load(Yii::$app->request->post()) && $author->load(Yii::$app->request->post())) {
             $countAuthors = 0;
@@ -362,6 +365,11 @@ class RequestController extends \yii\web\Controller {
                 $authors[] = $author;
             } else if (!is_array($authors)) {
                 return false;
+            }
+
+            // Если отправка на БУ, то выбираем пользователя с email priem@nyagangp.ru
+            if (Yii::$app->request->post('typeExecutive') == 'organization'){
+                $request->request_auth_id = $priemID;
             }
 
             $transaction = Yii::$app->db->beginTransaction();
