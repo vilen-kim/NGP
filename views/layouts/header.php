@@ -23,15 +23,40 @@
     echo Html::a('8 (34672) 5-45-30', $url, ['id' => 'headerPhone', 'class' => 'dot']);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels' => false,
         'items' => [
-            ['label' => 'Главная', 'url' => ['site/index']],
-            ['label' => 'Меню', 'url' => ['site/menu'], 'options' => ['id' => 'menu']],
-            ['label' => 'Электронная регистратура', 'url' => 'https://er.dzhmao.ru/?setlocality=8600000500000'],
-            ['label' => 'Вызов врача на дом', 'url' => ['site/call-doctor'], 'visible' => (!Yii::$app->mobileDetect->isMobile()) ? false : true],
-            ['label' => 'Регистрация обращения', 'url' => ['site/request']],
             [
-                'label' => Yii::$app->user->isGuest ? 'Вход в личный кабинет' : 'Выход',
-                'url' => Yii::$app->user->isGuest ? ['auth/login'] : ['auth/logout']
+                'label' => 'Главная',
+                'url' => ['site/index'],
+                'options' => !Yii::$app->mobileDetect->isMobile() ? ['style' => 'padding-top: 10px'] : [],
+            ],
+            [
+                'label' => 'Меню',
+                'url' => ['site/menu'],
+                'options' => ['id' => 'menu', 'style' => !Yii::$app->mobileDetect->isMobile() ? 'padding-top: 10px' : ''],
+            ],
+            [
+                'label' => (!Yii::$app->mobileDetect->isMobile()) ? 'Электронная<br>регистратура' : 'Электронная регистратура',
+                'url' => 'https://er.dzhmao.ru/?setlocality=8600000500000',
+            ],
+            [
+                'label' => 'Вызов врача на дом',
+                'url' => ['site/call-doctor'],
+                'visible' => (!Yii::$app->mobileDetect->isMobile()) ? false : true,
+            ],
+            [
+                'label' => (!Yii::$app->mobileDetect->isMobile()) ? 'Регистрация<br>обращения' : 'Регистрация обращения',
+                'url' => ['site/request'],
+            ],
+            [
+                'label' => (!Yii::$app->mobileDetect->isMobile()) ? 'Версия для<br>слабовидящих' : 'Версия для слабовидящих',
+                'url' => ['site/eye-on'],
+            ],
+            [
+                'label' => Yii::$app->user->isGuest ? 
+                            (!Yii::$app->mobileDetect->isMobile()) ? 'Вход в<br>личный кабинет' : 'Вход в личный кабинет' :
+                            'Выход',
+                'url' => Yii::$app->user->isGuest ? ['auth/login'] : ['auth/logout'],
             ],
         ],
     ]);
