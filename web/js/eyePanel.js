@@ -4,7 +4,7 @@ $("#eyePanel #fontSizeDown").on("click", function(){
         "transition": "1s",
         "font-size": fontSize + "px",
     });
-    $.post("/site/eye-on", {fontSize: fontSize + "px"});
+    $.post("/site/eye-change", {fontSize: fontSize + "px"});
     return false;
 })
 
@@ -16,7 +16,7 @@ $("#eyePanel #fontSizeUp").on("click", function(){
         "transition": "1s",
         "font-size": fontSize + "px",
     });
-    $.post("/site/eye-on", {fontSize: fontSize + "px"});
+    $.post("/site/eye-change", {fontSize: fontSize + "px"});
     return false;
 })
 
@@ -33,7 +33,7 @@ $("#eyePanel #whiteOnBlack").on("click", function(){
         "color": "white",
         "background": "black",
     });
-    $.post("/site/eye-on", {background: "black", color: "white", link: "cyan"});
+    $.post("/site/eye-change", {background: "black", color: "white", link: "cyan"});
     return false;
 })
 
@@ -50,7 +50,7 @@ $("#eyePanel #whiteOnBrown").on("click", function(){
         "color": "white",
         "background": "brown",
     });
-    $.post("/site/eye-on", {background: "brown", color: "white", link: "black"});
+    $.post("/site/eye-change", {background: "brown", color: "white", link: "black"});
     return false;
 })
 
@@ -67,7 +67,7 @@ $("#eyePanel #whiteOnGray").on("click", function(){
         "color": "white",
         "background": "gray",
     });
-    $.post("/site/eye-on", {background: "gray", color: "white", link: "black"});
+    $.post("/site/eye-change", {background: "gray", color: "white", link: "black"});
     return false;
 })
 
@@ -84,7 +84,7 @@ $("#eyePanel #blackOnWhite").on("click", function(){
         "color": "black",
         "background": "white",
     });
-    $.post("/site/eye-on", {background: "white", color: "black", link: "darkblue"});
+    $.post("/site/eye-change", {background: "white", color: "black", link: "darkblue"});
     return false;
 })
 
@@ -101,7 +101,7 @@ $("#eyePanel #blackOnBrown").on("click", function(){
         "color": "black",
         "background": "brown",
     });
-    $.post("/site/eye-on", {background: "brown", color: "black", link: "cyan"});
+    $.post("/site/eye-change", {background: "brown", color: "black", link: "cyan"});
     return false;
 })
 
@@ -118,6 +118,6 @@ $("#eyePanel #blackOnGray").on("click", function(){
         "color": "black",
         "background": "gray",
     });
-    $.post("/site/eye-on", {background: "gray", color: "black", link: "darkblue"});
+    $.post("/site/eye-change", {background: "gray", color: "black", link: "darkblue"});
     return false;
 })

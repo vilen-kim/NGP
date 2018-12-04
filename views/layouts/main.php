@@ -65,7 +65,7 @@
 </html>
 <?php $this->endPage();
 
-$css = Yii::$app->session->get('css');
+$css = Yii::$app->session->get('cssText');
 if ($css){
     echo Html::tag('style', $css);
 }

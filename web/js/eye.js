@@ -4,7 +4,6 @@ $("#headerEye").click(function(){
         $.ajax({
             url: '/site/eye-on',
             type: 'POST',
-            data: {background: "black", color: "white", link: "cyan", fontSize: "16px"},
             success: function(data){
                 if (data){
                     $("#headerEye").removeClass('toOn').addClass('toOff');
@@ -35,7 +34,7 @@ function eyeChange(){
         "transition": "1s",
         "background": "black",
         "color": "white",
-        "font-size": "+=2",
+        "font-size": "16px",
     });
     $("#bottomHolder a").css({
         "transition": "1s",
