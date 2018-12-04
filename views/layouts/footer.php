@@ -59,6 +59,9 @@
         <div>
             e-mail: <?= Html::mailto('priem@nyagangp.ru') ?>
         </div>
+        <div>
+            Центр лекарственного мониторинга:<br><b>8(3462)355-461, 345-484</b>
+        </div>
     </div>
     
 </footer>
