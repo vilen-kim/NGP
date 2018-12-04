@@ -9,7 +9,7 @@
 
     <?php
     $img = Html::img('@web/images/logo_green.gif');
-    $height = (Yii::$app->mobileDetect->isMobile()) ? '50px' : '110px';
+    $height = Yii::$app->mobileDetect->isMobile() ? '50px' : '110px';
     NavBar::begin([
         'brandLabel' => Html::img('@web/images/logo.png', ['height' => $height]),
         'brandUrl' => ['site/index'],
@@ -18,8 +18,8 @@
             'class' => 'navbar-default navbar-fixed-top',
         ],
     ]);
-    
-    $url = (!Yii::$app->mobileDetect->isMobile()) ? '' : ['site/mobile-phone'];
+
+    $url = !Yii::$app->mobileDetect->isMobile() ? '' : ['site/mobile-phone'];
     echo Html::a('8 (34672) 5-45-30', $url, ['id' => 'headerPhone', 'class' => 'dot']);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -36,25 +36,27 @@
                 'options' => ['id' => 'menu', 'style' => !Yii::$app->mobileDetect->isMobile() ? 'padding-top: 10px' : ''],
             ],
             [
-                'label' => (!Yii::$app->mobileDetect->isMobile()) ? 'Электронная<br>регистратура' : 'Электронная регистратура',
+                'label' => !Yii::$app->mobileDetect->isMobile() ? 'Электронная<br>регистратура' : 'Электронная регистратура',
                 'url' => 'https://er.dzhmao.ru/?setlocality=8600000500000',
             ],
             [
                 'label' => 'Вызов врача на дом',
                 'url' => ['site/call-doctor'],
-                'visible' => (!Yii::$app->mobileDetect->isMobile()) ? false : true,
+                'visible' => !Yii::$app->mobileDetect->isMobile() ? false : true,
             ],
             [
-                'label' => (!Yii::$app->mobileDetect->isMobile()) ? 'Регистрация<br>обращения' : 'Регистрация обращения',
+                'label' => !Yii::$app->mobileDetect->isMobile() ? 'Регистрация<br>обращения' : 'Регистрация обращения',
                 'url' => ['site/request'],
             ],
             [
-                'label' => (!Yii::$app->mobileDetect->isMobile()) ? 'Версия для<br>слабовидящих' : 'Версия для слабовидящих',
-                'url' => ['site/eye-on'],
+                'label' => isset(Yii::$app->session['eye']) ? 'Обычный<br>режим' : 'Версия для<br>слабовидящих',
+                'url' => '#',
+                'visible' => !Yii::$app->mobileDetect->isMobile() ? true : false,
+                'options' => ['id' => 'headerEye', 'class' => isset(Yii::$app->session['eye']) ? 'toOff' : 'toOn'],
             ],
             [
                 'label' => Yii::$app->user->isGuest ? 
-                            (!Yii::$app->mobileDetect->isMobile()) ? 'Вход в<br>личный кабинет' : 'Вход в личный кабинет' :
+                            !Yii::$app->mobileDetect->isMobile() ? 'Вход в<br>личный кабинет' : 'Вход в личный кабинет' :
                             'Выход',
                 'url' => Yii::$app->user->isGuest ? ['auth/login'] : ['auth/logout'],
             ],

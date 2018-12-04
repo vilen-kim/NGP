@@ -1,3 +1,19 @@
-html, body {
-    font-size: 18px;
+#eyePanel {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	background: white;
+	border: 1px solid lightgray;
+	width: 310px;
+	height: 45px;
+	border-radius: 4px;
+	z-index: 999;
+	padding: 0px 15px;
+}
+#eyePanel > div {
+	float: left;
+	margin-right: 15px;
+}
+#eyePanel > div:last-child {
+	margin-right: 0;
 }

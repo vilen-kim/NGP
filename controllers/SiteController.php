@@ -105,10 +105,75 @@ class SiteController extends \yii\web\Controller {
 
 
     public function actionEyeOn() {
+        $css = [
+            'body' => [
+                'transition' => '1s',
+                'background' => 'black',
+                'color' => 'white',
+                'fontSize' => '16px',
+            ],
+            'ul.breadcrumb' => [
+                'transition' => '1s',
+                'background' => 'black',
+                'color' => 'white',
+            ],
+            'div.callDoctor' => [
+                'transition' => '1s',
+                'background' => 'black',
+                'color' => 'white',
+            ],
+            '#modalDoctor .modal-header; #modalDoctor .modal-body' => [
+                'transition' => '1s',
+                'background' => 'black',
+                'color' => 'white',
+            ],
+            '#bottomHolder a' => [
+                'transition' => '1s',
+                'background' => 'none',
+                'color' => 'cyan',
+            ],
+            '#eyePanel' => [
+                'transition' => '1s',
+                'top' => '70px',
+            ]
+        ];
         $session = Yii::$app->session;
         $session->open();
         $session->set('eye', True);
+        $session->set('css', $css);
+        $session->set('cssText', $this->cssTransform($css));
         return true;
+    }
+
+
+
+    public function actionEyeChange() {
+        $post = Yii::$app->request->post();
+        $css = Yii::$app->session->get('css');
+
+        if (isset($post['background'])){
+            $css['body']['background'] = $post['background'];
+            $css['ul.breadcrumb']['background'] = $post['background'];
+            $css['div.callDoctor']['background'] = $post['background'];
+            $css['#modalDoctor .modal-header; #modalDoctor .modal-body']['background'] = $post['background'];
+        }
+        if (isset($post['color'])){
+            $css['body']['color'] = $post['color'];
+            $css['ul.breadcrumb']['color'] = $post['color'];
+            $css['div.callDoctor']['color'] = $post['color'];
+            $css['#modalDoctor .modal-header; #modalDoctor .modal-body']['color'] = $post['color'];
+        }
+        if (isset($post['link'])){
+            $css['#bottomHolder a']['color'] = $post['link'];
+        }
+        if (isset($post['fontSize'])){
+            $css['body']['font-size'] = $post['fontSize'];
+        }
+        
+        $session = Yii::$app->session;
+        $session->open();
+        $session->set('css', $css);
+        $session->set('cssText', $this->cssTransform($css));
     }
 
 
@@ -117,7 +182,23 @@ class SiteController extends \yii\web\Controller {
         $session = Yii::$app->session;
         $session->open();
         $session->remove('eye');
+        $session->remove('css');
+        $session->remove('cssText');
         return true;
+    }
+
+
+
+    private function cssTransform($css) {
+        $result = null;
+        foreach($css as $key => $value){
+            if (is_array($value)){
+                $result .= "$key { " . $this->cssTransform($value) . " } ";
+            } else {
+                $result .= "$key: $value;";
+            }
+        }
+        return $result;
     }
 
 
