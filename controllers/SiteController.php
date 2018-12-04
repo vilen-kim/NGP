@@ -105,9 +105,36 @@ class SiteController extends \yii\web\Controller {
 
 
     public function actionEyeOn() {
+        $post = Yii::$app->request->post();
+        $css = Yii::$app->session->get('css');
+
+        if (isset($post['background'])){
+            $css['body']['background'] = $post['background'];
+            $css['ul.breadcrumb']['background'] = $post['background'];
+            $css['div.callDoctor']['background'] = $post['background'];
+            $css['#modalDoctor .modal-header; #modalDoctor .modal-body']['background'] = $post['background'];
+        }
+        if (isset($post['color'])){
+            $css['body']['color'] = $post['color'];
+            $css['ul.breadcrumb']['color'] = $post['color'];
+            $css['div.callDoctor']['color'] = $post['color'];
+            $css['#modalDoctor .modal-header; #modalDoctor .modal-body']['color'] = $post['color'];
+        }
+        if (isset($post['link'])){
+            $css['#bottomHolder a']['color'] = $post['link'];
+        }
+        if (isset($post['fontSize'])){
+            $css['body']['font-size'] = $post['fontSize'];
+        }
+        $css['#bottomHolder a']['background'] = 'none';
+        $css['#eyePanel']['top'] = '70px';
+        
         $session = Yii::$app->session;
         $session->open();
         $session->set('eye', True);
+        $session->set('css', $css);
+
+        var_dump($css);
         return true;
     }
 
@@ -117,6 +144,7 @@ class SiteController extends \yii\web\Controller {
         $session = Yii::$app->session;
         $session->open();
         $session->remove('eye');
+        $session->remove('css');
         return true;
     }
 

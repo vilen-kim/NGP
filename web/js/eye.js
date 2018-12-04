@@ -1,31 +1,64 @@
-$("#headerEye.toOn").click(function(){
-    $.ajax({
-        url: '/site/eye-on',
-        type: 'POST',
-        data: 'eye-on',
-        success: function(data){
-            if (data){
-                $("#headerEye").addClass('toOff').removeClass('toOn');
-                location.reload();
-            };
-        }
-    });
+$("#headerEye").click(function(){
+    eyeClass = $(this).attr("class");
+    if (eyeClass == "toOn"){
+        $.ajax({
+            url: '/site/eye-on',
+            type: 'POST',
+            data: {background: "black", color: "white", link: "cyan", fontSize: "16px"},
+            success: function(data){
+                if (data){
+                    $("#headerEye").removeClass('toOn').addClass('toOff');
+                    $("#headerEye a").html("Обычный<br>режим");
+                    eyeChange();
+                };
+            }
+        });
+    } else {
+        $.ajax({
+            url: '/site/eye-off',
+            type: 'POST',
+            data: 'eye-off',
+            success: function(data){
+                if (data){
+                    $("#headerEye").addClass('toOn').removeClass('toOff');
+                    location.reload();
+                };
+            }
+        });
+    }
     return false;
 });
 
 
-
-$("#headerEye.toOff").click(function(){
-    $.ajax({
-        url: '/site/eye-off',
-        type: 'POST',
-        data: 'eye-off',
-        success: function(data){
-            if (data){
-                $("#headerEye").addClass('toOn').removeClass('toOff');
-                location.reload();
-            };
-        }
+function eyeChange(){
+    $("body").css({
+        "transition": "1s",
+        "background": "black",
+        "color": "white",
+        "font-size": "+=2",
     });
-    return false;
-});
+    $("#bottomHolder a").css({
+        "transition": "1s",
+        "background": "none",
+        "color": "cyan",
+    });
+    $("ul.breadcrumb").css({
+       "transition": "1s",
+        "background": "black",
+        "border": "1px solid gray",
+    });
+    $("div.callDoctor").css({
+        "transition": "1s",
+        "background": "black",
+        "border": "1px solid gray",
+    });
+    $("#modalDoctor .modal-header, #modalDoctor .modal-body").css({
+        "transition": "1s",
+        "background": "black",
+        "border": "1px solid gray",
+    });
+    $("#eyePanel").css({
+        "transition": "1s",
+        "top": "70px",
+    });
+}

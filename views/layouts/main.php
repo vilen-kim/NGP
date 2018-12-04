@@ -22,11 +22,12 @@
         <title><?= Html::encode($this->title) ?></title>
         <div><img src="https://mc.yandex.ru/watch/50670112" style="position:absolute; left:-9999px;" alt="" /></div>
         <?php $this->head() ?>
-        
     </head>
     <body>
         <?php $this->beginBody() ?>
 
+        <?= $this->render('./eyePanel') ?>
+        
         <div id="bottomHolder">
             <div style="position: absolute; top: 110px; left: 0; width: 100%;" class="container">
                 <?php
@@ -47,9 +48,6 @@
                         echo html::endTag('div');
                     };
 
-                    if (Yii::$app->session->get('eye')){
-                        echo $this->render('./eyePanel');
-                    }
                 ?>
             </div>
             <?= $content ?>
@@ -66,3 +64,8 @@
     </body>
 </html>
 <?php $this->endPage();
+
+$css = Yii::$app->session->get('css');
+if ($css){
+    echo Html::tag('style', $css);
+}
