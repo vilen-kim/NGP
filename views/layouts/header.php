@@ -7,6 +7,13 @@
 
 <header class="container" id="header">
 
+    <!-- Украшение на Новый Год -->
+    <div id="garland" class="garland_4">
+        <div id="nums_1">1</div>
+    </div>
+
+
+
     <?php
     $img = Html::img('@web/images/logo_green.gif');
     $height = Yii::$app->mobileDetect->isMobile() ? '50px' : '110px';

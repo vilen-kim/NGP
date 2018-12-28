@@ -12,9 +12,11 @@ class MobileAppAsset extends AssetBundle {
         'css/layout/mobile/all.css',
         'css/layout/mobile/footer.css',
         'css/layout/mobile/hover.css',
+        'css/layout/ny2018.css',
     ];
     public $js = [
         'js/yandex.js',
+        'js/ny2018.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
