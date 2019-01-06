@@ -7,6 +7,7 @@ $vk = require __DIR__ . '/vk.php';
 $pdf = require __DIR__ . '/pdf.php';
 $cookie = require __DIR__ . '/cookie.php';
 $mailer = require __DIR__ . '/mailer.php';
+$recaptcha = require __DIR__ . '/recaptcha.php';
 
 $config = [
     'id' => 'basic',
@@ -37,12 +38,7 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mailer' => $mailer,
-        'reCaptcha' => [
-            'name' => 'reCaptcha',
-            'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
-            'siteKey' => '6LdBzTkUAAAAAMUncb8Hf9kT-0XFK_NSTaBs-K5f',
-            'secret' => '6LdBzTkUAAAAAOgWZ4eLzEbwhGa7xO6cAmEgS_AM',
-        ],
+        'reCaptcha' => $recaptcha,
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
