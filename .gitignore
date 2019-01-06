@@ -43,3 +43,4 @@ public_html
 /config/vk.php
 /config/cookie.php
 /config/mailer.php
+/config/recaptcha.php

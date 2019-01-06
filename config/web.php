@@ -37,12 +37,7 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mailer' => $mailer,
-        'reCaptcha' => [
-            'name' => 'reCaptcha',
-            'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
-            'siteKey' => '6LdBzTkUAAAAAMUncb8Hf9kT-0XFK_NSTaBs-K5f',
-            'secret' => '6LdBzTkUAAAAAOgWZ4eLzEbwhGa7xO6cAmEgS_AM',
-        ],
+        'reCaptcha' => $recaptcha,
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
