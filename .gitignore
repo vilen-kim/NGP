@@ -32,9 +32,14 @@ tests/_support/_generated
 #vagrant folder
 /.vagrant
 
-/config/db.php
+
 /web/files/*
-/config/vk.php
 /web/pdf/
-public_html
 /web/images/banners/*
+public_html
+
+
+/config/db.php
+/config/vk.php
+/config/cookie.php
+/config/mailer.php

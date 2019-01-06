@@ -5,6 +5,8 @@ $db = require __DIR__ . '/db.php';
 $url = require __DIR__ . '/url.php';
 $vk = require __DIR__ . '/vk.php';
 $pdf = require __DIR__ . '/pdf.php';
+$cookie = require __DIR__ . '/cookie.php';
+$mailer = require __DIR__ . '/mailer.php';
 
 $config = [
     'id' => 'basic',
@@ -18,7 +20,7 @@ $config = [
     'timeZone' => 'UTC',
     'components' => [
         'request' => [
-            'cookieValidationKey' => 'BcTcGa8D7GXFw119IC42bFNTURoUsOY-',
+            'cookieValidationKey' => $cookie,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -34,21 +36,7 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => [
-            'class' => yii\swiftmailer\Mailer::class,
-            'transport' => [
-                'class' => Swift_SmtpTransport::class,
-                'host' => 'smtp.timeweb.ru',
-                'username' => 'noreply@nyagangp.ru',
-                'password' => 'qazXSW!123',
-                'port' => '465',
-                'encryption' => 'ssl',
-            ],
-            'messageConfig' => [
-               'from' => 'noreply@nyagangp.ru',
-            ],
-            // 'useFileTransport' => true,
-        ],
+        'mailer' => $mailer,
         'reCaptcha' => [
             'name' => 'reCaptcha',
             'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
