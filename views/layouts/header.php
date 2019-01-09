@@ -7,10 +7,11 @@
 
 <header class="container" id="header">
 
-    <!-- Украшение на Новый Год -->
+    <!-- Украшение на Новый Год 
     <div id="garland" class="garland_4">
         <div id="nums_1">1</div>
     </div>
+    -->
 
 
 
