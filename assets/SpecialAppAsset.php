@@ -4,14 +4,14 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-class AppAsset extends AssetBundle {
+class SpecialAppAsset extends AssetBundle {
     
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
         'css/layout/all.css',
-        'css/layout/header.css',
-        'css/layout/footer.css',
+        'css/layout/special/header.css',
+        'css/layout/special/footer.css',
         'css/layout/hover.css',
         //'css/layout/ny2018.css',
     ];

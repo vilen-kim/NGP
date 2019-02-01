@@ -14,7 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
         echo Html::beginTag('div', ['class' => 'row', 'style' => 'margin-bottom: 20px']);
         for ($i = 0; $i < count($banners); $i++){
             $banner = $banners[$i];
-            $img = Html::img($banner->image, ['class' => 'scale', 'style' => 'box-shadow: 1px 1px 2px gray', 'width' => '100%']);
+            $img = Html::img($banner->image, [
+                    'class' => 'scale',
+                    'style' => 'box-shadow: 1px 1px 2px gray',
+                    'width' => '100%',
+                    'alt' => $banner->tag,
+            ]);
             $url = $banner->url;
             echo Html::tag('div', Html::a($img, $url), ['class' => 'col-sm-2']);
             if (($i+1) % 6 == 0) {

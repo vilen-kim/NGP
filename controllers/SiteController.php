@@ -20,11 +20,24 @@ use yii\data\Pagination;
 use DateTime;
 use DateInterval;
 
-class SiteController extends \yii\web\Controller {
+class SiteController extends \yii\web\Controller
+{
+    public $special_version;
 
-
-
-    public function actions() {
+    public function actions()
+    {
+        $cookies = Yii::$app->request->cookies;
+        if (!$cookies->has('special_version')) {
+            Yii::$app->response->cookies->add(new \yii\web\Cookie([
+                'name' => 'special_version',
+                'value' => 0,
+                'expire' => time() + 3600 * 24 * 30,
+                'path' => '/',
+            ]));
+            $this->special_version = 0;
+        } else {
+            $this->special_version = $cookies->getValue('special_version');
+        }
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -33,10 +46,10 @@ class SiteController extends \yii\web\Controller {
     }
 
 
-
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $model = new CallDoctor;
-        if (!Yii::$app->user->isGuest){
+        if (!Yii::$app->user->isGuest) {
             $auth = Auth::findOne(Yii::$app->user->id);
             $model->auth_id = $auth->id;
             $model->fio = $auth->fio;
@@ -44,7 +57,11 @@ class SiteController extends \yii\web\Controller {
             $model->address = $auth->profile->address;
             $model->email = $auth->email;
         }
-        $lastID = Pages::find()->select('id')->where(['in', 'category_id', [2, 3, 4]])->orderBy(['id' => SORT_DESC])->limit(5)->all();
+        $lastID = Pages::find()->select('id')->where([
+            'in',
+            'category_id',
+            [2, 3, 4]
+        ])->orderBy(['id' => SORT_DESC])->limit(5)->all();
         $items = null;
         foreach ($lastID as $id) {
             $news[] = new News($id->id, 600);
@@ -58,28 +75,22 @@ class SiteController extends \yii\web\Controller {
     }
 
 
-
-    public function actionPhone() {
-        return $this->render('phone');
-    }
-
-
-
-    public function actionMobilePhone() {
+    public function actionMobilePhone()
+    {
         return $this->render('mobilePhone');
     }
 
 
-
-    public function actionShow($id) {
+    public function actionShow($id)
+    {
         return $this->render('show', [
             'model' => $this->findModel($id),
         ]);
     }
 
 
-
-    public function actionMenu() {
+    public function actionMenu()
+    {
         $menu = new MenuItems();
         return $this->render('menu', [
             'menu' => $menu,
@@ -87,112 +98,55 @@ class SiteController extends \yii\web\Controller {
     }
 
 
-
-    public function actionNews() {
-        $news = Pages::find()->select(['id', 'caption'])->where(['in', 'category_id', [2, 3, 4]])->orderBy(['id' => SORT_DESC])->asArray()->all();
+    public function actionNews()
+    {
+        $news = Pages::find()->select(['id', 'caption'])->where([
+            'in',
+            'category_id',
+            [2, 3, 4]
+        ])->orderBy(['id' => SORT_DESC])->asArray()->all();
         return $this->render('news', [
             'news' => $news,
         ]);
     }
 
 
-
-    public function actionBanners() {
+    public function actionBanners()
+    {
         $banners = Banners::find()->all();
         return $this->render('banners', ['banners' => $banners]);
     }
 
 
-
-    public function actionEyeOn() {
-        $css = [
-            'body' => [
-                'transition' => '1s',
-                'background' => 'black',
-                'color' => 'white',
-                'fontSize' => '16px',
-            ],
-            'ul.breadcrumb' => [
-                'transition' => '1s',
-                'background' => 'black',
-                'color' => 'white',
-            ],
-            'div.callDoctor' => [
-                'transition' => '1s',
-                'background' => 'black',
-                'color' => 'white',
-            ],
-            '#modalDoctor .modal-header; #modalDoctor .modal-body' => [
-                'transition' => '1s',
-                'background' => 'black',
-                'color' => 'white',
-            ],
-            '#bottomHolder a' => [
-                'transition' => '1s',
-                'background' => 'none',
-                'color' => 'cyan',
-            ],
-            '#eyePanel' => [
-                'transition' => '1s',
-                'top' => '70px',
-            ]
-        ];
-        $session = Yii::$app->session;
-        $session->open();
-        $session->set('eye', True);
-        $session->set('css', $css);
-        $session->set('cssText', $this->cssTransform($css));
-        return true;
+    public function actionEyeOn($page)
+    {
+        Yii::$app->response->cookies->add(new \yii\web\Cookie([
+            'name' => 'special_version',
+            'value' => 1,
+            'expire' => time() + 3600 * 24 * 30,
+            'path' => '/',
+        ]));
+        return $this->redirect($page);
     }
 
 
-
-    public function actionEyeChange() {
-        $post = Yii::$app->request->post();
-        $css = Yii::$app->session->get('css');
-
-        if (isset($post['background'])){
-            $css['body']['background'] = $post['background'];
-            $css['ul.breadcrumb']['background'] = $post['background'];
-            $css['div.callDoctor']['background'] = $post['background'];
-            $css['#modalDoctor .modal-header; #modalDoctor .modal-body']['background'] = $post['background'];
-        }
-        if (isset($post['color'])){
-            $css['body']['color'] = $post['color'];
-            $css['ul.breadcrumb']['color'] = $post['color'];
-            $css['div.callDoctor']['color'] = $post['color'];
-            $css['#modalDoctor .modal-header; #modalDoctor .modal-body']['color'] = $post['color'];
-        }
-        if (isset($post['link'])){
-            $css['#bottomHolder a']['color'] = $post['link'];
-        }
-        if (isset($post['fontSize'])){
-            $css['body']['font-size'] = $post['fontSize'];
-        }
-        
-        $session = Yii::$app->session;
-        $session->open();
-        $session->set('css', $css);
-        $session->set('cssText', $this->cssTransform($css));
+    public function actionEyeOff($page)
+    {
+        Yii::$app->response->cookies->add(new \yii\web\Cookie([
+            'name' => 'special_version',
+            'value' => 0,
+            'expire' => time() + 3600 * 24 * 30,
+            'path' => '/',
+        ]));
+        return $this->redirect($page);
     }
 
 
-
-    public function actionEyeOff() {
-        $session = Yii::$app->session;
-        $session->open();
-        $session->remove('eye');
-        $session->remove('css');
-        $session->remove('cssText');
-        return true;
-    }
-
-
-
-    private function cssTransform($css) {
+    private function cssTransform($css)
+    {
         $result = null;
-        foreach($css as $key => $value){
-            if (is_array($value)){
+        foreach ($css as $key => $value) {
+            if (is_array($value)) {
                 $result .= "$key { " . $this->cssTransform($value) . " } ";
             } else {
                 $result .= "$key: $value;";
@@ -202,23 +156,24 @@ class SiteController extends \yii\web\Controller {
     }
 
 
-
-    public function actionCallDoctor() {
+    public function actionCallDoctor()
+    {
         $model = new CallDoctor;
-        if (!Yii::$app->user->isGuest){
+        if (!Yii::$app->user->isGuest) {
             $model->auth_id = Yii::$app->user->id;
         }
 
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->save() && $model->sendEmail()){
+            if ($model->save() && $model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Ваша заявка была отправлена на рассмотрение.');
             } else {
-                Yii::$app->session->setFlash('danger', 'При отправке заявки возникла ошибка. Пожалуйста, повторите позже.');
+                Yii::$app->session->setFlash('danger',
+                    'При отправке заявки возникла ошибка. Пожалуйста, повторите позже.');
             }
             return $this->redirect(['site/index']);
         }
 
-        if (!Yii::$app->user->isGuest){
+        if (!Yii::$app->user->isGuest) {
             $auth = Auth::findOne(Yii::$app->user->id);
             $model->auth_id = $auth->id;
             $model->fio = $auth->fio;
@@ -230,15 +185,15 @@ class SiteController extends \yii\web\Controller {
         return $this->render('callDoctor', [
             'model' => $model,
         ]);
-        
+
     }
 
 
-
-    public function actionShare($id = false, $date = false) {
+    public function actionShare($id = false, $date = false)
+    {
         $array = [];
         $query = Request::find()->where(['share' => true])->orderBy(['request_created_at' => SORT_DESC]);
-        if ($date){
+        if ($date) {
             $date = DateTime::createFromFormat('d.m.Y', $date);
             $date->setTime(0, 0, 0);
             $unixDateStart = $date->getTimeStamp();
@@ -258,7 +213,8 @@ class SiteController extends \yii\web\Controller {
             $pHeader = Html::tag('p', $i, ['class' => 'small', 'style' => 'font-weight: bold']);
             $pContent = Html::tag('p', Html::encode($element->request_text), ['class' => 'text-justify']);
             $div11 = Html::tag('div', $pHeader . $pContent, ['class' => 'col-md-11']);
-            $pdfLink = Html::a(Html::img('/images/pdf.svg', ['width' => '40px']), "/pdf/$element->id.pdf", ['class' => 'getPdf']);
+            $pdfLink = Html::a(Html::img('/images/pdf.svg', ['width' => '40px']), "/pdf/$element->id.pdf",
+                ['class' => 'getPdf']);
             $div1 = Html::tag('div', $pdfLink, ['class' => 'col-md-1 text-center']);
             $divRow = Html::tag('div', $div11 . $div1, ['class' => 'row']);
             $question = $divRow;
@@ -281,8 +237,8 @@ class SiteController extends \yii\web\Controller {
     }
 
 
-
-    public function actionRequest() {
+    public function actionRequest()
+    {
         $author = new AuthorForm;
         $letter = new RequestForm;
 
@@ -302,9 +258,9 @@ class SiteController extends \yii\web\Controller {
             $author->phone = $auth->profile->phone;
         }
         $executiveArray = ArrayHelper::map(RequestExecutive::find()
-        ->joinWith(['auth.profile'])
-        ->orderBy('lastname')
-        ->all(), 'auth.id', 'fioPosition');
+            ->joinWith(['auth.profile'])
+            ->orderBy('lastname')
+            ->all(), 'auth.id', 'fioPosition');
         return $this->render('request', [
             'executiveArray' => $executiveArray,
             'model' => $author,
@@ -314,8 +270,8 @@ class SiteController extends \yii\web\Controller {
     }
 
 
-
-    protected function findModel($id) {
+    protected function findModel($id)
+    {
         if (($model = Pages::findOne($id)) !== null) {
             return $model;
         }

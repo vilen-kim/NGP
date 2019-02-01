@@ -1,11 +1,15 @@
 <?php
     use yii\helpers\Html;
     use yii\widgets\Breadcrumbs;
-    if (!Yii::$app->mobileDetect->isMobile()){
-        app\assets\AppAsset::register($this);
-    } else {
+    $special_version = Yii::$app->request->cookies->getValue('special_version');
+    if (Yii::$app->mobileDetect->isMobile()) {
         app\assets\MobileAppAsset::register($this);
+    } else if ($special_version){
+        app\assets\SpecialAppAsset::register($this);
+    } else {
+        app\assets\AppAsset::register($this);
     }
+
 ?>
 
 <?php $this->beginPage() ?>
@@ -26,8 +30,6 @@
     <body>
         <?php $this->beginBody() ?>
 
-        <?= $this->render('./eyePanel') ?>
-        
         <div id="bottomHolder">
             <div style="position: absolute; top: 110px; left: 0; width: 100%;" class="container">
                 <?php
@@ -50,7 +52,13 @@
 
                 ?>
             </div>
-            <?= $content ?>
+            <?php
+                if ($special_version == 1) {
+                    echo Html::tag('div', $content, ['id' => 'content']);
+                } else {
+                    echo $content;
+                }
+            ?>
             <div id="footerHolder">
                 <?= $this->render('./footer') ?>
             </div>
@@ -64,8 +72,3 @@
     </body>
 </html>
 <?php $this->endPage();
-
-$css = Yii::$app->session->get('cssText');
-if ($css){
-    echo Html::tag('style', $css);
-}

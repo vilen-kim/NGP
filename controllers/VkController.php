@@ -78,7 +78,7 @@ class VkController extends \yii\web\Controller {
                             case 'photo':
                                 foreach ($photoSizeArray as $size) {
                                     if (isset($attach['photo'][$size])) {
-                                        $page->text .= '<p>' . Html::img($attach['photo'][$size]) . '</p>';
+                                        $page->text .= '<p>' . Html::img($attach['photo'][$size], ['alt' => 'Картинка']) . '</p>';
                                         break;
                                     }
                                 }
@@ -87,7 +87,7 @@ class VkController extends \yii\web\Controller {
                                 $url = $attach['link']['url'];
                                 foreach ($photoSizeArray as $size) {
                                     if (isset($attach['link']['photo'][$size])) {
-                                        $img = Html::img($attach['link']['photo'][$size]);
+                                        $img = Html::img($attach['link']['photo'][$size], ['alt' => 'Картинка']);
                                         $page->text .= '<p>' . Html::a($img, $url) . '</p>';
                                         break;
                                     }
