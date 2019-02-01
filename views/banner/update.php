@@ -17,6 +17,7 @@
 			echo Html::img('/' . $image, ['width' => '200px', 'style' => 'margin-bottom: 40px;']);
 	    	echo $form->field($model, 'image')->fileInput();
 	    	echo $form->field($model, 'url')->textInput();
+	    	echo $form->field($model, 'tag')->textInput();
 	    	echo $form->field($model, 'main')->checkbox();
 	   	?>
 	   	

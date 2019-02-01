@@ -10,6 +10,7 @@ class UploadImage extends Model{
 	public $image;
 	public $url;
     public $main;
+    public $tag;
     const SCENARIO_UPDATE = 'update';
     const SCENARIO_DEFAULT = 'default';
 
@@ -23,6 +24,7 @@ class UploadImage extends Model{
             ['url', 'required', 'message' => 'Это обязательное поле'],
             ['main', 'boolean'],
             ['main', 'default', 'value' => false],
+            ['tag', 'string', 'max' => 255],
 		];
 	}
 
@@ -46,6 +48,7 @@ class UploadImage extends Model{
             'image' => 'Изображение',
             'url' => 'Ссылка',
             'main' => 'Отображать на главной',
+            'tag' => 'Альтернативный текст',
         ];
     }
 }

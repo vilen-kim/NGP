@@ -25,6 +25,7 @@
                 ],
                 'url:url',
                 'main:boolean',
+                'tag:text',
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{update} {delete}',

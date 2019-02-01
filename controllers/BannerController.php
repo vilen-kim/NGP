@@ -74,11 +74,13 @@ class BannerController extends Controller
             $model->image = UploadedFile::getInstance($model, 'image');
             $model->url = $post['url'];
             $model->main = $post['main'];
+            $model->tag = $post['tag'];
             if ($newImage = $model->upload()) {
                 $banner = new Banners;
                 $banner->image = '/' . $newImage;
                 $banner->url = $model->url;
                 $banner->main = $model->main;
+                $banner->tag = $model->tag;
                 if ($banner->save()){
                     Yii::$app->session->setFlash('success', 'Баннер был успешно добавлен.');
                     return $this->redirect(['banner/index']);
@@ -102,6 +104,7 @@ class BannerController extends Controller
         $model->scenario = UploadImage::SCENARIO_UPDATE;
         $model->url = $banner->url;
         $model->main = $banner->main;
+        $model->tag = $banner->tag;
 
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post('UploadImage');
@@ -112,6 +115,7 @@ class BannerController extends Controller
             }
             $banner->url = $post['url'];
             $banner->main = $post['main'];
+            $banner->tag = $post['tag'];
             if ($banner->save()){
                 Yii::$app->session->setFlash('success', 'Баннер был успешно изменен.');
                 return $this->redirect(['banner/index']);

@@ -1,8 +1,10 @@
 <?php
-    use yii\helpers\Html;
-    use yii\helpers\Url;
-    use yii\bootstrap\Nav;
-    use yii\bootstrap\NavBar;
+
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+
 ?>
 
 <header class="container" id="header">
@@ -14,12 +16,12 @@
     -->
 
 
-
     <?php
     $img = Html::img('@web/images/logo_green.gif');
     $height = Yii::$app->mobileDetect->isMobile() ? '50px' : '110px';
+    $special_version = Yii::$app->request->cookies->getValue('special_version');
     NavBar::begin([
-        'brandLabel' => Html::img('@web/images/logo.png', ['height' => $height]),
+        'brandLabel' => (!$special_version) ? Html::img('@web/images/logo.png', ['height' => $height]) : '',
         'brandUrl' => ['site/index'],
         'brandOptions' => ['style' => 'padding: 0'],
         'options' => [
@@ -41,7 +43,10 @@
             [
                 'label' => 'Меню',
                 'url' => ['site/menu'],
-                'options' => ['id' => 'menu', 'style' => !Yii::$app->mobileDetect->isMobile() ? 'padding-top: 10px' : ''],
+                'options' => [
+                    'id' => 'menu',
+                    'style' => !Yii::$app->mobileDetect->isMobile() ? 'padding-top: 10px' : ''
+                ],
             ],
             [
                 'label' => !Yii::$app->mobileDetect->isMobile() ? 'Электронная<br>регистратура' : 'Электронная регистратура',
@@ -57,21 +62,30 @@
                 'url' => ['site/request'],
             ],
             [
-                'label' => isset(Yii::$app->session['eye']) ? 'Обычный<br>режим' : 'Версия для<br>слабовидящих',
-                'url' => '#',
+                'label' => ($special_version == 1) ? 'Обычный<br>режим' : 'Версия для<br>слабовидящих',
+                'url' => ($special_version == 1) ? ['site/eye-off', 'page' => Url::current()] : ['site/eye-on', 'page' => Url::current()],
                 'visible' => !Yii::$app->mobileDetect->isMobile() ? true : false,
-                'options' => ['id' => 'headerEye', 'class' => isset(Yii::$app->session['eye']) ? 'toOff' : 'toOn'],
             ],
             [
-                'label' => Yii::$app->user->isGuest ? 
-                            !Yii::$app->mobileDetect->isMobile() ? 'Вход в<br>личный кабинет' : 'Вход в личный кабинет' :
-                            'Выход',
+                'label' => Yii::$app->user->isGuest ?
+                    !Yii::$app->mobileDetect->isMobile() ? 'Вход в<br>личный кабинет' : 'Вход в личный кабинет' :
+                    'Выход',
                 'url' => Yii::$app->user->isGuest ? ['auth/login'] : ['auth/logout'],
             ],
         ],
     ]);
     NavBar::end();
+
     echo $this->render('../modals/phone.php');
+    echo $this->render('../modals/doctor.php') ;
+
+    // Отображаем специальную панель для слабовидящих
+    if ($special_version == 1){
+        Yii::$app->view->registerCssFile('/css/layout/eyepanel.css');
+        Yii::$app->view->registerJsFile('/js/layout/eyepanel.js', ['depends' => ['yii\web\YiiAsset']]);
+        echo \app\components\EyePanel::widget();
+    }
+
     ?>
 
 </header>

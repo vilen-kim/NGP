@@ -16,6 +16,7 @@
 			$form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
 	    	echo $form->field($model, 'image')->fileInput();
 	    	echo $form->field($model, 'url')->textInput();
+	    	echo $form->field($model, 'tag')->textInput();
 	    	echo $form->field($model, 'main')->checkbox();
 	   	?>
 	   	
