@@ -356,18 +356,9 @@ toolbar.prototype.processMenuChoice = function ($item) {
 
         case 'images':
         {
-          //  jQuery$('img').toggle();
-            /*if (jQuery('#content').is('.not-images')) {
-             jQuery('#content').removeClass('not-images');
-             this.processSetChoice('IMAGES', 'images');
-             } else {
-             $item.attr('aria-checked', 'true').addClass('checked');
-             jQuery('#content').addClass('not-images');
-             this.processSetChoice('IMAGES', 'not-images');
-             }*/
            $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#c_panel_special').addClass('images');
-            jQuery('#c_panel_special').removeClass('not-images');
+            jQuery('#content, #c_panel_special').addClass('images');
+            jQuery('#content, #c_panel_special').removeClass('not-images');
             jQuery('.btn-mono').removeClass('disabled');
             this.processSetChoice('IMAGES', 'images');
             document.cookie = "graf=1; expires=15/02/2021 00:00:00; path=/";
@@ -376,12 +367,9 @@ toolbar.prototype.processMenuChoice = function ($item) {
         }
         case 'not-images':
         {
-           // jQuery$('img').toggle();
-
-            //jQuery$('img').toggle();
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#c_panel_special').addClass('not-images');
-            jQuery('#c_panel_special').removeClass('images mono');
+            jQuery('#content, #c_panel_special').addClass('not-images');
+            jQuery('#content, #c_panel_special').removeClass('images mono');
             jQuery('.btn-mono').addClass('disabled').removeClass('checked');
             this.processSetChoice('IMAGES', 'not-images');
             document.cookie = "graf=2; expires=15/02/2021 00:00:00; path=/";
