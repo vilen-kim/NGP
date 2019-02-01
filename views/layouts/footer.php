@@ -25,15 +25,15 @@
     
     <div class="col-sm-2">
         <h3>О поликлинике</h3>
-        <div><?= Html::a('Контакты', ['site/show', 'id' => 16]) ?></div>
+        <div><?= Html::a('Контакты', ['site/show', 'id' => 52]) ?></div>
         <div><?= Html::a('Режим и график работы', ['site/show', 'id' => 17]) ?></div>
-        <div><?= Html::a('Цены на платные услуги', ['site/show', 'id' => 29]) ?></div>
     </div>
     
     <div class="col-sm-2">
         <h3>Пациентам</h3>
         <div><?= Html::a('Баннеры', ['site/banners']) ?></div>
         <div><?= Html::a('Медосмотры', ['site/show', 'id' => 309]) ?></div>
+        <div><?= Html::a('Порядок подготовки к диагностическим исследованиям', ['site/show', 'id' => 595]) ?></div>
     </div>
     
     <div class="col-sm-2">
