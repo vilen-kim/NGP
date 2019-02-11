@@ -11,6 +11,7 @@ class OrderAsset extends AssetBundle {
     public $css = [
     ];
     public $js = [
+        'js/order.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -13,14 +13,16 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container">
     <?php
 
-    echo Html::a('Приказы', ['orders/index'],
-        ['class' => 'btn btn-info', 'style' => 'margin-bottom: 20px']);
+    echo Html::a('Действующие приказы', ['orders/index'],
+        ['class' => 'btn btn-primary', 'style' => 'margin-bottom: 20px']);
+    echo Html::a('Архивные приказы', ['orders/index', 'archive' => true],
+        ['class' => 'btn btn-danger', 'style' => 'margin-bottom: 20px; margin-left: 20px;']);
 
     if (Yii::$app->user->can('manager')) {
-        echo Html::a('Добавить приказ', Url::to(['orders/create']), [
-            'class' => 'btn btn-success',
-            'style' => 'margin: 0px 0px 20px 20px;'
-        ]);
+//        echo Html::a('Добавить приказ', Url::to(['orders/create']), [
+//            'class' => 'btn btn-success',
+//            'style' => 'margin: 0px 0px 20px 20px;'
+//        ]);
         echo Html::a('Изменить страницу', Url::to(['orders/update-page']), [
             'class' => 'btn btn-warning',
             'style' => 'margin: 0px 0px 20px 20px;'

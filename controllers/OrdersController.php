@@ -29,7 +29,7 @@ class OrdersController extends Controller
                         'roles' => ['employee'],
                     ],
                     [
-                        'actions' => ['create', 'update', 'delete', 'update-page'],
+                        'actions' => ['create', 'update', 'delete', 'update-page', 'archive'],
                         'allow' => true,
                         'roles' => ['manager'],
                     ],
@@ -62,14 +62,15 @@ class OrdersController extends Controller
     }
 
 
-    public function actionIndex()
+    public function actionIndex($archive = false)
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Orders::find(),
+            'query' => Orders::find()->where(['isArchive' => $archive]),
         ]);
-
+        $title = ($archive) ? 'Архивные приказы' : 'Приказы';
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'title' => $title,
         ]);
     }
 
@@ -90,13 +91,14 @@ class OrdersController extends Controller
                 $order->file = '/' . $newFile;
                 $order->caption = $model->caption;
                 $order->number = $model->number;
-                $order->date = $model->date;
+                $order->date = strtotime($model->date);
                 $order->isArchive = 0;
                 if ($order->save()) {
                     Yii::$app->session->setFlash('success', 'Приказ был успешно добавлен.');
                     return $this->redirect(['orders/index']);
                 } else {
-                    Yii::$app->session->setFlash('danger', 'При добавлении приказа произошла ошибка.');
+                    Yii::$app->session->setFlash('danger', 'При добавлении приказа произошла ошибка');
+                    var_dump($order->errors);
                 }
             }
         }
@@ -138,6 +140,18 @@ class OrdersController extends Controller
         return $this->render('updatePage', [
             'model' => $model,
         ]);
+    }
+
+
+    public function actionArchive() {
+        $id = Yii::$app->request->post('id');
+        $model = $this->findModel($id);
+        $model->isArchive = ($model->isArchive) ? 0 : 1;
+        if ($model->save()) {
+            return 'ok';
+        } else {
+            var_dump($model->errors);
+        }
     }
 
 

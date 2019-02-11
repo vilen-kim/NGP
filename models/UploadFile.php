@@ -28,8 +28,8 @@ class UploadFile extends Model
             ],
             ['file', 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf, doc, docx', 'on' => $this::SCENARIO_UPDATE],
             [['caption', 'date', 'number'], 'required', 'message' => 'Это обязательное поле'],
-            ['caption', 'string', 'max' => 255],
-            ['number', 'integer'],
+            ['caption', 'string', 'max' => 8192],
+            ['number', 'string', 'max' => 255],
             ['date', 'date'],
             ['isArchive', 'boolean', 'on' => $this::SCENARIO_UPDATE],
         ];

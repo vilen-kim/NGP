@@ -34,7 +34,6 @@
                 'buttons' => [
                     'delete' => function ($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', '', [
-                            'onClick' => "del($model->id)",
                             'title' => 'Удалить',
                         ]);
                     },

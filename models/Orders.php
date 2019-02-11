@@ -31,9 +31,9 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             [['file', 'caption', 'number', 'date'], 'required'],
-            [['date'], 'date'],
-            [['number'], 'integer'],
-            [['file', 'caption'], 'string', 'max' => 255],
+            [['date'], 'integer'],
+            [['file', 'number'], 'string', 'max' => 255],
+            ['caption', 'string', 'max' => 8192],
             [['isArchive'], 'boolean'],
         ];
     }
