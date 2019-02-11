@@ -29,7 +29,11 @@ class BannerController extends Controller
                 ],
                 'denyCallback' => function($rule, $action){
                     Yii::$app->session->setFlash('danger', "У вас нет доступа к странице $action->id");
-                    return $this->redirect(['kabinet/index']);
+                    if (!Yii::$app->user->isGuest) {
+                        return $this->redirect(['kabinet/index']);
+                    } else {
+                        return $this->redirect(['site/index']);
+                    }
                 }
             ],
             'verbs' => [
