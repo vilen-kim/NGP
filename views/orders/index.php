@@ -18,13 +18,14 @@
             echo Html::a('Действующие приказы', ['orders/index'],
                 ['class' => 'btn btn-primary', 'style' => 'margin-bottom: 10px; margin-right: 20px;']);
         }
-        if (Yii::$app->user->can('manager') and $title == 'Приказы') {
+        if (Yii::$app->user->can('orderEditor') and $title == 'Приказы') {
             echo Html::a('Добавить приказ', ['orders/create'],
                 ['class' => 'btn btn-success', 'style' => 'margin-bottom: 10px']);
         }
 
         echo GridView::widget([
             'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 [
@@ -37,9 +38,14 @@
                 ],
                 'caption:text',
                 'number:text',
-                'date:date',
+                [
+                    'attribute' => 'date',
+                    'format' => 'date',
+                    'filter' => false,
+                ],
                 [
                     'class' => 'yii\grid\ActionColumn',
+                    'visible' => Yii::$app->user->can('orderEditor') ? true : false,
                     'template' => '{archive}&nbsp&nbsp&nbsp{delete}',
                     'buttons' => [
                         'archive' => function ($url, $model) {

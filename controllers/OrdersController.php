@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\data\ActiveDataProvider;
 use app\models\Orders;
 use app\models\OrdersPage;
+use app\models\OrdersSearch;
 use app\models\UploadFile;
 use yii\web\UploadedFile;
 use yii\web\Controller;
@@ -31,7 +32,7 @@ class OrdersController extends Controller
                     [
                         'actions' => ['create', 'update', 'delete', 'update-page', 'archive'],
                         'allow' => true,
-                        'roles' => ['manager'],
+                        'roles' => ['orderEditor'],
                     ],
                 ],
                 'denyCallback' => function ($rule, $action) {
@@ -64,12 +65,15 @@ class OrdersController extends Controller
 
     public function actionIndex($archive = false)
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Orders::find()->where(['isArchive' => $archive]),
-        ]);
+        $searchModel = new OrdersSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $archive);
+//        $dataProvider = new ActiveDataProvider([
+//            'query' => Orders::find()->where(['isArchive' => $archive]),
+//        ]);
         $title = ($archive) ? 'Архивные приказы' : 'Приказы';
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
             'title' => $title,
         ]);
     }

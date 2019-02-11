@@ -28,12 +28,12 @@ class KabinetController extends \yii\web\Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'request', 'profile', 'get-modal-request-answer', 'get-modal-resend-request'],
+                        'actions' => ['index', 'request', 'profile'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
                     [
-                        'actions' => ['call-doctor'],
+                        'actions' => ['call-doctor', 'get-modal-request-answer', 'get-modal-resend-request'],
                         'allow' => true,
                         'roles' => ['registrator', 'manager'],
                     ],
