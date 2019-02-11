@@ -4,3 +4,12 @@
 .kabinet-index h2 {
 	margin-bottom: 20px;
 }
+.kabinet-index .col-md-3 {
+	border-right: 1px solid grey;
+}
+.kabinet-index .admin-menu .medium-bold {
+	font-size: medium;
+	font-weight: bold;
+	margin-bottom: 5px;
+	margin-top: 20px;
+}

@@ -36,6 +36,7 @@ tests/_support/_generated
 /web/files/*
 /web/pdf/
 /web/images/banners/*
+/web/orders/*
 public_html
 
 
