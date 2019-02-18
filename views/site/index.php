@@ -93,11 +93,11 @@ if (!Yii::$app->mobileDetect->isMobile()) {
         echo Html::beginTag('div', ['class' => 'news']);
         for ($i = 0; $i < count($news); $i++) {
             if ($i % 2 == 1) {
-                $contentLeft = Html::img($news[$i]->image);
+                $contentLeft = Html::img($news[$i]->image, ['alt' => 'Картинка']);
                 $contentRight = Html::tag('h2', Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]));
             } else {
                 $contentLeft = Html::tag('h2', Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]));
-                $contentRight = Html::img($news[$i]->image);
+                $contentRight = Html::img($news[$i]->image, ['alt' => 'Картинка']);
             }
             $left = Html::tag('div', $contentLeft, ['class' => "col-sm-5 $animatedLeft"]);
             $right = Html::tag('div', $contentRight, ['class' => "col-sm-5 col-sm-offset-2 $animatedRight"]);
@@ -110,7 +110,7 @@ if (!Yii::$app->mobileDetect->isMobile()) {
     } else {
         for ($i = 0; $i < count($news); $i++) {
             $contentHeader = Html::tag('h2', Html::a($news[$i]->caption, ['site/show', 'id' => $news[$i]->id]));
-            $contentImg = Html::img($news[$i]->image, ['width' => '100%']);
+            $contentImg = Html::img($news[$i]->image, ['width' => '100%', 'alt' => 'Картинка']);
             echo Html::tag('div', $contentHeader . $contentImg, ['style' => 'margin-top: 40px;']);
         }
     }

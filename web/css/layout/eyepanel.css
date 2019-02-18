@@ -1860,7 +1860,13 @@
 }
 
 .not-images img {
-    display: none;
+    /*display: none;*/
+    border: 1px solid gray;
+    -webkit-filter: opacity(0);
+    -moz-filter: opacity(0);
+    -ms-filter: opacity(0);
+    -o-filter: opacity(0);
+    filter: opacity(0);
 }
 
 .not-flash .fl-wrapper {
@@ -2742,3 +2748,6 @@ table, table tr, table td, table th {
 #page img{display: block;max-width: 100%;height: auto;}
 */
 
+.beforeImg {
+    font-size: large;
+}
