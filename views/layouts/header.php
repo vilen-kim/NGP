@@ -62,15 +62,15 @@ use yii\bootstrap\NavBar;
                 'url' => ['site/request'],
             ],
             [
-                'label' => ($special_version == 1) ? 'Обычный<br>режим' : 'Версия для<br>слабовидящих',
-                'url' => ($special_version == 1) ? ['site/eye-off', 'page' => Url::current()] : ['site/eye-on', 'page' => Url::current()],
-                'visible' => !Yii::$app->mobileDetect->isMobile() ? true : false,
-            ],
-            [
                 'label' => Yii::$app->user->isGuest ?
                     !Yii::$app->mobileDetect->isMobile() ? 'Вход в<br>личный кабинет' : 'Вход в личный кабинет' :
                     'Выход',
                 'url' => Yii::$app->user->isGuest ? ['auth/login'] : ['auth/logout'],
+            ],
+            [
+                'label' => ($special_version == 1) ? 'Обычный<br>режим' : 'Версия для<br>слабовидящих',
+                'url' => ($special_version == 1) ? ['site/eye-off', 'page' => Url::current()] : ['site/eye-on', 'page' => Url::current()],
+                'visible' => !Yii::$app->mobileDetect->isMobile() ? true : false,
             ],
         ],
     ]);
