@@ -376,7 +376,7 @@ toolbar.prototype.processMenuChoice = function ($item) {
             jQuery('.btn-mono').addClass('disabled').removeClass('checked');
             this.processSetChoice('IMAGES', 'not-images');
             document.cookie = "graf=2; expires=15/02/2021 00:00:00; path=/";
-            $('img').each(function () {
+            $('#bottomHolder img').each(function () {
                 $(this).before('<span class="beforeImg">[' + $(this).attr('alt') + ']</span>');
             });
             break;

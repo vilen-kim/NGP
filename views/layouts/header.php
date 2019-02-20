@@ -68,7 +68,9 @@ use yii\bootstrap\NavBar;
                 'url' => Yii::$app->user->isGuest ? ['auth/login'] : ['auth/logout'],
             ],
             [
-                'label' => ($special_version == 1) ? 'Обычный<br>режим' : 'Версия для<br>слабовидящих',
+                'label' => ($special_version == 1) ?
+                    Html::img('@web/images/icons/eyeOff.svg', ['height' => 25, 'style' => 'margin-bottom: -5px;']) . 'Обычный<br>режим' :
+                    Html::img('@web/images/icons/eyeOn.svg', ['height' => 25, 'style' => 'margin-bottom: -5px;']) . ' Версия для<br>слабовидящих',
                 'url' => ($special_version == 1) ? ['site/eye-off', 'page' => Url::current()] : ['site/eye-on', 'page' => Url::current()],
                 'visible' => !Yii::$app->mobileDetect->isMobile() ? true : false,
             ],
