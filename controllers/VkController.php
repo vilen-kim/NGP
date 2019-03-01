@@ -58,8 +58,13 @@ class VkController extends \yii\web\Controller {
         $walls = Yii::$app->vk->api('wall.get', [
             'owner_id' => $owner_id,
             'count' => 10,
+            'filter' => 'owner',
             'v' => '5.75',
         ]);
+        echo '<pre>';
+        var_dump($walls);
+        echo '</pre>';
+        die();
         $rev_walls = array_reverse($walls['response']['items']);
         foreach ($rev_walls as $item) {
             $id = $item['id'];

@@ -30,14 +30,8 @@
             'categoryCaption',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'headerOptions' => ['style' => 'width: 70px;'],
-                'buttons' => [
-                    'delete' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', '', [
-                            'title' => 'Удалить',
-                        ]);
-                    },
-                ],
+                'headerOptions' => ['style' => 'width: 70px'],
+
             ],
         ],
     ]);
