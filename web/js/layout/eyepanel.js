@@ -557,6 +557,7 @@ toolbar.prototype.processMenuChoice = function ($item) {
             $item.attr('aria-checked', 'true').addClass('checked');
             jQuery('#content').addClass('sound-on');
             jQuery('#content').removeClass('sound-off');
+            document.cookie = "sound=1; expires=15/02/2021 00:00:00; path=/";
             break;
         }
         case 'sound-off':
@@ -564,6 +565,7 @@ toolbar.prototype.processMenuChoice = function ($item) {
             $item.attr('aria-checked', 'true').addClass('checked');
             jQuery('#content').addClass('sound-off');
             jQuery('#content').removeClass('sound-on');
+            document.cookie = "sound=0; expires=15/02/2021 00:00:00; path=/";
             break;
         }
         case 'reset':

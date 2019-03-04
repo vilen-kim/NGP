@@ -48,11 +48,11 @@
                         <div class="pull-left p-sound">
                             <div class="btn-title">Звук</div>
                             <div class="btn-group btn-group-sound" role="group">
-                                <button id="sound-on" type="button" class="btn btn-default btn-sound-on"
-                                        data-choice="sound-on" aria-checked="false"
+                                <button id="sound-on" type="button" class="btn btn-default btn-sound-on checked"
+                                        data-choice="sound-on" aria-checked="true"
                                         aria-label="Включить звуковое сопровождение"><span class="glyphicon glyphicon-volume-up"></span><span class="hover"></span></button>
-                                <button id="sound-off" type="button" class="btn btn-default btn-sound-off checked"
-                                        data-choice="sound-off" aria-checked="true"
+                                <button id="sound-off" type="button" class="btn btn-default btn-sound-off"
+                                        data-choice="sound-off" aria-checked="false"
                                         aria-label="Выключить звуковое сопровождение"><span class="glyphicon glyphicon-volume-off"></span><span class="hover"></span></button>
                             </div>
                         </div>
