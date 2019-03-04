@@ -18,6 +18,7 @@ class SpecialAppAsset extends AssetBundle {
     public $js = [
         'js/header.js',
         'js/yandex.js',
+        'https://code.responsivevoice.org/responsivevoice.js',
         //'js/ny2018.js',
     ];
     public $depends = [

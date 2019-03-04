@@ -6,6 +6,19 @@ $(document).ready(function ($item) {
         elem.parentNode.removeChild(elem);
     }
 
+    // Запрос на сервер для получения озвучки при выделении текста
+    $("body").on('mouseup', function(){
+        var text = '';
+        if (window.getSelection) {
+            text = window.getSelection().toString();
+        } else if (document.selection) {
+            text = document.selection.createRange().text;
+        }
+        if (text != '' && $("#content").hasClass('sound-on')){
+            responsiveVoice.speak(text, 'Russian Female', {pitch: 0});
+        }
+    });
+
     if (getCookie('razmer') == '100') jQuery("#razmer100").click();
     if (getCookie('razmer') == '150') jQuery("#razmer150").click();
     if (getCookie('razmer') == '200') jQuery("#razmer200").click();
@@ -35,6 +48,9 @@ $(document).ready(function ($item) {
 
     if (getCookie('flash') == '0') jQuery("#flash").click();
     if (getCookie('flash') == '1') jQuery("#flash").click();
+
+    if (getCookie('sound') == '0') jQuery("#sound-off").click();
+    if (getCookie('sound') == '1') jQuery("#sound-on").click();
 });
 
 
@@ -536,106 +552,18 @@ toolbar.prototype.processMenuChoice = function ($item) {
             document.cookie = "gar=2; expires=15/02/2021 00:00:00; path=/";
             break;
         }
-        case 'voice-1':
+        case 'sound-on':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content').addClass('voice-1');
-            jQuery('#content').attr('data-volume', 0);
-            jQuery('#content').removeClass('voice-2 voice-3 voice-4');
-            document.getElementById('start_sound').volume = 0;
-            if(jQuery('.play_voice').length)
-                if(jQuery('.play_voice').length)
-                {
-                    jQuery('.play_voice').each(function(){
-                        jQuery(this)[0].volume = 0;
-                    })
-                }
-            //document.getElementById('play_voice').volume = 0;
-            //document.querySelector(".play_voice").volume = 0;
-            this.processSetChoice('VOICE', 'voice-1');
-            this.processSetChoice('VOLUME',0 );
-            jQuery('#current-volume').text(0);
-            // this;
+            jQuery('#content').addClass('sound-on');
+            jQuery('#content').removeClass('sound-off');
             break;
         }
-        case 'voice-2':
+        case 'sound-off':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content').addClass('voice-2');
-            jQuery('#content').removeClass('voice-1 voice-3 voice-4');
-            this.processSetChoice('VOICE', 'voice-2');
-
-            var volume = 0.1;
-            var data_volume = 0;
-            data_volume = jQuery('#content').attr('data-volume');
-            if(data_volume > 0.1)
-                volume = (data_volume - volume).toFixed(1);
-            jQuery('#content').attr('data-volume', volume);
-
-            document.getElementById('start_sound').volume = volume;
-            if(jQuery('.play_voice').length)
-            {
-                jQuery('.play_voice').each(function(){
-                    jQuery(this)[0].volume = volume;
-                })
-            }
-            //document.querySelector(".play_voice").volume = volume;
-            this.processSetChoice('VOLUME',volume);
-            document.getElementById("start_sound").play();
-            jQuery('#current-volume').text(volume * 100);
-            break;
-        }
-        case 'voice-3':
-        {
-            $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content').addClass('voice-3');
-            jQuery('#content').attr('data-volume', 0.5);
-            jQuery('#content').removeClass('voice-2 voice-1  voice-4');
-            this.processSetChoice('VOICE', 'voice-3');
-            document.getElementById('start_sound').volume = 0.5;
-            if(jQuery('.play_voice').length)
-            {
-                jQuery('.play_voice').each(function(){
-                    jQuery(this)[0].volume = 0.5;
-                })
-            }
-            //document.querySelector(".play_voice").volume = 0.5;
-            this.processSetChoice('VOLUME',0.5 );
-            document.getElementById("start_sound").play();
-            jQuery('#current-volume').text(50);
-            break;
-        }
-        case 'voice-4':
-        {
-            $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content').addClass('voice-4');
-            jQuery('#content').removeClass('voice-2 voice-1 voice-3');
-            this.processSetChoice('VOICE', 'voice-4');
-
-            var volume = 0.1;
-            var data_volume = 0;
-            data_volume = parseFloat(jQuery('#content').attr('data-volume'));
-            if(data_volume < 1)
-            {
-                console.log(data_volume);
-                volume = (volume + data_volume).toFixed(1);
-            }
-            else if(data_volume == 1)
-                volume  = 1;
-            jQuery('#content').attr('data-volume', volume);
-
-
-            document.getElementById('start_sound').volume = volume;
-            if(jQuery('.play_voice').length)
-            {
-                jQuery('.play_voice').each(function(){
-                    jQuery(this)[0].volume = volume;
-                })
-            }
-            //document.querySelector(".play_voice").volume = volume;
-            this.processSetChoice('VOLUME',volume);
-            document.getElementById("start_sound").play();
-            jQuery('#current-volume').text(volume * 100);
+            jQuery('#content').addClass('sound-off');
+            jQuery('#content').removeClass('sound-on');
             break;
         }
         case 'reset':

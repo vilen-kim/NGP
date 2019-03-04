@@ -278,5 +278,4 @@ class SiteController extends \yii\web\Controller
 
         throw new NotFoundHttpException('Страница не найдена.');
     }
-
 }
