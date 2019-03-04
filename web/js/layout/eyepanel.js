@@ -436,8 +436,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'color-1':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('color-1');
-            jQuery('#content, #c_panel_special').removeClass('color-2 color-3 color-4 color-5');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('color-1');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('color-2 color-3 color-4 color-5');
             this.processSetChoice('COLOR', 'color-1');
             document.cookie = "color=1; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -445,8 +445,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'color-2':
         {
        //    $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('color-2');
-            jQuery('#content, #c_panel_special').removeClass('color-1 color-3 color-4 color-5');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('color-2');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('color-1 color-3 color-4 color-5');
             this.processSetChoice('COLOR', 'color-2');
             document.cookie = "color=2; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -454,8 +454,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'color-3':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('color-3');
-            jQuery('#content, #c_panel_special').removeClass('color-1 color-2 color-4 color-5');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('color-3');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('color-1 color-2 color-4 color-5');
             this.processSetChoice('COLOR', 'color-3');
             document.cookie = "color=3; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -463,8 +463,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'color-4':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('color-4');
-            jQuery('#content, #c_panel_special').removeClass('color-1 color-2 color-3 color-5');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('color-4');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('color-1 color-2 color-3 color-5');
             this.processSetChoice('COLOR', 'color-4');
             document.cookie = "color=4; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -472,8 +472,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'color-5':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('color-5');
-            jQuery('#content, #c_panel_special').removeClass('color-1 color-2 color-3 color-4');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('color-5');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('color-1 color-2 color-3 color-4');
             this.processSetChoice('COLOR', 'color-5');
           //  jQuery('#content').addClass('color-5');
             document.cookie = "color=5; expires=15/02/2021 00:00:00; path=/";
@@ -483,8 +483,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'kerning-1':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('kerning-1');
-            jQuery('#content, #c_panel_special').removeClass('kerning-2 kerning-3');
+            jQuery('#content, #c_panel_special, navbar, footer').addClass('kerning-1');
+            jQuery('#content, #c_panel_special, navbar, footer').removeClass('kerning-2 kerning-3');
             this.processSetChoice('KERNING', 'kerning-1');
             document.cookie = "kern=1; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -492,8 +492,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'kerning-2':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('kerning-2');
-            jQuery('#content, #c_panel_special').removeClass('kerning-1 kerning-3');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('kerning-2');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('kerning-1 kerning-3');
             this.processSetChoice('KERNING', 'kerning-2');
             document.cookie = "kern=2; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -501,8 +501,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'kerning-3':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('kerning-3');
-            jQuery('#content, #c_panel_special').removeClass('kerning-1 kerning-2');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('kerning-3');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('kerning-1 kerning-2');
             this.processSetChoice('KERNING', 'kerning-3');
             document.cookie = "kern=3; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -511,8 +511,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'line-1':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('line-1');
-            jQuery('#content, #c_panel_special').removeClass('line-2 line-3');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('line-1');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('line-2 line-3');
             this.processSetChoice('LINE', 'line-1');
             document.cookie = "interval=1; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -520,8 +520,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'line-2':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('line-2');
-            jQuery('#content, #c_panel_special').removeClass('line-1 line-3');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('line-2');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('line-1 line-3');
             this.processSetChoice('LINE', 'line-2');
             document.cookie = "interval=2; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -529,8 +529,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'line-3':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('line-3');
-            jQuery('#content, #c_panel_special').removeClass('line-1 line-2');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('line-3');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('line-1 line-2');
             this.processSetChoice('LINE', 'line-3');
             document.cookie = "interval=3; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -539,8 +539,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'garnitura-1':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('garnitura-1');
-            jQuery('#content, #c_panel_special').removeClass('garnitura-2 garnitura-3');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('garnitura-1');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('garnitura-2 garnitura-3');
             this.processSetChoice('GARNITURA', 'garnitura-1');
             document.cookie = "gar=1; expires=15/02/2021 00:00:00; path=/";
             break;
@@ -548,8 +548,8 @@ toolbar.prototype.processMenuChoice = function ($item) {
         case 'garnitura-2':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
-            jQuery('#content, #c_panel_special').addClass('garnitura-2');
-            jQuery('#content, #c_panel_special').removeClass('garnitura-1 garnitura-3');
+            jQuery('#content, #c_panel_special, .navbar, footer').addClass('garnitura-2');
+            jQuery('#content, #c_panel_special, .navbar, footer').removeClass('garnitura-1 garnitura-3');
             this.processSetChoice('GARNITURA', 'garnitura-2');
             document.cookie = "gar=2; expires=15/02/2021 00:00:00; path=/";
             break;

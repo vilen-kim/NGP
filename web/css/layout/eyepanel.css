@@ -1050,12 +1050,12 @@
     color: #000;
 }
 
-.color-1 a {
-    color: #000;
+.color-1 a, #headerHolder #header nav.color-1 a {
+    color: #000 !important;
 }
 
-.color-1 a:hover {
-    color: #000;
+.color-1 a:hover, #headerHolder #header nav.color-1 a:hover {
+    color: #000 !important;
 }
 
 .color-1 .btn-default {
@@ -1142,8 +1142,8 @@
     background: #000 !important;
 }
 
-.color-2 a {
-    color: #fff;
+.color-2 a, #headerHolder #header nav.color-2 a {
+    color: #fff !important;
 }
 
 .color-2 *:focus {
@@ -1161,8 +1161,8 @@
     outline: 0.05em dashed #eee;
 }
 
-.color-2 a:hover {
-    color: #fff;
+.color-2 a:hover, #headerHolder #header nav.color-2 a:hover {
+    color: #fff !important;
 }
 
 .color-2 .element-item {
@@ -1279,8 +1279,8 @@
     background: #9dd1ff !important;
 }
 
-.color-3 a {
-    color: #195183;
+.color-3 a, #headerHolder #header nav.color-3 a {
+    color: #195183 !important;
 }
 
 .color-3 *:focus {
@@ -1295,8 +1295,8 @@
     outline: 0.05em dashed #525252;
 }
 
-.color-3 a:hover {
-    color: #195183;
+.color-3 a:hover, #headerHolder #header nav.color-3 a:hover {
+    color: #195183 !important;
 }
 
 .color-3 .element-item {
@@ -1402,8 +1402,8 @@
     background: #f7f3d6 !important;
 }
 
-.color-4 a {
-    color: #4d4b43;
+.color-4 a, #headerHolder #header nav.color-4 a {
+    color: #4d4b43 !important;
 }
 
 .color-4 *:focus {
@@ -1418,8 +1418,8 @@
     outline: 0.05em dashed #525252;
 }
 
-.color-4 a:hover {
-    color: #4d4b43;
+.color-4 a:hover, #headerHolder #header nav.color-4 a:hover {
+    color: #4d4b43 !important;
 }
 
 .color-4 .element-item {
@@ -1540,8 +1540,8 @@
     background: #3b2716 !important;
 }
 
-.color-5 a {
-    color: #a9dd38;
+.color-5 a, #headerHolder #header nav.color-5 a {
+    color: #a9dd38 !important;
 }
 
 .color-5 *:focus {
@@ -1556,8 +1556,8 @@
     outline: 0.05em dashed #525252;
 }
 
-.color-5 a:hover {
-    color: #a9dd38;
+.color-5 a:hover, #headerHolder #header nav.color-5 a:hover {
+    color: #a9dd38 !important;
 }
 
 .color-5 .element-item {
