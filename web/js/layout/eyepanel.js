@@ -19,6 +19,8 @@ $(document).ready(function ($item) {
         }
     });
 
+    jQuery('#content').addClass('sound-on');
+
     if (getCookie('razmer') == '100') jQuery("#razmer100").click();
     if (getCookie('razmer') == '150') jQuery("#razmer150").click();
     if (getCookie('razmer') == '200') jQuery("#razmer200").click();
