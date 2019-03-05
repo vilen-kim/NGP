@@ -93,8 +93,19 @@ class SiteController extends \yii\web\Controller
     {
         $menu = new MenuItems();
         return $this->render('menu', [
-            'menu' => $menu,
+            'items' => $menu->getItems(),
         ]);
+    }
+
+    public function actionGetSubmenu()
+    {
+        $id = Yii::$app->request->post('id');
+        if (isset($id)){
+            $menu = new MenuItems();
+            return $menu->getItem($id);
+        } else {
+            return false;
+        }
     }
 
 

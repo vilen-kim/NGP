@@ -1,12 +1,12 @@
 var page_id = 0;
 
-function getAnchors(id){
+function getAnchors(id) {
     $.ajax({
         url: '/menu/get-anchors',
         type: 'POST',
         data: {id},
-        success: function(data){
-            $.each(data, function(index, value){
+        success: function (data) {
+            $.each(data, function (index, value) {
                 $("#anchor").append("<option value='" + value + "'>" + value + "</option>");
             });
         }
@@ -14,15 +14,14 @@ function getAnchors(id){
 };
 
 
-
-$("#menuSave").on('click', function(){
+$("#menuSave").on('click', function () {
     var arr = [];
     var menuPos = 1;
     var subMenuPos = 1;
-    $("div.col-md-8 > ul.ui-sortable span[data-id]").each(function(){
+    $("div.col-md-8 > ul.ui-sortable span[data-id]").each(function () {
         var id = $(this).attr('data-id');
         var subMenu = $(this).parents('ul.subMenu');
-        if (subMenu.length){
+        if (subMenu.length) {
             var parentID = subMenu.parents('h4').children().attr('data-id');
             arr.push(id + ';' + parentID + ';' + subMenuPos);
             subMenuPos++;
@@ -36,7 +35,7 @@ $("#menuSave").on('click', function(){
         url: '/menu/save',
         type: 'POST',
         data: {arr},
-        success: function(data){
+        success: function (data) {
             console.log(data);
         }
     });
@@ -44,9 +43,8 @@ $("#menuSave").on('click', function(){
 });
 
 
-
-$("#emptyPage").on("click", function(){
-    if ($(this).prop("checked")){
+$("#emptyPage").on("click", function () {
+    if ($(this).prop("checked")) {
         $("#autoPage_id").attr("disabled", true);
         $("#page_id").val("0");
     } else {
@@ -54,10 +52,25 @@ $("#emptyPage").on("click", function(){
         $("#page_id").val(page_id);
     }
     console.log($("#page_id").val());
-})
+});
 
 
-$("ul.subMenu > div").on("click", function(){
+$("ul.subMenu > div").on("click", function () {
     var id = $(this).children("span").data("id");
     console.log(id);
+});
+
+
+// Получение подменю
+$(".menuHeader").on('click', function (e) {
+    var id = $(this).attr('id');
+    $.ajax({
+        url: '/site/get-submenu',
+        type: 'POST',
+        data: {id},
+        success: function (result) {
+            $("#subMenu").html(result);
+        }
+    });
+    return false;
 });

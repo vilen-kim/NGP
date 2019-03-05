@@ -6,8 +6,8 @@ $("#showDoctor").on('click', function(){
 
 // Добавление симптомов в блок "опишите самочувствие"
 $("#modalDoctor li > a").on('click', function(){
-	var text = $("#calldoctor-text").val();
+	text = $("#calldoctor-text").val();
 	text += (text.length > 0) ? '\n' : '';
 	$("#calldoctor-text").val(text + this.text);
 	return false;
-})
+});
