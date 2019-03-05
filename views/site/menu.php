@@ -9,7 +9,11 @@
 
 <div class="container">
 
-    <div class="col-md-3" style="border-right: 1px solid lightgray;">
+    <?php if (!Yii::$app->mobileDetect->isMobile()) { ?>
+        <div class="col-md-3" style="border-right: 1px solid lightgray;">
+    <?php } else { ?>
+            <div class="col-md-3" style="border-bottom: 1px solid lightgray;">
+    <?php } ?>
     <?php
         for ($i = 0; $i < count($items); $i++){
             $item = $items[$i];
@@ -21,6 +25,10 @@
     </div>
 
     <div class="col-md-9" id="subMenu">
-        <h4>Выберите пункт меню слева.</h4>
+        <?php if (!Yii::$app->mobileDetect->isMobile()) { ?>
+            <h4>Выберите пункт меню слева.</h4>
+        <?php } else { ?>
+            <h4>Выберите пункт меню сверху.</h4>
+        <?php } ?>
     </div>
 </div>
