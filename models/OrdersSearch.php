@@ -41,7 +41,7 @@ class OrdersSearch extends Orders
      */
     public function search($params, $archive)
     {
-        $query = Orders::find()->where(['isArchive' => $archive])->orderBy('date, cast(number as unsigned)');
+        $query = Orders::find()->where(['isArchive' => $archive])->orderBy('date DESC, cast(number as unsigned) DESC');
 
         // add conditions that should always apply here
 
