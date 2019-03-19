@@ -18,7 +18,7 @@ $("#menuSave").on('click', function () {
     var arr = [];
     var menuPos = 1;
     var subMenuPos = 1;
-    $("div.col-md-8 > ul.ui-sortable span[data-id]").each(function () {
+    $("div.col-sm-8 > ul.ui-sortable a[data-id]").each(function () {
         var id = $(this).attr('data-id');
         var subMenu = $(this).parents('ul.subMenu');
         if (subMenu.length) {

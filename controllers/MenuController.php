@@ -55,12 +55,12 @@ class MenuController extends Controller {
         $parents = Menu::find()->where(['parent_id' => 0])->orderBy('position')->all();
         if (count($parents)) {
             foreach ($parents as $par) {
-                $array[$cnt] = Html::a($par->caption, ['menu/update', 'id' => $par->id]);
+                $array[$cnt] = Html::a($par->caption, ['menu/update', 'id' => $par->id], ['data-id' => $par->id]);
                 $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
                 $elements = [];
                 if (count($subMenu)) {
                     foreach ($subMenu as $sub) {
-                        $elements[] = Html::a($sub->caption, ['menu/update', 'id' => $sub->id]);
+                        $elements[] = Html::a($sub->caption, ['menu/update', 'id' => $sub->id], ['data-id' => $sub->id]);
                     }
                 }
                 
