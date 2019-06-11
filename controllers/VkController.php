@@ -58,6 +58,7 @@ class VkController extends \yii\web\Controller {
         $walls = Yii::$app->vk->api('wall.get', [
             'owner_id' => $owner_id,
             'count' => 10,
+            'filter' => 'owner',
             'v' => '5.75',
         ]);
         $rev_walls = array_reverse($walls['response']['items']);
@@ -72,10 +73,13 @@ class VkController extends \yii\web\Controller {
                 $page->vk_id = $item['id'];
                 $page->auth_id = Yii::$app->user->id;
 
+                $hasImages = false;
+
                 if (isset($item['attachments'])) {
                     foreach ($item['attachments'] as $attach) {
                         switch ($attach['type']) {
                             case 'photo':
+                                $hasImages = true;
                                 foreach ($photoSizeArray as $size) {
                                     if (isset($attach['photo'][$size])) {
                                         $page->text .= '<p>' . Html::img($attach['photo'][$size], ['alt' => 'Картинка']) . '</p>';
@@ -97,10 +101,12 @@ class VkController extends \yii\web\Controller {
                     }
                 }
 
-                if (!$page->save()) {
-                    $haveErrors = true;
-                } else {
-                    $count++;
+                if ($hasImages) {
+                    if (!$page->save()) {
+                        $haveErrors = true;
+                    } else {
+                        $count++;
+                    }
                 }
             }
         }

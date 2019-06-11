@@ -45,11 +45,22 @@
                                             class="hover"></span></button>
                             </div>
                         </div>
+                        <div class="pull-left p-sound">
+                            <div class="btn-title">Звук</div>
+                            <div class="btn-group btn-group-sound" role="group">
+                                <button id="sound-on" type="button" class="btn btn-default btn-sound-on checked"
+                                        data-choice="sound-on" aria-checked="true"
+                                        aria-label="Включить звуковое сопровождение"><span class="glyphicon glyphicon-volume-up"></span><span class="hover"></span></button>
+                                <button id="sound-off" type="button" class="btn btn-default btn-sound-off"
+                                        data-choice="sound-off" aria-checked="false"
+                                        aria-label="Выключить звуковое сопровождение"><span class="glyphicon glyphicon-volume-off"></span><span class="hover"></span></button>
+                            </div>
+                        </div>
                         <div class="pull-right p-setting">
                             <div class="btn-group btn-group-setting" role="group">
                                 <button type="button" class="btn btn-default" tabindex="-1" data-choice="setting"
                                 <button type="button" class="btn btn-default" tabindex="-1" data-choice="setting"
-                                        aria-label="Дополнительные настройки">&nbsp;Дополнительно<span
+                                        aria-label="Дополнительные настройки">Дополнительно<span
                                             class="hover"></span></button>
                             </div>
                         </div>

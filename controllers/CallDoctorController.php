@@ -46,7 +46,7 @@ class CallDoctorController extends Controller
 
     public function actionIndex() {
         $dataProvider = new ActiveDataProvider([
-            'query' => CallDoctor::find(),
+            'query' => CallDoctor::find()->orderBy(['dateRequest' => SORT_DESC]),
         ]);
 
         return $this->render('index', [

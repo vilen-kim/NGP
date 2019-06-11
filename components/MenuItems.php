@@ -3,6 +3,8 @@ namespace app\components;
 
 use Yii;
 use yii\base\BaseObject;
+use yii\helpers\Json;
+use yii\helpers\Html;
 use app\models\Menu;
 
 class MenuItems extends BaseObject
@@ -16,9 +18,14 @@ class MenuItems extends BaseObject
         
         if (Yii::$app->user->can('user')){
             $array[$num] = [
-                'label' => 'Личный кабинет',
-                'url' => ['kabinet/index'],
-                'items' => null,
+                'label' => 'Администрирование',
+                'url' => null,
+                'items' => [
+                    [
+                        'label' => 'Личный кабинет',
+                        'url' => ['kabinet/index'],
+                    ]
+                ],
             ];
             $num++;
         }
@@ -33,7 +40,11 @@ class MenuItems extends BaseObject
             ];
             
             if ($par->caption == 'Архивные новости'){
-                $array[$num]['url'] = ['site/news'];
+                $array[$num]['url'] = null;
+                $array[$num]['items'][] = [
+                    'label' => 'Архивные новости',
+                    'url' => ['site/news'],
+                ];
             }
             
             $subMenu = Menu::find()->where(['parent_id' => $par->id])->orderBy('position')->all();
@@ -57,5 +68,27 @@ class MenuItems extends BaseObject
     public function getItems()
     {
         return $this->array;
+    }
+
+    public function getItem($id)
+    {
+        $arr = $this->array;
+        $url = $arr[$id]['url'];
+        if (is_array($url)){
+            return 'redirect';
+        } else {
+//            $label = $arr[$id]['label'];
+//            $array = Html::tag('h2', $arr[$id]['label'], ['class' => 'text-center', 'style' => 'margin-bottom: 40px']);
+            $array = null;
+            $subMenu = $arr[$id]['items'];
+            if ($subMenu) {
+                foreach ($subMenu as $item) {
+                    $array .= Html::tag('h4', Html::a($item['label'], $item['url']), ['style' => 'margin-bottom: 20px;']);
+                }
+            } else {
+                $array .= Html::tag('h4', 'Здесь пока нет элементов.');
+            }
+        }
+        return $array;
     }
 }

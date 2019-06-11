@@ -112,15 +112,17 @@ class PagesController extends Controller {
 
 
 
-    public function actionDelete() {
-        $id = Yii::$app->request->post('id');
+    public function actionDelete($id) {
         $model = $this->findModel($id);
+
         if ($model->delete()) {
             $dir = "files/$id";
             system("rm -rf $dir");
-            return true;
+            Yii::$app->session->setFlash('success', 'Страница была успешно удалена.');
+        } else {
+            Yii::$app->session->setFlash('danger', 'При удалении возникла ошибка.');
         }
-        return false;
+        return $this->redirect(['pages/index']);
     }
 
 
