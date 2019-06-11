@@ -22,7 +22,14 @@
     <div class="col-sm-6"><?= Html::a('Ответы на обращения, затрагивающие<br>интересы неопределенного круга лиц', ['site/share'], ['class' => 'btn btn-primary']) ?></div>
     <div class="col-sm-6"><?php
         $pdf = Html::img('/images/icons/pdf.svg', ['class' => 'pull-left', 'height' => '30px', 'style' => 'margin: 5px;']);
-        echo Html::a($pdf . ' Информация для ознакомления, желающим отправить обращение в форме электронного документа', '/documents/RequestInformation.pdf');
+        $link1 = Html::a($pdf . ' Информация для ознакомления, желающим отправить обращение в форме электронного документа', '/documents/RequestInformation.pdf');
+        echo "<div class='col-sm-12'>$link1</div>";
+        $pdf = Html::img('/images/icons/html.svg', ['class' => 'pull-left', 'height' => '30px', 'style' => 'margin: 5px;']);
+        $link2 = Html::a($pdf . ' Сведения о реализуемых требованиях к защите персональных данных', ['site/show', 'id' => 865]);
+        echo "<div class='col-sm-12'>$link2</div>";
+        $pdf = Html::img('/images/icons/html.svg', ['class' => 'pull-left', 'height' => '30px', 'style' => 'margin: 5px;']);
+        $link3 = Html::a($pdf . ' Политика оператора в отношении обработки персональных данных', ['site/show', 'id' => 12]);
+        echo "<div class='col-sm-12'>$link3</div>";
     ?></div>
 </div>
 
