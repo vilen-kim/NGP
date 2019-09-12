@@ -59,9 +59,9 @@ ul.navbar-nav li.active a {
 }
 
 #headerPhone {
-    font-size: x-large;
+    font-size: small;
     font-weight: bold;
-    line-height: 68px;
+    line-height: 24px;
     margin-left: 40px;
 }
 

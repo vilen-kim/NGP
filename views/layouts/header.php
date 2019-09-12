@@ -30,11 +30,11 @@ use yii\bootstrap\NavBar;
     ]);
 
     $url = !Yii::$app->mobileDetect->isMobile() ? '' : ['site/mobile-phone'];
-    echo Html::a('8 (34672) 5-45-30', $url, ['id' => 'headerPhone', 'class' => 'dot']);
-    echo Html::a('8 9828720741 - Главный врач Заманов Ильмир Ильгизарович <br>', $url, ['id' => 'headerPhone', 'class' => 'dot']);
-    echo ('                                     ');
-    echo Html::a('8 9828720742 - И.о. зам. главного врача по мед. части Магомедов Чингис Мусаевич', $url, ['id' => 'headerPhone', 'class' => 'dot']);
-        echo Nav::widget([
+    $phones = '8 (34672) 5-45-30<br>';
+    $phones .= '8-982-872-07-41 - Главный врач Заманов Ильмир Ильгизарович<br>';
+    $phones .= '8-982-872-07-42 - И.о. зам. главного врача по мед. части Магомедов Чингис Мусаевич';
+    echo Html::a($phones, $url, ['id' => 'headerPhone', 'class' => 'dot']);
+    echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'encodeLabels' => false,
         'items' => [
